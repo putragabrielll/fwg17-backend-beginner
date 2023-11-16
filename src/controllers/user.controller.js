@@ -66,23 +66,24 @@ exports.createUsers = (req, res) => {
 }
 
 exports.updateUsers = (req, res) => {
-    const {name} = req.body;
-    if (name === "Gabriel"){
-        return res.json(
-            {
-                id: 1,
-                name: "Gabriel",
-                email: "puragmahk@gmail.com"
-            }
-        );
-    } else {
-        return res.json(
-            {
-                id: 1,
-                name: "Gabriel Putra Sihombing",
-                email: "puragmahk@gmail.com"
-            }
-        );
+    const {id} = req.params // akan mendapat id data berapa, yg di peroleh dari req.params yg di kirimkan melalui postman. Tujuannya supaya memperoleh data dengan id keberapa yang ingin di ubah
+    const {name, email} = req.body // akan mengambil data name & email yg dikirimkan dari req.body pada postman. Tujuannya untuk mereplace data yg lama dengan data yg baru di request.
+    const findUser = users.map(x => x.id).indexOf(Number(id)) // akan mencari data pada variable users pada line 2, dengan menyamakan id nya dengan id yg di kirimkan dari req.params.
+    // findUser akan mengembalikan data PADA INDEX KEBERAPA id yg sama dengan yg di requst berada.
+    if(findUser !== -1){ // jika variable findUser tidak bernilai -1 makan akan menjalan perintah dari IF, kenapa -1 karena jika datanya tidak ada di line 2 maka indexOf akan mengembalikan nilai -1.
+        users[findUser].name = name // akan mencari pada variable users dengan findUser nya itu index dari line 71, dan key name akan di ganti dengan name request pada line 70.
+        users[findUser].email = email// akan mencari pada variable users dengan findUser nya itu index dari line 71, dan key email akan di ganti dengan email request pada line 70.
+
+        return res.json({ // akan me return dengan key success, message dan result dengan user ke findUser(yg dimana findUser adalah index yg keberapa dan data keberapa yg update).
+            success: true,
+            message: "Data rady!",
+            result: users[findUser] // users dari variable user pada line 2 dengan index ke findUser yg di peroleh dari line 71.
+        })
+    } else { // jika findUser bernilai -1, akan menjalankan perintah ini.
+        return res.status(404).json({
+            success: false,
+            message: "Data not found!"
+        })
     }
 }
 
