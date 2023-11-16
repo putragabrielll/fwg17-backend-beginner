@@ -1,24 +1,26 @@
+const users = [
+    {
+        id: 1,
+        name: "Gabriel Putra Sihombing",
+        email: "puragmahk@gmail.com"
+    },
+    {
+        id: 2,
+        name: "Handoyo Prakarsa",
+        email: "handoyo@gmail.com"
+    },
+    {
+        id: 3,
+        name: "John Doe",
+        email: "johndoe@example.com"
+    }
+]
+
 exports.getAllUsers = (req, res) => {
     return res.json({
         success: true,
         message: "List all users",
-        result: [
-            {
-                id: 1,
-                name: "Gabriel Putra Sihombing",
-                email: "puragmahk@gmail.com"
-            },
-            {
-                id: 2,
-                name: "Handoyo Prakarsa",
-                email: "handoyo@gmail.com"
-            },
-            {
-                id: 3,
-                name: "John Doe",
-                email: "johndoe@example.com"
-            }
-        ]
+        result: users
     });
 };
 
@@ -43,7 +45,7 @@ exports.createUsers = (req, res) => {
 }
 
 exports.updateUsers = (req, res) => {
-    const { id, name, email } = req.body;
+    const {name} = req.body;
     if (name === "Gabriel"){
         return res.json(
             {
