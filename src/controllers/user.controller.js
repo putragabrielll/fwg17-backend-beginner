@@ -42,9 +42,28 @@ exports.createUsers = (req, res) => {
     });
 }
 
+exports.updateUsers = (req, res) => {
+    const { id, name, email } = req.body;
+    if (name === "Gabriel"){
+        return res.json(
+            {
+                name: "Gabriel"
+            }
+        );
+    } else {
+        return res.json(
+            {
+                id: 1,
+                name: "Gabriel Putra Sihombing",
+                email: "puragmahk@gmail.com"
+            }
+        );
+    }
+}
+
 
 exports.deleteUsers = (req, res) => {
-    // res.send("DELETE request to homepage");
+    res.send("DELETE request Data");
     // return res.json({
     //     success: true,
     //     result: [
@@ -60,16 +79,17 @@ exports.deleteUsers = (req, res) => {
     //         }
     //     ]
     // });
-    return res.json([
-        {
-            id: 1,
-            name: "Gabriel Putra Sihombing",
-            email: "puragmahk@gmail.com"
-        },
-        {
-            id: 2,
-            name: "Handoyo Prakarsa",
-            email: "handoyo@gmail.com"
-        }
-    ]);
+
+    // return res.json([
+    //     {
+    //         id: 1,
+    //         name: "Gabriel Putra Sihombing",
+    //         email: "puragmahk@gmail.com"
+    //     },
+    //     {
+    //         id: 2,
+    //         name: "Handoyo Prakarsa",
+    //         email: "handoyo@gmail.com"
+    //     }
+    // ]);
 }
