@@ -31,7 +31,7 @@ exports.getAllUsers = (req, res) => {
 // memanggil semua user berdasarkan Id nya
 exports.getUsersId = (req, res) => {
     console.log(req.params.id) // untuk debug melihat output dari req di terminal.
-    const userId = users.filter(item => item.id === Number(req.params.id)) // untuk mencari data pada variabel users berdasarkan key id yg di input, tetapi akan mengembalikan array of object.
+    const userId = users.filter(x => x.id === Number(req.params.id)) // untuk mencari data pada variabel users berdasarkan key id yg di input, tetapi akan mengembalikan array of object.
     if(userId[0]){ // akan melakukan pengecekan apabila userId[0] berisi atau bernilai truthy makan akan menjalankan isi dari if.
         return res.json({ // akan mereturn object dengan key success, message, dan result, dengan isi userId
             success: true,
@@ -89,33 +89,20 @@ exports.updateUsers = (req, res) => {
 
 
 exports.deleteUsers = (req, res) => {
-    res.send("DELETE request Data");
-    // return res.json({
-    //     success: true,
-    //     result: [
-    //         {
-    //             id: 1,
-    //             name: "Gabriel Putra Sihombing",
-    //             email: "puragmahk@gmail.com"
-    //         },
-    //         {
-    //             id: 2,
-    //             name: "Handoyo Prakarsa",
-    //             email: "handoyo@gmail.com"
-    //         }
-    //     ]
-    // });
-
-    // return res.json([
-    //     {
-    //         id: 1,
-    //         name: "Gabriel Putra Sihombing",
-    //         email: "puragmahk@gmail.com"
-    //     },
-    //     {
-    //         id: 2,
-    //         name: "Handoyo Prakarsa",
-    //         email: "handoyo@gmail.com"
-    //     }
-    // ]);
+    const {id} = req.params // akan mendapat id data berapa, yg di peroleh dari req.params yg di kirimkan melalui postman. Tujuannya supaya memperoleh data dengan id keberapa yang ingin di ubah
+    const findUser = users.filter(x => x.id === Number(id)) // untuk mencari data pada variabel users berdasarkan key id yg di input dari req.params, tetapi akan mengembalikan array of object.
+    // findUser akan mengembalikan array of object tapi dengan datanya cuman 1 atau length nya hanya 1 (max 1). kareng dari pencarian dari line 93 jika id yg di cari ada 2, kan di data akan ada hanya 1 yang id nya 2, jadi akan tetap mengembalikan 1 data dengan id 2.
+    if(findUser.length){ // akan menghitung length dari findUser, tapi kan data nya hanya 1 jadi length nya pasti 1 dan max nya tetap 1, lain hal kalo di data kita ada 2 data dengan id 2, tapi itu tidak akan mungkin. 
+        users = users.filter(x => x.id !== Number(id)) // akan mengembalikan semua data pada variable users tapi data dengan id yg sesuai request tidak di masukkan atau tidak akan di panggil.
+        return res.json({ // akan me return key success, message dan result dengan id yg di input dari req.params.
+            success: false,
+            message: "Delete data success!",
+            result: findUser[0] // akan mengembalikan data berdasarkan id yg di input dari req.params, dan mengambil nya dari line 93, sebelum di hilangkan di line 96. karena length nya 1 dan index nya 0, maka akan memanggil data berdasarkan id yg di input.
+        })
+    } else { // jika false akan menjalankan perintah ini dengan status nya 404, dan key success dan key message.
+        return res.status(404).json({
+            success: false,
+            message: "Data not found!"
+        })
+    }
 }
