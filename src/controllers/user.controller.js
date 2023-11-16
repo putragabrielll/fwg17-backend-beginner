@@ -47,7 +47,9 @@ exports.updateUsers = (req, res) => {
     if (name === "Gabriel"){
         return res.json(
             {
-                name: "Gabriel"
+                id: 1,
+                name: "Gabriel",
+                email: "puragmahk@gmail.com"
             }
         );
     } else {
