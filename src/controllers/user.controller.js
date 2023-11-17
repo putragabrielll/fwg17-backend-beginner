@@ -8,7 +8,7 @@ let countIdUser = userModels.allUsers().length //ERROR
 // }
 
 // memanggil semua users
-exports.getAllUsers = async (req, res, countIdUser) => { 
+exports.getAllUsers = async (req, res) => { 
     const users = await userModels.allUsers()
     return res.json({
         success: true,
@@ -20,13 +20,13 @@ exports.getAllUsers = async (req, res, countIdUser) => {
 // memanggil semua user berdasarkan Id nya
 exports.getUsersId = async (req, res) => {
     const id = Number(req.params.id)
-    const usersSemua = await userModels.findOne(id);
+    const users = await userModels.findOne(id);
     console.log(req.params.id) // untuk debug melihat output dari req di terminal.
-    if(usersSemua[0]){ // akan melakukan pengecekan apabila userId[0] berisi atau bernilai truthy makan akan menjalankan isi dari if.
+    if(users[0]){ // akan melakukan pengecekan apabila userId[0] berisi atau bernilai truthy makan akan menjalankan isi dari if.
         return res.json({ // akan mereturn object dengan key success, message, dan result, dengan isi userId
             success: true,
             message: "Detail users",
-            result: usersSemua[0] // karena yg di dapat data berupa array of object dari userId maka kita bisa tambahkan index ke [0], tujuannya agar yg dihasilkan jadi object saja.
+            result: users[0] // karena yg di dapat data berupa array of object dari userId maka kita bisa tambahkan index ke [0], tujuannya agar yg dihasilkan jadi object saja.
         });
     } else { // apabila bernilai fasly makan akan menjalankan isi dari else.
         return res.status(404).json({ // akan memberikan status 404 dengan json.
