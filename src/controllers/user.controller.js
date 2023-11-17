@@ -1,42 +1,32 @@
-// variable users untuk data awal dari semua users yang ada.
-let users = [
-    {
-        id: 1,
-        name: "Gabriel Putra Sihombing",
-        email: "puragmahk@gmail.com"
-    },
-    {
-        id: 2,
-        name: "Handoyo Prakarsa",
-        email: "handoyo@gmail.com"
-    },
-    {
-        id: 3,
-        name: "John Doe",
-        email: "johndoe@example.com"
-    }
-]
+const userModels = require('../models/users.model')
 
-let countIdUser = users.length // akan mencari berapa users.length terakhir.
+let countIdUser = userModels.allUsers().length //ERROR
+
+// let countIdUser = async() => {
+//     const hasil = (await userModels.allUsers()).length
+//     return hasil
+// }
 
 // memanggil semua users
-exports.getAllUsers = (req, res) => { 
+exports.getAllUsers = async (req, res, countIdUser) => { 
+    const users = await userModels.allUsers()
     return res.json({
         success: true,
         message: "List all users",
         result: users // akan memanggil semua data yg dimana sebagai diambil dari variabel users
-    });
-};
+    })
+}
 
 // memanggil semua user berdasarkan Id nya
-exports.getUsersId = (req, res) => {
+exports.getUsersId = async (req, res) => {
+    const id = Number(req.params.id)
+    const usersSemua = await userModels.findOne(id);
     console.log(req.params.id) // untuk debug melihat output dari req di terminal.
-    const userId = users.filter(x => x.id === Number(req.params.id)) // untuk mencari data pada variabel users berdasarkan key id yg di input, tetapi akan mengembalikan array of object.
-    if(userId[0]){ // akan melakukan pengecekan apabila userId[0] berisi atau bernilai truthy makan akan menjalankan isi dari if.
+    if(usersSemua[0]){ // akan melakukan pengecekan apabila userId[0] berisi atau bernilai truthy makan akan menjalankan isi dari if.
         return res.json({ // akan mereturn object dengan key success, message, dan result, dengan isi userId
             success: true,
             message: "Detail users",
-            result: userId[0] // karena yg di dapat data berupa array of object dari userId maka kita bisa tambahkan index ke [0], tujuannya agar yg dihasilkan jadi object saja.
+            result: usersSemua[0] // karena yg di dapat data berupa array of object dari userId maka kita bisa tambahkan index ke [0], tujuannya agar yg dihasilkan jadi object saja.
         });
     } else { // apabila bernilai fasly makan akan menjalankan isi dari else.
         return res.status(404).json({ // akan memberikan status 404 dengan json.
