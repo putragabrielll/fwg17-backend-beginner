@@ -10,7 +10,7 @@ const app = express();
 
 app.use(express.urlencoded({extended: false}))
 app.use(morgan('start')) // untuk login akses
-app.use(cors) // untuk memperbolehkan frontend mengakses BackEnd kita, jika tidak di berikan cors nanti tidak bisa aplikasi frontend kita mengakses back end nya.
+app.use(cors()) // untuk memperbolehkan frontend mengakses BackEnd kita, jika tidak di berikan cors nanti tidak bisa aplikasi frontend kita mengakses back end nya.
 
 app.use('/', require('./src/routers'))
 
