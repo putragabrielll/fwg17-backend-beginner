@@ -91,7 +91,7 @@ exports.updateUsers = (req, res) => {
 exports.deleteUsers = (req, res) => {
     const {id} = req.params // akan mendapat id data berapa, yg di peroleh dari req.params yg di kirimkan melalui postman. Tujuannya supaya memperoleh data dengan id keberapa yang ingin di ubah
     const findUser = users.filter(x => x.id === Number(id)) // untuk mencari data pada variabel users berdasarkan key id yg di input dari req.params, tetapi akan mengembalikan array of object.
-    // findUser akan mengembalikan array of object tapi dengan datanya cuman 1 atau length nya hanya 1 (max 1). kareng dari pencarian dari line 93 jika id yg di cari ada 2, kan di data akan ada hanya 1 yang id nya 2, jadi akan tetap mengembalikan 1 data dengan id 2.
+    // findUser akan mengembalikan array of object tapi dengan datanya cuman 1 atau length nya hanya 1 (max 1). kareng dari pencarian dari line 93 jika id yg di cari adalah 2, kan di data akan ada hanya 1 yang id nya 2, jadi akan tetap mengembalikan 1 data dengan id 2.
     if(findUser.length){ // akan menghitung length dari findUser, tapi kan data nya hanya 1 jadi length nya pasti 1 dan max nya tetap 1, lain hal kalo di data kita ada 2 data dengan id 2, tapi itu tidak akan mungkin. 
         users = users.filter(x => x.id !== Number(id)) // akan mengembalikan semua data pada variable users tapi data dengan id yg sesuai request tidak di masukkan atau tidak akan di panggil.
         return res.json({ // akan me return key success, message dan result dengan id yg di input dari req.params.
