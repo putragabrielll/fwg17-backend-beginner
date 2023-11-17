@@ -1,8 +1,18 @@
-const express = require("express");
+require('dotenv').config({
+    patch: './.env'
+})
+
+const express = require('express')
+const cors = require('cors')
+const morgan = require('morgan')
+
 const app = express();
-const port = 8000;
 
 app.use(express.urlencoded({extended: false}))
+app.use(morgan('start')) // untuk login akses
+app.use(cors) // untuk memperbolehkan frontend mengakses BackEnd kita, jika tidak di berikan cors nanti tidak bisa aplikasi frontend kita mengakses back end nya.
+
+app.use('/', require('./src/routers'))
 
 app.get('/', (req, res) => {
     // console.log(req.body)
@@ -12,47 +22,6 @@ app.get('/', (req, res) => {
     });
 });
 
-app.use('/', require('./src/routers'))
-// sebelumnya seperti di bawah tapi karena setelah di pisah menjadi sepeti di atas saja, hanya memanggil file nya saja.
-// app.get("/auth/login", (req, res) => {
-//     const {username, password} = req.body
-//     if (username === "putragabrielll" && password === "12345"){
-//         return res.json({
-//             success: true,
-//             message: "Login succes!"
-//         });
-//     } else {
-//         return res.json({
-//             success: false,
-//             message: "Login failed!"
-//         });
-//     }
-// });
-
-// sebelumnya seperti di bawah tapi karena setelah di pisah menjadi sepeti di atas saja, hanya memanggil file nya saja.
-// app.get("/users", (req, res) => {
-//     return res.json({
-//         success: true,
-//         message: "List all users",
-//         result: [
-//             {
-//                 id: 1,
-//                 name: "Gabriel Putra Sihombing",
-//                 email: "puragmahk@gmail.com"
-//             },
-//             {
-//                 id: 2,
-//                 name: "Handoyo Prakarsa",
-//                 email: "handoyo@gmail.com"
-//             },
-//             {
-//                 id: 3,
-//                 name: "John Doe",
-//                 email: "johndoe@example.com"
-//             }
-//         ]
-//     });
-// });
 
 app.use('/', (reg, res)=>{
     res.status(404)
@@ -60,6 +29,6 @@ app.use('/', (reg, res)=>{
 })
 
 
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`);
+app.listen(process.env.PORT, () => {
+    console.log(`Example app listening on port ${process.env.PORT}`);
 });
