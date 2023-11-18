@@ -1,5 +1,9 @@
 const db = require('../lib/db.lib')
 
+
+
+
+
 exports.allUsers = async () => {
     const sql = `SELECT * FROM "users"`
     const values = []
@@ -7,12 +11,14 @@ exports.allUsers = async () => {
     return rows
 }
 
+
 exports.findUser = async (id) => {
     const sql = `SELECT * FROM users WHERE "id"= $1`
     const values = [id]
     const {rows} = await db.query(sql, values)
     return rows
 }
+
 
 exports.createUser = async (data) => {
     const sql = `
@@ -36,24 +42,33 @@ exports.createUser = async (data) => {
     return rows
 }
 
-exports.updateUser = async (id, data) => {
+
+exports.updatedUser = async (id, data) => {
     const sql = `
     UPDATE "users"
-    SET "fullName"="$1", "email"="$2", "phoneNumber"="$3", "address"="$4", "picture"="$5", "role"="$6", "password"="$7"
-    WHERE "id"= $8
+    SET "fullName"=$2, "email"=$3, "phoneNumber"=$4, "address"=$5, "picture"=$6, "role"=$7, "password"=$8, "updatedAt"=now()
+    WHERE "id"= $1
     RETURNING *
-    `
+    `;
     // RETURNING * = untuk medapatkan column apa saja yang datanya ada di insert, update dan delete
     const values = [
+        id,
         data.fullName,
         data.email,
         data.phoneNumber,
         data.address,
         data.picture,
         data.role,
-        data.password,
-        id
+        data.password
     ]
+    const {rows} = await db.query(sql, values)
+    return rows
+}
+
+
+exports.deleteUser = async (id) => {
+    const sql = `DELETE FROM "users" WHERE "id"= $1 RETURNING *`;
+    const values = [id]
     const {rows} = await db.query(sql, values)
     return rows
 }
