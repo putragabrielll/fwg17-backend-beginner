@@ -1,58 +1,65 @@
 const userModels = require('../models/users.model')
 
-let countIdUser = userModels.allUsers().length //ERROR
-
-// let countIdUser = async() => {
-//     const hasil = (await userModels.allUsers()).length
-//     return hasil
-// }
-
 // memanggil semua users
 exports.getAllUsers = async (req, res) => { 
-    const users = await userModels.allUsers()
-    return res.json({
-        success: true,
-        message: "List all users",
-        result: users // akan memanggil semua data yg dimana sebagai diambil dari variabel users
-    })
-}
-
-// memanggil semua user berdasarkan Id nya
-exports.getUsersId = async (req, res) => {
-    const id = Number(req.params.id)
-    const users = await userModels.findOne(id);
-    console.log(req.params.id) // untuk debug melihat output dari req di terminal.
-    if(users[0]){ // akan melakukan pengecekan apabila userId[0] berisi atau bernilai truthy makan akan menjalankan isi dari if.
-        return res.json({ // akan mereturn object dengan key success, message, dan result, dengan isi userId
+    try {
+        const users = await userModels.allUsers()
+        return res.json({
             success: true,
-            message: "Detail users",
-            result: users[0] // karena yg di dapat data berupa array of object dari userId maka kita bisa tambahkan index ke [0], tujuannya agar yg dihasilkan jadi object saja.
-        });
-    } else { // apabila bernilai fasly makan akan menjalankan isi dari else.
-        return res.status(404).json({ // akan memberikan status 404 dengan json.
+            message: 'List all users',
+            result: users // akan memanggil semua data yg dimana sebagai diambil dari variabel users
+        })
+    } catch(err){
+        return res.status(404).json({
             success: false,
-            message: "User not found"
+            message: 'Data not found'
         })
     }
-};
+}
 
-
-exports.createUsers = (req, res) => {
-    const {name, email} = req.body // akan menerima inputan dari req.body, dimana yg di input hanya name & email.
-    countIdUser = countIdUser + 1 // akan ditambah 1, dari countIdUser yg ada di line 20.
-
-    const userNew = { // membuat variable baru untuk menampung semua req.body yg sudah dikirimkan di line 51.
-        id: countIdUser, // memanggil dari line 52 tapi sudah di tambah 1.
-        name: name, // mangambil key value "name" dari req.body di line 51.
-        email: email // mengambil key value "email" dari req.body di line 51.
+// memanggil user berdasarkan Id
+exports.getUsersId = async (req, res) => {
+    try {
+        const id = Number(req.params.id)
+        const users = await userModels.findUser(id) // mencari atau mencocokkan data ke database outputnya akan mengembalikan data dalam bentuk [{}]
+        
+        if(users[0]){ // akan melakukan pengecekan apabila userId[0] ada datanya maka akan menjalankan isi dari if.
+            return res.json({ // akan mereturn object dengan key success, message, dan result, dengan isi userId
+                success: true,
+                message: 'Detail users',
+                result: users[0] // karena yg di dapat data berupa array of object dari userId maka kita bisa tambahkan index ke [0], tujuannya agar yg dihasilkan jadi object saja.
+            })
+        } else {
+            return res.status(404).json({ // akan memberikan status 404 dengan json.
+            success: false,
+            message: 'User not found'
+        })
+        }
+    } catch(err){
+        return res.status(400).json({ // akan memberikan status 400 dengan json.
+            success: false,
+            message: 'Please input data'
+        })
     }
+}
 
-    users.push(userNew) // variable baru yg bernama userNew yg menerima input yg diperoleh dari req.body akan di push ke variable users di line 2.
-    return res.json({ // akan mengembalikan respons json dengan isi nya ada key success, message, dan result, yg dimana result nya berisi variable userNew dari data yg sudah di input di postman.
-        success: true,
-        message: "Success add new user!",
-        result: userNew
-    })
+
+// create data user
+exports.createUsers = async (req, res) => {
+    try {
+        const userNew = await userModels.createUser(req.body) // akan menerima inputan dari req.body, dimana yg di input hanya name & email.
+        return res.json({ // akan mengembalikan respons json dengan isi nya ada key success, message, dan result, yg dimana result nya berisi variable userNew dari data yg sudah di input di postman.
+            success: true,
+            message: 'Success add new user!',
+            result: userNew
+        })
+    } catch(err){
+        return res.status(400).json({ // akan mengembalikan respons json dengan isi nya ada key success dan message, yg dimana result nya berisi variable userNew dari data yg sudah di input di postman.
+            success: false,
+            message: 'Error!'
+        })
+    }
+    
 }
 
 exports.updateUsers = (req, res) => {
