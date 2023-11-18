@@ -1,6 +1,6 @@
 const userModels = require('../models/users.model')
 
-// memanggil semua users
+// SELECT * => memanggil semua users
 exports.getAllUsers = async (req, res) => { 
     try {
         const users = await userModels.allUsers()
@@ -17,7 +17,7 @@ exports.getAllUsers = async (req, res) => {
     }
 }
 
-// memanggil user berdasarkan Id
+// SELECT... WHERE "id" => user berdasarkan Id
 exports.getUsersId = async (req, res) => {
     try {
         const id = Number(req.params.id)
@@ -44,7 +44,7 @@ exports.getUsersId = async (req, res) => {
 }
 
 
-// create data user
+// CREATE data user
 exports.createUsers = async (req, res) => {
     try {
         const userNew = await userModels.createUser(req.body) // akan menerima inputan dari req.body, dimana yg di input hanya name & email.
@@ -54,14 +54,30 @@ exports.createUsers = async (req, res) => {
             result: userNew
         })
     } catch(err){
-        return res.status(400).json({ // akan mengembalikan respons json dengan isi nya ada key success dan message, yg dimana result nya berisi variable userNew dari data yg sudah di input di postman.
-            success: false,
-            message: 'Error!'
-        })
+        // console.log(JSON.stringify(err)) // cara mengetahui err nya secara langsung tapi di ubah ke json dan string
+        console.log(err) // cara mengetahui err nya secara langsung
+        if (err.code === "23502") {
+            return res.status(400).json({
+                success: false,
+                message: `${err.column} Connot be empty`
+            })
+        } else if (err.code === "23505") {
+            return res.status(400).json({
+                success: false,
+                message: `Email ${req.body.email} already exists.`
+            })
+        } else {
+            return res.status(500).json({
+                success: false,
+                message: 'Internal Server Error!'
+            })
+        }
     }
     
 }
 
+
+// UPDATE data user
 exports.updateUsers = (req, res) => {
     const {id} = req.params // akan mendapat id data berapa, yg di peroleh dari req.params yg di kirimkan melalui postman. Tujuannya supaya memperoleh data dengan id keberapa yang ingin di ubah
     const {name, email} = req.body // akan mengambil data name & email yg dikirimkan dari req.body pada postman. Tujuannya untuk mereplace data yg lama dengan data yg baru di request.
@@ -85,6 +101,7 @@ exports.updateUsers = (req, res) => {
 }
 
 
+// DELETE data user
 exports.deleteUsers = (req, res) => {
     const {id} = req.params // akan mendapat id data berapa, yg di peroleh dari req.params yg di kirimkan melalui postman. Tujuannya supaya memperoleh data dengan id keberapa yang ingin di ubah
     const findUser = users.filter(x => x.id === Number(id)) // untuk mencari data pada variabel users berdasarkan key id yg di input dari req.params, tetapi akan mengembalikan array of object.
