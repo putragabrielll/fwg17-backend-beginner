@@ -1,5 +1,4 @@
-const productsModels = require('../models/products.model');
-const { use } = require('../routers');
+const productsModels = require('../models/products.model')
 
 
 
