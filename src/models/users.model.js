@@ -20,7 +20,7 @@ exports.findUser = async (id) => {
 }
 
 
-exports.createUser = async (data) => {
+exports.createdUser = async (data) => {
     const sql = `
     INSERT INTO "users"
     ("fullName", "email", "phoneNumber", "address", "picture", "role", "password")
@@ -66,7 +66,7 @@ exports.updatedUser = async (id, data) => {
 }
 
 
-exports.deleteUser = async (id) => {
+exports.deletedUser = async (id) => {
     const sql = `DELETE FROM "users" WHERE "id"= $1 RETURNING *`;
     const values = [id]
     const {rows} = await db.query(sql, values)

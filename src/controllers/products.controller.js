@@ -1,15 +1,15 @@
-const userModels = require('../models/users.model')
+const productsModels = require('../models/products.model');
+const { use } = require('../routers');
 
 
 
-
-// SELECT * => memanggil semua users
-exports.getAllUsers = async (req, res) => { 
+// SELECT * => memanggil semua products
+exports.getAllProducts = async (req, res) => { 
     try {
-        const users = await userModels.allUsers()
+        const users = await productsModels.allProducts();
         return res.json({
             success: true,
-            message: 'List all users',
+            message: 'List all products',
             result: users // akan memanggil semua data yg dimana sebagai diambil dari variabel users
         })
     } catch(err){
@@ -21,26 +21,26 @@ exports.getAllUsers = async (req, res) => {
 }
 
 
-// SELECT... WHERE "id" => user berdasarkan Id
-exports.getUsersId = async (req, res) => {
+// SELECT... WHERE "id" => products berdasarkan Id
+exports.getProductsId = async (req, res) => {
     try {
-        const idUser = Number(req.params.id)
-        const users = await userModels.findUser(idUser); // mencari atau mencocokkan data ke database outputnya akan mengembalikan data dalam bentuk [{}]
+        const idProducts = Number(req.params.id)
+        const data = await productsModels.findProducts(idProducts);
         
-        if(users[0]){ // akan melakukan pengecekan apabila userId[0] ada datanya maka akan menjalankan isi dari if.
-            return res.json({ // akan mereturn object dengan key success, message, dan result, dengan isi userId
+        if(data[0]){ 
+            return res.json({
                 success: true,
-                message: 'Detail users',
-                result: users[0] // karena yg di dapat data berupa array of object dari userId maka kita bisa tambahkan index ke [0], tujuannya agar yg dihasilkan jadi object saja.
+                message: 'Detail Products',
+                result: data[0]
             })
         } else {
-            return res.status(404).json({ // akan memberikan status 404 dengan json.
+            return res.status(404).json({
             success: false,
-            message: 'User not found'
+            message: 'Products not found'
         })
         }
     } catch(err){
-        return res.status(400).json({ // akan memberikan status 400 dengan json.
+        return res.status(400).json({
             success: false,
             message: 'Please input data'
         })
@@ -48,14 +48,15 @@ exports.getUsersId = async (req, res) => {
 }
 
 
-// CREATE data user
-exports.createUsers = async (req, res) => {
+// CREATE data products
+exports.createProducts = async (req, res) => {
     try {
-        const userNew = await userModels.createdUser(req.body) // akan menerima inputan dari req.body, dimana yg di input hanya name & email.
-        return res.json({ // akan mengembalikan respons json dengan isi nya ada key success, message, dan result, yg dimana result nya berisi variable userNew dari data yg sudah di input di postman.
+        const productsNew = await productsModels.createdProducts(req.body) // akan menerima inputan dari req.body, dimana yg di input hanya name & email.
+        console.log(productsNew);
+        return res.json({
             success: true,
-            message: 'Success add new user!',
-            result: userNew
+            message: 'Success add new products!',
+            result: productsNew
         })
     } catch(err){
         // console.log(JSON.stringify(err)) // cara mengetahui err nya secara langsung tapi di ubah ke json dan string
@@ -82,15 +83,15 @@ exports.createUsers = async (req, res) => {
 
 
 // UPDATE data user
-exports.updateUsers = async (req, res) => {
+exports.updateProducts = async (req, res) => {
     try {
-        const idUser = Number(req.params.id)
-        const userUpdate = await userModels.updatedUser(idUser, req.body)
+        const idProducts = Number(req.params.id)
+        const productsUpdate = await productsModels.updatedProducts(idProducts, req.body);
 
         return res.json({
             success: true,
-            message: "Update users complete!",
-            result: userUpdate[0]
+            message: "Update products complete!",
+            result: productsUpdate[0]
         })
         
     } catch(err) {
@@ -100,16 +101,11 @@ exports.updateUsers = async (req, res) => {
                 success: false,
                 message: `${err.column} Connot be empty`
             })
-        } else if (err.code === "23505") {
-            return res.status(400).json({
-                success: false,
-                message: `Email ${req.body.email} already exists.`
-            })
         } else if (err.code === "22P02") {
             return res.status(400).json({
                 success: false,
                 message: 'Please input data'
-        })
+            })
         } else {
             return res.status(500).json({
                 success: false,
@@ -120,17 +116,17 @@ exports.updateUsers = async (req, res) => {
 }
 
 
-// DELETE data user
-exports.deleteUsers = async (req, res) => {
+// DELETE data products
+exports.deleteProducts = async (req, res) => {
     try {
-        const idUser = Number(req.params.id)
-        const users = await userModels.deletedUser(idUser);
+        const idproducts = Number(req.params.id)
+        const products = await productsModels.deletedProducts(idproducts);
         
-        if(users[0]){
+        if(products[0]){
             return res.json({
                 success: true,
                 message: 'Success delete data!',
-                result: users[0]
+                result: products[0]
             })
         } else {
             return res.status(404).json({
