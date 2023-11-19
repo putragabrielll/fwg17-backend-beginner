@@ -1,20 +1,8 @@
-const promoModels = require("../models/promo.model");
+const promoModels = require("../models/promo.model")
 
-const outError = (err, response) => {
-    if (err.code === "ECONNREFUSED") {
-        return response.status(500).json({
-            success: false,
-            message: "Database tidak terkoneksi", 
-            result: err.message
-        })
-    } else {
-        return response.status(500).json({
-            success: false,
-            message: err.message, 
-            result: err
-        })
-    }
-}
+// rencananya akan hendle semua error yg terjadi di catch
+const hendelErr = require("../helpers/utils")
+
 
 
 // SELECT * => memanggil semua promo
@@ -27,7 +15,7 @@ exports.getAllPromo = async (req, res) => {
             result: promo // akan memanggil semua data yg dimana sebagai diambil dari variabel users
         })
     } catch(err){
-        outError(err, res)
+        hendelErr.outError(err, res)
     }
 }
 
