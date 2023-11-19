@@ -35,9 +35,9 @@ exports.getUsersId = async (req, res) => {
             })
         } else {
             return res.status(404).json({ // akan memberikan status 404 dengan json.
-            success: false,
-            message: 'User not found'
-        })
+                success: false,
+                message: 'User not found'
+            })
         }
     } catch(err){
         return res.status(400).json({ // akan memberikan status 400 dengan json.
@@ -87,11 +87,18 @@ exports.updateUsers = async (req, res) => {
         const idUser = Number(req.params.id)
         const userUpdate = await userModels.updatedUser(idUser, req.body)
 
-        return res.json({
-            success: true,
-            message: "Update users complete!",
-            result: userUpdate[0]
-        })
+        if (userUpdate[0]) {
+            return res.json({
+                success: true,
+                message: "Update users complete!",
+                result: userUpdate[0]
+            })
+        } else {
+            return res.status(404).json({ // akan memberikan status 404 dengan json.
+                success: false,
+                message: 'User not found'
+            })
+        }
         
     } catch(err) {
         console.log(err)

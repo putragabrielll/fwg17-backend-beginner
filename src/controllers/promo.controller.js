@@ -1,15 +1,15 @@
-const productsModels = require('../models/products.model')
+const promoModels = require("../models/promo.model");
 
 
 
-// SELECT * => memanggil semua products
-exports.getAllProducts = async (req, res) => { 
+// SELECT * => memanggil semua promo
+exports.getAllPromo = async (req, res) => { 
     try {
-        const users = await productsModels.allProducts();
+        const promo = await promoModels.allPromo();
         return res.json({
             success: true,
-            message: 'List all products',
-            result: users // akan memanggil semua data yg dimana sebagai diambil dari variabel users
+            message: 'List all promo',
+            result: promo // akan memanggil semua data yg dimana sebagai diambil dari variabel users
         })
     } catch(err){
         return res.status(404).json({
@@ -20,17 +20,17 @@ exports.getAllProducts = async (req, res) => {
 }
 
 
-// SELECT... WHERE "id" => products berdasarkan Id
-exports.getProductsId = async (req, res) => {
+// SELECT... WHERE "id" => promo berdasarkan Id
+exports.getPromoId = async (req, res) => {
     try {
-        const idProducts = Number(req.params.id)
-        const data = await productsModels.findProducts(idProducts);
+        const idPromo = Number(req.params.id)
+        const promoData = await promoModels.findPromo(idPromo);
         
-        if(data[0]){ 
+        if(promoData[0]){ 
             return res.json({
                 success: true,
                 message: 'Detail Products',
-                result: data[0]
+                result: promoData[0]
             })
         } else {
             return res.status(404).json({
@@ -48,14 +48,13 @@ exports.getProductsId = async (req, res) => {
 
 
 // CREATE data products
-exports.createProducts = async (req, res) => {
+exports.createPromo = async (req, res) => {
     try {
-        const productsNew = await productsModels.createdProducts(req.body) // akan menerima inputan dari req.body, dimana yg di input hanya name & email.
-        console.log(productsNew) // debug output
+        const promoNew = await promoModels.createdPromo(req.body) // akan menerima inputan dari req.body, dimana yg di input hanya name & email.
         return res.json({
             success: true,
-            message: 'Success add new products!',
-            result: productsNew
+            message: 'Success add new promo!',
+            result: promoNew
         })
     } catch(err){
         console.log(err) // cara mengetahui err nya secara langsung
@@ -81,21 +80,21 @@ exports.createProducts = async (req, res) => {
 
 
 // UPDATE data user
-exports.updateProducts = async (req, res) => {
+exports.updatePromo = async (req, res) => {
     try {
-        const idProducts = Number(req.params.id)
-        const productsUpdate = await productsModels.updatedProducts(idProducts, req.body);
+        const idPromo = Number(req.params.id)
+        const promoUpdate = await promoModels.updatedPromo(idPromo, req.body);
 
-        if (productsUpdate[0]) {
+        if (promoUpdate[0]) {
             return res.json({
                 success: true,
                 message: "Update products complete!",
-                result: productsUpdate[0]
+                result: promoUpdate[0]
             })
         } else {
             return res.status(404).json({
                 success: false,
-                message: 'Products not found'
+                message: 'Promo not found'
             })
         }
         
@@ -122,16 +121,16 @@ exports.updateProducts = async (req, res) => {
 
 
 // DELETE data products
-exports.deleteProducts = async (req, res) => {
+exports.deletePromo = async (req, res) => {
     try {
-        const idproducts = Number(req.params.id)
-        const products = await productsModels.deletedProducts(idproducts);
+        const idPromo = Number(req.params.id)
+        const promo = await promoModels.deletedPromo(idPromo);
         
-        if(products[0]){
+        if(promo[0]){
             return res.json({
                 success: true,
                 message: 'Success delete data!',
-                result: products[0]
+                result: promo[0]
             })
         } else {
             return res.status(404).json({
