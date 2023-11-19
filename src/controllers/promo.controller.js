@@ -1,5 +1,20 @@
 const promoModels = require("../models/promo.model");
 
+const outError = (err, response) => {
+    if (err.code === "ECONNREFUSED") {
+        return response.status(500).json({
+            success: false,
+            message: "Database tidak terkoneksi", 
+            result: err.message
+        })
+    } else {
+        return response.status(500).json({
+            success: false,
+            message: err.message, 
+            result: err
+        })
+    }
+}
 
 
 // SELECT * => memanggil semua promo
@@ -12,10 +27,7 @@ exports.getAllPromo = async (req, res) => {
             result: promo // akan memanggil semua data yg dimana sebagai diambil dari variabel users
         })
     } catch(err){
-        return res.status(404).json({
-            success: false,
-            message: 'Data not found'
-        })
+        outError(err, res)
     }
 }
 
@@ -24,7 +36,7 @@ exports.getAllPromo = async (req, res) => {
 exports.getPromoId = async (req, res) => {
     try {
         const idPromo = Number(req.params.id)
-        const promoData = await promoModels.findPromo(idPromo);
+        const promoData = await promoModels.findPromo(idPromo)
         
         if(promoData[0]){ 
             return res.json({
