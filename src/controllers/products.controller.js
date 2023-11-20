@@ -1,5 +1,8 @@
 const productsModels = require('../models/products.model')
 
+// rencananya akan hendle semua error yg terjadi di catch
+const hendelErr = require("../helpers/utils")
+
 
 
 // SELECT * => memanggil semua products
@@ -12,10 +15,7 @@ exports.getAllProducts = async (req, res) => {
             result: users // akan memanggil semua data yg dimana sebagai diambil dari variabel users
         })
     } catch(err){
-        return res.status(404).json({
-            success: false,
-            message: 'Data not found'
-        })
+        hendelErr.outError(err, res)
     }
 }
 
@@ -39,10 +39,7 @@ exports.getProductsId = async (req, res) => {
             })
         }
     } catch(err){
-        return res.status(400).json({
-            success: false,
-            message: 'Please input data'
-        })
+        hendelErr.outError(err, res)
     }
 }
 
@@ -59,22 +56,7 @@ exports.createProducts = async (req, res) => {
         })
     } catch(err){
         console.log(err) // cara mengetahui err nya secara langsung
-        if (err.code === "23502") {
-            return res.status(400).json({
-                success: false,
-                message: `${err.column} Connot be empty`
-            })
-        } else if (err.code === "22P02") {
-            return res.status(400).json({
-                success: false,
-                message: 'Please input semua data!'
-            })
-        } else {
-            return res.status(500).json({
-                success: false,
-                message: 'Internal Server Error!'
-            })
-        }
+        hendelErr.outError(err, res)
     }
     
 }
@@ -100,23 +82,7 @@ exports.updateProducts = async (req, res) => {
         }
         
     } catch(err) {
-        console.log(err)
-        if (err.code === "23502") {
-            return res.status(400).json({
-                success: false,
-                message: `${err.column} Connot be empty`
-            })
-        } else if (err.code === "22P02") {
-            return res.status(400).json({
-                success: false,
-                message: 'Please input data'
-            })
-        } else {
-            return res.status(500).json({
-                success: false,
-                message: 'Internal Server Error!'
-            })
-        }
+        hendelErr.outError(err, res)
     }
 }
 
@@ -140,9 +106,6 @@ exports.deleteProducts = async (req, res) => {
         })
         }
     } catch(err) {
-        return res.status(400).json({
-            success: false,
-            message: 'Please input data'
-        })
+        hendelErr.outError(err, res)
     }
 }
