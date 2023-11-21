@@ -61,7 +61,7 @@ exports.createdProducts = async (data) => {
     VALUES
     ($1, $2, $3, $4, $5, $6, $7, $8)
     RETURNING *
-    `;
+    `
     // RETURNING * = untuk medapatkan column apa saja yang datanya ada di insert, update dan delete
     const values = [
         data.name,
