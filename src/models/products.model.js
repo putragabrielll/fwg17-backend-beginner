@@ -34,7 +34,17 @@ exports.allProductsByCategories = async (sortBy, order) => {
     order = allowOrder.includes(order) ? order : 'asc'
 
     const sql = `
-    SELECT "p"."id", "p"."name", "p"."price", "p"."image", "c"."name" AS "kategori", "p"."description", "p"."discount", "p"."isRecommended", "p"."qty", "p"."createdAt"
+    SELECT 
+    "p"."id", 
+    "p"."name", 
+    "p"."price", 
+    "p"."image", 
+    "c"."name" AS "kategori", 
+    "p"."description", 
+    "p"."discount", 
+    "p"."isRecommended", 
+    "p"."qty", 
+    "p"."createdAt"
     FROM "products" "p"
     INNER JOIN "productCategories" "pc" ON "pc"."productId" = "p"."id"
     INNER JOIN "categories" "c" ON "pc"."categoriesId" = "c"."id"
