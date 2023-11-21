@@ -68,7 +68,7 @@ exports.createProducts = async (req, res) => {
         return res.json({
             success: true,
             message: 'Success add new products!',
-            result: productsNew
+            result: productsNew[0]
         })
     } catch(err){
         console.log(err) // cara mengetahui err nya secara langsung

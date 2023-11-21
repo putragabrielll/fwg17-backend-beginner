@@ -56,7 +56,7 @@ exports.createUsers = async (req, res) => {
         return res.json({ // akan mengembalikan respons json dengan isi nya ada key success, message, dan result, yg dimana result nya berisi variable userNew dari data yg sudah di input di postman.
             success: true,
             message: 'Success add new user!',
-            result: userNew
+            result: userNew[0]
         })
     } catch(err){
         // console.log(JSON.stringify(err)) // cara mengetahui err nya secara langsung tapi di ubah ke json dan string

@@ -3,8 +3,8 @@ const db = require("../lib/db.lib")
 
 
 
-exports.allPromo = async (search='', sortBy, order, page=1) => {
-    const visibleColumn = ["id", "name", "code", "createdAt"];
+exports.allVariant = async(search='', sortBy, order, page=1) => {
+    const visibleColumn = ["id", "name", "additionalPrice"]
     const allowOrder = ["asc", "desc"]
     const limit = 5
     const offSet = (page - 1) * limit
@@ -13,51 +13,44 @@ exports.allPromo = async (search='', sortBy, order, page=1) => {
     order = allowOrder.includes(order) ? order : "asc"
 
     const sql = `
-    SELECT "id", "name", "code", "description", "percentage", "isExpired", "maximumPromo", "minimumAmount", "createdAt" 
-    FROM "promo"
+    SELECT "id", "name", "additionalPrice", "createdAt"
+    FROM "productVariant"
     WHERE "name" ILIKE $1
     ORDER BY "${sortBy}" ${order}
     LIMIT ${limit}
     OFFSET ${offSet}
     `
-    const values = [`%${search}%`];
+    const values = [`%${search}%`]
     const {rows} = await db.query(sql, values)
-    return rows
+    return(rows)
 }
 
 
-exports.findPromo = async (id) => {
-    const sql = `SELECT * FROM "promo" WHERE "id"= $1`;
+exports.findVariant = async(id) => {
+    const sql = `
+    SELECT * FROM "productVariant" WHERE "id"=$1`
     const values = [id]
     const {rows} = await db.query(sql, values)
-    return rows
+    return(rows)
 }
 
 
-exports.createdPromo = async (data) => {
+exports.createdVariant = async (data) => {
     const sql = `
-    INSERT INTO "promo"
-    ("name", "code", "description", "percentage", "isExpired", "maximumPromo", "minimumAmount")
+    INSERT INTO "productVariant"
+    ("name", "additionalPrice")
     VALUES
-    ($1, $2, $3, $4, $5, $6, $7)
+    ($1, $2)
     RETURNING *
     `
     // RETURNING * = untuk medapatkan column apa saja yang datanya ada di insert, update dan delete
-    const values = [
-        data.name,
-        data.code,
-        data.description,
-        data.percentage,
-        data.isExpired,
-        data.maximumPromo,
-        data.minimumAmount
-    ]
+    const values = [data.name, data.additionalPrice]
     const {rows} = await db.query(sql, values)
     return rows
 }
 
 
-exports.updatedPromo = async (id, data) => {
+exports.updatedVariant = async (id, data) => {
     const column = []
     const values = []
     values.push(id)
@@ -66,18 +59,18 @@ exports.updatedPromo = async (id, data) => {
         column.push(`"${item}"=$${values.length}`)
     }
     const sql = `
-    UPDATE "promo"
+    UPDATE "productVariant"
     SET ${column.join(", ")}, "updatedAt"=now()
     WHERE "id"= $1
-    RETURNING "id", "name", "code", "description", "percentage", "isExpired", "maximumPromo", "minimumAmount", "updatedAt"
+    RETURNING "id", "name", "additionalPrice", "updatedAt"
     `
     const {rows} = await db.query(sql, values)
     return rows
 }
 
 
-exports.deletedPromo = async (id) => {
-    const sql = `DELETE FROM "promo" WHERE "id"= $1 RETURNING *`;
+exports.deletedVariant = async (id) => {
+    const sql = `DELETE FROM "productVariant" WHERE "id"= $1 RETURNING *`;
     const values = [id]
     const {rows} = await db.query(sql, values)
     return rows

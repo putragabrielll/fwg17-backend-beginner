@@ -1,42 +1,40 @@
-const promoModels = require("../models/promo.model")
+const variantModels = require("../models/variant.model")
 
 // rencananya akan hendle semua error yg terjadi di catch
 const hendelErr = require("../helpers/utils")
 
 
 
-// SELECT * => memanggil semua promo
-exports.getAllPromo = async (req, res) => { 
+exports.getAllVariant = async(req, res) => {
     try {
         const { filter, sortby, order, page } = req.query
-        const promoList = await promoModels.allPromo(filter, sortby, order, page)
+        const variantList = await variantModels.allVariant(filter, sortby, order, page)
         return res.json({
             success: true,
-            message: 'List all promo',
-            results: promoList // akan memanggil semua data yg dimana sebagai diambil dari variabel users
+            message: 'List all variant!',
+            results: variantList
         })
-    } catch(err){
+    } catch (err) {
         hendelErr.outError(err, res)
     }
 }
 
 
-// SELECT... WHERE "id" => promo berdasarkan Id
-exports.getPromoId = async (req, res) => {
+exports.getVariantId = async(req, res) => {
     try {
-        const idPromo = Number(req.params.id)
-        const promoData = await promoModels.findPromo(idPromo)
+        const idVariant = Number(req.params.id)
+        const variantData = await variantModels.findVariant(idVariant);
         
-        if(promoData[0]){ 
+        if(variantData[0]){ 
             return res.json({
                 success: true,
                 message: 'Detail Products',
-                result: promoData[0]
+                result: variantData[0]
             })
         } else {
             return res.status(404).json({
                 success: false,
-                message: 'Products not found'
+                message: 'Variant not found'
             })
         }
     } catch(err){
@@ -45,34 +43,34 @@ exports.getPromoId = async (req, res) => {
 }
 
 
-// CREATE data products
-exports.createPromo = async (req, res) => {
+// CREATE data variant
+exports.createVariant = async (req, res) => {
     try {
-        const promoNew = await promoModels.createdPromo(req.body) // akan menerima inputan dari req.body, dimana yg di input hanya name & email.
+        const variantNew = await variantModels.createdVariant(req.body)
         return res.json({
             success: true,
-            message: 'Success add new promo!',
-            result: promoNew[0]
+            message: 'Success add new variant!',
+            result: variantNew[0]
         })
     } catch(err){
-        console.log(err) // cara mengetahui err nya secara langsung
+        console.log(err)
         hendelErr.outError(err, res)
     }
     
 }
 
 
-// UPDATE data user
-exports.updatePromo = async (req, res) => {
+// UPDATE data variant
+exports.updateVariant = async (req, res) => {
     try {
-        const idPromo = Number(req.params.id)
-        const promoUpdate = await promoModels.updatedPromo(idPromo, req.body);
+        const idVariant = Number(req.params.id)
+        const variantUpdate = await variantModels.updatedVariant(idVariant, req.body);
 
-        if (promoUpdate[0]) {
+        if (variantUpdate[0]) {
             return res.json({
                 success: true,
                 message: "Update products complete!",
-                result: promoUpdate[0]
+                result: variantUpdate[0]
             })
         } else {
             return res.status(404).json({
@@ -87,17 +85,17 @@ exports.updatePromo = async (req, res) => {
 }
 
 
-// DELETE data products
-exports.deletePromo = async (req, res) => {
+// DELETE data variant
+exports.deleteVariant = async (req, res) => {
     try {
         const idPromo = Number(req.params.id)
-        const promo = await promoModels.deletedPromo(idPromo);
+        const variant = await variantModels.deletedVariant(idPromo)
         
-        if(promo[0]){
+        if(variant[0]){
             return res.json({
                 success: true,
                 message: 'Success delete data!',
-                result: promo[0]
+                result: variant[0]
             })
         } else {
             return res.status(404).json({
