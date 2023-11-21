@@ -25,6 +25,7 @@ exports.outError = (err, response) => {
         return response.status(500).json({
             success: false,
             message: 'Internal Server Error!', 
+            message2: err.message,
             result: err
         })
     }

@@ -4,7 +4,7 @@ const db = require("../lib/db.lib")
 
 
 exports.allPromo = async () => {
-    const sql = `SELECT * FROM "promo"`
+    const sql = `SELECT "id", "name", "code", "description", "percentage", "isExpired", "maximumPromo", "minimumAmount", "createdAt" FROM "promo"`;
     const values = []
     const {rows} = await db.query(sql, values)
     return rows
@@ -43,23 +43,19 @@ exports.createdPromo = async (data) => {
 
 
 exports.updatedPromo = async (id, data) => {
+    const column = []
+    const values = []
+    values.push(id)
+    for(let item in data){
+        values.push(data[item])
+        column.push(`"${item}"=$${values.length}`)
+    }
     const sql = `
     UPDATE "promo"
-    SET "name"=$2, "code"=$3, "description"=$4, "percentage"=$5, "isExpired"=$6, "maximumPromo"=$7, "minimumAmount"=$8, "updatedAt"=now()
+    SET ${column.join(", ")}, "updatedAt"=now()
     WHERE "id"= $1
-    RETURNING *
+    RETURNING "id", "name", "code", "description", "percentage", "isExpired", "maximumPromo", "minimumAmount", "updatedAt"
     `;
-    // RETURNING * = untuk medapatkan column apa saja yang datanya ada di insert, update dan delete
-    const values = [
-        id,
-        data.name,
-        data.code,
-        data.description,
-        data.percentage,
-        data.isExpired,
-        data.maximumPromo,
-        data.minimumAmount
-    ]
     const {rows} = await db.query(sql, values)
     return rows
 }
