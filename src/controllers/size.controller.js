@@ -12,7 +12,7 @@ exports.getAllSize = async (req, res) => {
         return res.json({
             success: true,
             message: 'List all size',
-            result: size // akan memanggil semua data yg dimana sebagai diambil dari variabel users
+            results: size // akan memanggil semua data yg dimana sebagai diambil dari variabel users
         })
     } catch(err){
         hendelErr.outError(err, res)

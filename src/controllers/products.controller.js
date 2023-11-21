@@ -8,12 +8,12 @@ const hendelErr = require("../helpers/utils")
 // SELECT * => memanggil semua products
 exports.getAllProducts = async (req, res) => { 
     try {
-        const { name, sortBy, order } = req.query;
-        const users = await productsModels.allProducts(name, sortBy, order);
+        const { filter, sortBy, order } = req.query
+        const users = await productsModels.allProducts(filter, sortBy, order)
         return res.json({
             success: true,
             message: 'List all products',
-            result: users // akan memanggil semua data yg dimana sebagai diambil dari variabel users
+            results: users // akan memanggil semua data yg dimana sebagai diambil dari variabel users
         })
     } catch(err){
         hendelErr.outError(err, res)
@@ -28,7 +28,7 @@ exports.productByCategories = async (req, res) => {
         return res.json({
             success: true,
             message: 'List all products by categories',
-            result: users // akan memanggil semua data yg dimana sebagai diambil dari variabel users
+            results: users // akan memanggil semua data yg dimana sebagai diambil dari variabel users
         })
     } catch(err){
         hendelErr.outError(err, res)

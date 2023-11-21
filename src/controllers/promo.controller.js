@@ -12,7 +12,7 @@ exports.getAllPromo = async (req, res) => {
         return res.json({
             success: true,
             message: 'List all promo',
-            result: promo // akan memanggil semua data yg dimana sebagai diambil dari variabel users
+            results: promo // akan memanggil semua data yg dimana sebagai diambil dari variabel users
         })
     } catch(err){
         hendelErr.outError(err, res)

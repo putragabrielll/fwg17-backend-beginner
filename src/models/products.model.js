@@ -6,10 +6,10 @@ const db = require("../lib/db.lib")
 exports.allProducts = async (search='', sortBy, order) => {
     const visibleColumn = ["id", "name", "price", "createdAt"]
     const allowOrder = ['asc', 'desc']
-
+    
     sortBy = visibleColumn.includes(sortBy) ? sortBy : "id"
     order = allowOrder.includes(order) ? order : 'asc'
-
+    
     const sql = `
     SELECT "id", "name", "price", "image", "description", "discount", "isRecommended", "qty", "createdAt"
     FROM "products"

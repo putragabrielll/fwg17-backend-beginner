@@ -57,7 +57,7 @@ exports.updatedUser = async (id, data) => {
     UPDATE "users"
     SET ${column.join(", ")}, "updatedAt"=now()
     WHERE "id"= $1
-    RETURNING "fullName", "email", "phoneNumber", "address", "picture", "role", "password", "updatedAt"
+    RETURNING "id", "fullName", "email", "phoneNumber", "address", "picture", "role", "password", "updatedAt"
     `;
     const {rows} = await db.query(sql, values)
     return rows
@@ -65,7 +65,7 @@ exports.updatedUser = async (id, data) => {
 
 
 exports.deletedUser = async (id) => {
-    const sql = `DELETE FROM "users" WHERE "id"= $1 RETURNING *`;
+    const sql = `DELETE FROM "users" WHERE "id"= $1 RETURNING "id", "fullName", "email", "phoneNumber", "address", "picture", "role", "password", "updatedAt"`
     const values = [id]
     const {rows} = await db.query(sql, values)
     return rows

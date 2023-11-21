@@ -10,7 +10,7 @@ exports.getAllUsers = async (req, res) => {
         return res.json({
             success: true,
             message: 'List all users',
-            result: users // akan memanggil semua data yg dimana sebagai diambil dari variabel users
+            results: users // akan memanggil semua data yg dimana sebagai diambil dari variabel users
         })
     } catch(err){
         return res.status(404).json({
