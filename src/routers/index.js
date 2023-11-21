@@ -9,5 +9,6 @@ router.use("/products", require('./products.router'))
 router.use("/promo", require('./promo.router'))
 router.use("/product-size", require("./size.router"))
 router.use("/product-variant", require("./variant.router"))
+router.use("/categories", require("./categories.router"))
 
 module.exports = router

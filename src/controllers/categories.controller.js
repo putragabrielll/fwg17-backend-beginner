@@ -1,19 +1,19 @@
-const variantModels = require("../models/variant.model")
+const categoriesModels = require("../models/categories.model")
 
 // rencananya akan hendle semua error yg terjadi di catch
 const hendelErr = require("../helpers/utils")
 
 
 
-// SELECT * => memanggil semua variant
-exports.getAllVariant = async(req, res) => {
+// SELECT * => memanggil semua categories
+exports.getAllCategories = async(req, res) => {
     try {
         const { filter, sortby, order, page } = req.query
-        const variantList = await variantModels.allVariant(filter, sortby, order, page)
+        const categoriesList = await categoriesModels.allCategories(filter, sortby, order, page)
         return res.json({
             success: true,
-            message: 'List all variant!',
-            results: variantList
+            message: 'List all categories!',
+            results: categoriesList
         })
     } catch (err) {
         hendelErr.outError(err, res)
@@ -21,17 +21,17 @@ exports.getAllVariant = async(req, res) => {
 }
 
 
-// SELECT... WHERE "id" => variant berdasarkan Id
-exports.getVariantId = async(req, res) => {
+// SELECT... WHERE "id" => categories berdasarkan Id
+exports.getCategorieId = async(req, res) => {
     try {
-        const idVariant = Number(req.params.id)
-        const variantData = await variantModels.findVariant(idVariant);
+        const idCategories = Number(req.params.id)
+        const categoriesData = await categoriesModels.findCategories(idCategories)
         
-        if(variantData[0]){ 
+        if(categoriesData[0]){ 
             return res.json({
                 success: true,
                 message: 'Detail Products',
-                result: variantData[0]
+                result: categoriesData[0]
             })
         } else {
             return res.status(404).json({
@@ -46,13 +46,13 @@ exports.getVariantId = async(req, res) => {
 
 
 // CREATE data variant
-exports.createVariant = async (req, res) => {
+exports.createCategories = async (req, res) => {
     try {
-        const variantNew = await variantModels.createdVariant(req.body)
+        const categoriesNew = await categoriesModels.createdCategories(req.body);
         return res.json({
             success: true,
-            message: 'Success add new variant!',
-            result: variantNew[0]
+            message: 'Success add new categories!',
+            result: categoriesNew[0]
         })
     } catch(err){
         console.log(err)
@@ -63,16 +63,16 @@ exports.createVariant = async (req, res) => {
 
 
 // UPDATE data variant
-exports.updateVariant = async (req, res) => {
+exports.updateCategories = async (req, res) => {
     try {
-        const idVariant = Number(req.params.id)
-        const variantUpdate = await variantModels.updatedVariant(idVariant, req.body);
+        const idCategories = Number(req.params.id)
+        const categoriesUpdate = await categoriesModels.updatedCategories(idCategories, req.body);
 
-        if (variantUpdate[0]) {
+        if (categoriesUpdate[0]) {
             return res.json({
                 success: true,
-                message: "Update products complete!",
-                result: variantUpdate[0]
+                message: "Update categories complete!",
+                result: categoriesUpdate[0]
             })
         } else {
             return res.status(404).json({
@@ -88,16 +88,16 @@ exports.updateVariant = async (req, res) => {
 
 
 // DELETE data variant
-exports.deleteVariant = async (req, res) => {
+exports.deletecategories = async (req, res) => {
     try {
-        const idPromo = Number(req.params.id)
-        const variant = await variantModels.deletedVariant(idPromo)
+        const idCategories = Number(req.params.id)
+        const categories = await categoriesModels.deletedCategories(idCategories)
         
-        if(variant[0]){
+        if(categories[0]){
             return res.json({
                 success: true,
                 message: 'Success delete data!',
-                result: variant[0]
+                result: categories[0]
             })
         } else {
             return res.status(404).json({
