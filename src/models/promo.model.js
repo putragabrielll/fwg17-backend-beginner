@@ -26,7 +26,7 @@ exports.createdPromo = async (data) => {
     VALUES
     ($1, $2, $3, $4, $5, $6, $7)
     RETURNING *
-    `;
+    `
     // RETURNING * = untuk medapatkan column apa saja yang datanya ada di insert, update dan delete
     const values = [
         data.name,
@@ -55,7 +55,7 @@ exports.updatedPromo = async (id, data) => {
     SET ${column.join(", ")}, "updatedAt"=now()
     WHERE "id"= $1
     RETURNING "id", "name", "code", "description", "percentage", "isExpired", "maximumPromo", "minimumAmount", "updatedAt"
-    `;
+    `
     const {rows} = await db.query(sql, values)
     return rows
 }

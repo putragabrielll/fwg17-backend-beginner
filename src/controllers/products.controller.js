@@ -8,8 +8,8 @@ const hendelErr = require("../helpers/utils")
 // SELECT * => memanggil semua products
 exports.getAllProducts = async (req, res) => { 
     try {
-        const { filter, sortBy, order } = req.query
-        const users = await productsModels.allProducts(filter, sortBy, order)
+        const { filter, sortby, order } = req.query
+        const users = await productsModels.allProducts(filter, sortby, order)
         return res.json({
             success: true,
             message: 'List all products',
@@ -23,8 +23,8 @@ exports.getAllProducts = async (req, res) => {
 // SELECT * BY CATEGORIES => memanggil semua products berdasarkan kategori
 exports.productByCategories = async (req, res) => { 
     try {
-        const {sortBy, order} = req.query
-        const users = await productsModels.allProductsByCategories(sortBy, order)
+        const {sortby, order} = req.query
+        const users = await productsModels.allProductsByCategories(sortby, order)
         return res.json({
             success: true,
             message: 'List all products by categories',
