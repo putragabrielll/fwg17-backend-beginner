@@ -8,12 +8,12 @@ const hendelErr = require("../helpers/utils")
 // SELECT * => memanggil semua products
 exports.getAllProducts = async (req, res) => { 
     try {
-        const { filter, sortby, order } = req.query
-        const users = await productsModels.allProducts(filter, sortby, order)
+        const { filter, sortby, order, page } = req.query
+        const productsList = await productsModels.allProducts(filter, sortby, order, page)
         return res.json({
             success: true,
             message: 'List all products',
-            results: users // akan memanggil semua data yg dimana sebagai diambil dari variabel users
+            results: productsList // akan memanggil semua data yg dimana sebagai diambil dari variabel users
         })
     } catch(err){
         hendelErr.outError(err, res)
@@ -78,7 +78,7 @@ exports.createProducts = async (req, res) => {
 }
 
 
-// UPDATE data user
+// UPDATE data products
 exports.updateProducts = async (req, res) => {
     try {
         const idProducts = Number(req.params.id)

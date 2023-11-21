@@ -8,7 +8,8 @@ const hendelErr = require("../helpers/utils")
 // SELECT * => memanggil semua promo
 exports.getAllPromo = async (req, res) => { 
     try {
-        const promo = await promoModels.allPromo();
+        const { filter, sortby, order, page } = req.query
+        const promo = await promoModels.allPromo(filter, sortby, order, page)
         return res.json({
             success: true,
             message: 'List all promo',

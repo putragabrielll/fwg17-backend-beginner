@@ -4,9 +4,24 @@ const db = require('../lib/db.lib')
 
 
 
-exports.allUsers = async () => {
-    const sql = `SELECT "id", "fullName", "email", "phoneNumber", "address", "picture" FROM "users"`;
-    const values = []
+exports.allUsers = async (search='', sortBy, order, page=1) => {
+    const visibleColumn = ["id", "fullName", "email"]
+    const allowOrder = ["asc", "desc"]
+    const limit = 5
+    const offSet = (page - 1) * limit
+
+    sortBy = visibleColumn.includes(sortBy) ? sortBy : "id"
+    order = allowOrder.includes(order) ? order : "asc"
+
+    const sql = `
+    SELECT "id", "fullName", "email", "phoneNumber", "address", "picture", "createdAt"
+    FROM "users"
+    WHERE "fullName" ILIKE $1
+    ORDER BY "${sortBy}" ${order}
+    LIMIT ${limit}
+    OFFSET ${offSet}
+    `
+    const values = [`%${search}%`]
     const {rows} = await db.query(sql, values)
     return rows
 }

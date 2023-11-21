@@ -3,9 +3,24 @@ const db = require("../lib/db.lib")
 
 
 
-exports.allPromo = async () => {
-    const sql = `SELECT "id", "name", "code", "description", "percentage", "isExpired", "maximumPromo", "minimumAmount", "createdAt" FROM "promo"`;
-    const values = []
+exports.allPromo = async (search='', sortBy, order, page=1) => {
+    const visibleColumn = ["id", "name", "code", "createdAt"];
+    const allowOrder = ["asc", "desc"]
+    const limit = 5
+    const offSet = (page - 1) * limit
+
+    sortBy = visibleColumn.includes(sortBy) ? sortBy : "id"
+    order = allowOrder.includes(order) ? order : "asc"
+
+    const sql = `
+    SELECT "id", "name", "code", "description", "percentage", "isExpired", "maximumPromo", "minimumAmount", "createdAt" 
+    FROM "promo"
+    WHERE "name" ILIKE $1
+    ORDER BY "${sortBy}" ${order}
+    LIMIT ${limit}
+    OFFSET ${offSet}
+    `;
+    const values = [`%${search}%`];
     const {rows} = await db.query(sql, values)
     return rows
 }

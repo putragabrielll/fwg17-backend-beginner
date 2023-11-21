@@ -6,11 +6,12 @@ const userModels = require('../models/users.model')
 // SELECT * => memanggil semua users
 exports.getAllUsers = async (req, res) => { 
     try {
-        const users = await userModels.allUsers()
+        const { filter, sortby, order, page } = req.query
+        const usersList = await userModels.allUsers(filter, sortby, order, page)
         return res.json({
             success: true,
             message: 'List all users',
-            results: users // akan memanggil semua data yg dimana sebagai diambil dari variabel users
+            results: usersList // akan memanggil semua data yg dimana sebagai diambil dari variabel users
         })
     } catch(err){
         return res.status(404).json({

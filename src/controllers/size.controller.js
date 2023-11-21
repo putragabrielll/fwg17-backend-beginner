@@ -5,14 +5,15 @@ const hendelErr = require("../helpers/utils");
 
 
 
-// SELECT * => memanggil semua promo
+// SELECT * => memanggil semua size
 exports.getAllSize = async (req, res) => { 
     try {
-        const size = await sizeModels.allSize();
+        const { sortby, order } = req.query;
+        const sizeList = await sizeModels.allSize(sortby, order);
         return res.json({
             success: true,
             message: 'List all size',
-            results: size // akan memanggil semua data yg dimana sebagai diambil dari variabel users
+            results: sizeList // akan memanggil semua data yg dimana sebagai diambil dari variabel users
         })
     } catch(err){
         hendelErr.outError(err, res)
@@ -20,7 +21,7 @@ exports.getAllSize = async (req, res) => {
 }
 
 
-// SELECT... WHERE "id" => promo berdasarkan Id
+// SELECT... WHERE "id" => size berdasarkan Id
 exports.getSizeId = async (req, res) => {
     try {
         const idSize = Number(req.params.id)
@@ -39,6 +40,31 @@ exports.getSizeId = async (req, res) => {
             })
         }
     } catch(err){
+        hendelErr.outError(err, res)
+    }
+}
+
+
+// UPDATE data size
+exports.updateSize = async (req, res) => {
+    try {
+        const idSize = Number(req.params.id)
+        const productsUpdate = await sizeModels.updatedSize(idSize, req.body);
+
+        if (productsUpdate[0]) {
+            return res.json({
+                success: true,
+                message: "Update product size complete!",
+                result: productsUpdate[0]
+            })
+        } else {
+            return res.status(404).json({
+                success: false,
+                message: 'Products not found'
+            })
+        }
+        
+    } catch(err) {
         hendelErr.outError(err, res)
     }
 }
