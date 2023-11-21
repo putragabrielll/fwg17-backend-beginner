@@ -28,7 +28,7 @@ exports.allProductTags = async(byColumn, search='', sortBy, order, page=1) => {
     ORDER BY "${sortBy}"."name" ${order}
     LIMIT ${limit}
     OFFSET ${offSet}
-    `;
+    `
     const values = [`%${search}%`]
     const {rows} = await db.query(sql, values)
     return(rows)
