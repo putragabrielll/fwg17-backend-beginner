@@ -97,7 +97,7 @@ exports.updateUsers = async (req, res) => {
         } else {
             return res.status(404).json({ // akan memberikan status 404 dengan json.
                 success: false,
-                message: 'User not found'
+                message: 'Data User not found'
             })
         }
         

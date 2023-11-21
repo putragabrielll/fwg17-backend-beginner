@@ -77,7 +77,7 @@ exports.updatePromo = async (req, res) => {
         } else {
             return res.status(404).json({
                 success: false,
-                message: 'Promo not found'
+                message: 'Data Promo not found'
             })
         }
         

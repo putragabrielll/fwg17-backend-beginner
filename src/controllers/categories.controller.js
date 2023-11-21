@@ -22,7 +22,7 @@ exports.getAllCategories = async(req, res) => {
 
 
 // SELECT... WHERE "id" => categories berdasarkan Id
-exports.getCategorieId = async(req, res) => {
+exports.getCategoriesId = async(req, res) => {
     try {
         const idCategories = Number(req.params.id)
         const categoriesData = await categoriesModels.findCategories(idCategories)
@@ -88,7 +88,7 @@ exports.updateCategories = async (req, res) => {
 
 
 // DELETE data variant
-exports.deletecategories = async (req, res) => {
+exports.deleteCategories = async (req, res) => {
     try {
         const idCategories = Number(req.params.id)
         const categories = await categoriesModels.deletedCategories(idCategories)

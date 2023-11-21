@@ -93,7 +93,7 @@ exports.updateProducts = async (req, res) => {
         } else {
             return res.status(404).json({
                 success: false,
-                message: 'Products not found'
+                message: 'Data Products not found'
             })
         }
         
