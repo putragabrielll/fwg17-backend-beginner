@@ -33,6 +33,7 @@ exports.outError = (err, response) => {
             result: err.detail
         })
     } else {
+        console.log(err)
         return response.status(500).json({
             success: false,
             message: 'Internal Server Error!', 

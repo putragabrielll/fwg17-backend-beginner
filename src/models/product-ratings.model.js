@@ -4,13 +4,13 @@ const db = require("../lib/db.lib")
 
 
 exports.allProductRatings = async(byColumn, search='', sortBy, order, page=1) => {
-    const metaData = ["produk", "user"];
-    const allowOrder = ["asc", "desc"]
+    const metaData = ["produk", "user"] // problem
+    const allowOrder = ["asc", "desc"] // problem
     const limit = 5
     const offSet = (page - 1) * limit
 
-    columnBy = metaData.includes(byColumn) ? byColumn : "produk"
-    sortBy = metaData.includes(sortBy) ? sortBy : "produk"
+    columnBy = metaData.includes(byColumn) ? byColumn : "produk" // problem
+    sortBy = metaData.includes(sortBy) ? sortBy : "produk" // problem & line 27, 28 bagian WHERE & ORDER BY
     order = allowOrder.includes(order) ? order : "asc"
 
     const sql = `
@@ -28,7 +28,7 @@ exports.allProductRatings = async(byColumn, search='', sortBy, order, page=1) =>
     ORDER BY "${sortBy}"."name" ${order}
     LIMIT ${limit}
     OFFSET ${offSet}
-    `;
+    `
     const values = [`%${search}%`]
     const {rows} = await db.query(sql, values)
     return(rows)
