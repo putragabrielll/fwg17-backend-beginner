@@ -29,7 +29,8 @@ exports.outError = (err, response) => {
     } else if (err.code === "23503") {
         return response.status(400).json({
             success: false,
-            message: 'Tidak ditemukan relasi data!'
+            message: 'Tidak ditemukan relasi data!',
+            result: err.detail
         })
     } else {
         return response.status(500).json({

@@ -13,5 +13,6 @@ router.use("/categories", require("./categories.router"))
 router.use("/tags", require("./tags.router"))
 router.use("/product-tags", require("./product-tags.router"))
 router.use("/product-categories", require("./product-categories.router"))
+router.use("/product-ratings", require("./product-ratings.router"))
 
 module.exports = router
