@@ -46,7 +46,7 @@ exports.cekEmail = async (email) => {
     const sql = `SELECT COUNT (*) FROM "users" WHERE "email"=$1`
     const values = [email]
     const { rows } = await db.query(sql, values)
-    return rows 
+    return rows
 }
 
 exports.createdUser = async (data) => {

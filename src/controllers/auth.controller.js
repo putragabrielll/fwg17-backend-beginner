@@ -57,30 +57,30 @@ exports.login = async (req, res) => {
 exports.register = async (req, res) => {
     try {
         const { fullName, email, password } = req.body
-        // const userRegisterq = await userModels.createdUser(req, body)
         const hashPassword = await argon.hash(password) // untuk melakukan hash password dengan menggunakan argon2
         
         const cekEmail = await userModels.cekEmail(email)
-        console.log(cekEmail)
-        if (cekEmail[0].count > 0) {
+        if (cekEmail[0].count > 0) { //[{count: 0}]
             return res.json({
                 success: false,
                 message: "Email sudah ada!"
             })
         }
 
-        const userRegister = userModels.createdUser({
+        const userRegister = await userModels.createdUser({
             fullName,
             email,
             password: hashPassword
         })
-        
-        return res.json({
-          // akan mengembalikan respons json dengan isi nya ada key success, message, dan result, yg dimana result nya berisi variable userNew dari data yg sudah di input di postman.
-            success: true,
-            message: "Register Successfully!",
-            result: "Berhasil mendaftar"
-        });
+        console.log(userRegister)
+        if (userRegister.length > 0) {
+            return res.json({
+              // akan mengembalikan respons json dengan isi nya ada key success, message, dan result, yg dimana result nya berisi variable userNew dari data yg sudah di input di postman.
+                success: true,
+                message: "Register Successfully!",
+                result: "Berhasil mendaftar"
+            })
+        }
     } catch (err) {
         // console.log(err)
         hendelErr.outError(err, res)
