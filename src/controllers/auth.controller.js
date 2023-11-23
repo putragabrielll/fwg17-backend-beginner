@@ -1,5 +1,6 @@
 const userModels = require("../models/users.model")
 const argon = require("argon2")
+const jwt = require("jsonwebtoken")
 
 // rencananya akan hendle semua error yg terjadi di catch
 const hendelErr = require("../helpers/utils")
@@ -24,13 +25,21 @@ exports.login = async (req, res) => {
 
         // tahapan melakukan verifikasi password atau mencocokkan password jika email yg diberikan sama seperti yg ada didatabase.
         const verify = await argon.verify(user.password, password) // parameter 1 dia mengambil password dari database yg sudah di hash, dan parameter ke 2 mengambil password yg di input dari postmant
+        
+        // jadi token ini akan kita gunakan sebagai tiket untuk bisa kita akses end point lainnya
+        const payload = {
+            id: user.id,
+            role: user.role
+        }
+        const token = jwt.sign(payload, process.env.APP_SECRET)
+
 
         if (verify) {
             return res.json({
                 success: true,
                 message: "Login succes!",
                 result: {
-                    token: "abcdef123"
+                    token: token
                 }
             })
         } else {
