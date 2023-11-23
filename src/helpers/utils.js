@@ -16,6 +16,11 @@ exports.outError = (err, response) => {
             success: false,
             message: `${err.column} Connot be empty`
         })
+    } else if (err.code === "23505") {
+        return res.status(400).json({
+            success: false,
+            message: `Email ${req.body.email} already exists.`,
+        })
     } else if (err.code === "22P02") {
         return response.status(400).json({
             success: false,

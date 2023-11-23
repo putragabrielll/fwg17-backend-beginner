@@ -26,12 +26,20 @@ exports.allUsers = async (search='', sortBy, order, page=1) => {
     return rows
 }
 
-
+// mencari user berdasarkan id
 exports.findUser = async (id) => {
-    const sql = `SELECT "id", "fullName", "email", "phoneNumber", "address", "picture" FROM users WHERE "id"= $1`;
+    const sql = `SELECT "id", "fullName", "email", "phoneNumber", "address", "picture", "password" FROM users WHERE "id"= $1`;
     const values = [id]
     const {rows} = await db.query(sql, values)
     return rows
+}
+
+// mencari user berdasarkan email
+exports.findUserByEmail = async (email) => {
+    const sql = `SELECT "id", "fullName", "email", "phoneNumber", "address", "picture", "password" FROM users WHERE "email"= $1`;
+    const values = [email]
+    const {rows} = await db.query(sql, values)
+    return rows[0]
 }
 
 
