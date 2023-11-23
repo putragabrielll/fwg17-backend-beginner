@@ -1,4 +1,6 @@
-const userModels = require("../../models/users.model");
+const userModels = require("../../models/users.model")
+const argon = require("argon2")
+
 
 // SELECT * => memanggil semua users
 exports.getAllUsers = async (req, res) => {
@@ -51,7 +53,7 @@ exports.getUsersId = async (req, res) => {
 // CREATE data user
 exports.createUsers = async (req, res) => {
   try {
-    const userNew = await userModels.createdUser(req.body); // akan menerima inputan dari req.body, dimana yg di input hanya name & email.
+    const userNew = await userModels.createdUser(req.body) // akan menerima inputan dari req.body, dimana yg di input hanya name & email.
     return res.json({
       // akan mengembalikan respons json dengan isi nya ada key success, message, dan result, yg dimana result nya berisi variable userNew dari data yg sudah di input di postman.
       success: true,
@@ -83,15 +85,24 @@ exports.createUsers = async (req, res) => {
 // UPDATE data user
 exports.updateUsers = async (req, res) => {
   try {
-    const idUser = Number(req.params.id);
-    const userUpdate = await userModels.updatedUser(idUser, req.body);
+    const idUser = Number(req.params.id)
+    if (req.body.password === "") {
+      return res.status(400).json({
+        success: false,
+        message: "Password is required!",
+      });
+    }
+    if (req.body.password){
+      req.body.password = await argon.hash(req.body.password)
+    }
+    const userUpdate = await userModels.updatedUser(idUser, req.body)
 
     if (userUpdate[0]) {
       return res.json({
         success: true,
         message: "Update users complete!",
         result: userUpdate[0],
-      });
+      })
     } else {
       return res.status(404).json({
         // akan memberikan status 404 dengan json.

@@ -59,6 +59,16 @@ exports.register = async (req, res) => {
         const { fullName, email, password } = req.body
         // const userRegisterq = await userModels.createdUser(req, body)
         const hashPassword = await argon.hash(password) // untuk melakukan hash password dengan menggunakan argon2
+        
+        const cekEmail = await userModels.cekEmail(email)
+        console.log(cekEmail)
+        if (cekEmail[0].count > 0) {
+            return res.json({
+                success: false,
+                message: "Email sudah ada!"
+            })
+        }
+
         const userRegister = userModels.createdUser({
             fullName,
             email,
