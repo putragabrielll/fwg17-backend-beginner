@@ -13,16 +13,9 @@ const authMiddleware = (req, res, next) => {
             req.user = verify
             next()
         } else {
-            throw Error('invalid_token')
+            throw ({code: "THROW", message: "Invalid Token"})
         }
     } catch (err) {
-        // console.log(err)
-        if (err.message === 'invalid_token') {
-            return res.status(401).json({
-                success: false,
-                message: "Invalid Token"
-            })
-        }
         hendelErr.outError(err, res)
     }
     

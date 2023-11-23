@@ -37,6 +37,11 @@ exports.outError = (err, response) => {
             message: 'Tidak ditemukan relasi data!',
             result: err.detail
         })
+    } else if (err.code === "THROW") {
+        return response.status(400).json({
+            success: false,
+            message: err.message
+        })
     } else {
         console.log(err)
         return response.status(500).json({
