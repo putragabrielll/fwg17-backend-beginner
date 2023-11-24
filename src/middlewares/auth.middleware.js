@@ -10,7 +10,7 @@ const authMiddleware = (req, res, next) => {
         if (rawToken.startsWith(prefix)){ // melakukan pengecekan, apakah tokennya berasal dari Bearer atau tidak.
             const token = rawToken.slice(prefix.length)
             const verify = jwt.verify(token, process.env.APP_SECRET)
-            req.user = verify
+            req.userss = verify // hanya penamaan saya req.userss untuk di pake di roleCheck.middleware
             next()
         } else {
             throw ({code: "THROW", message: "Invalid Token"})
