@@ -80,11 +80,11 @@ exports.createProducts = async (req, res) => {
 // UPDATE data products
 exports.updateProducts = async (req, res) => {
   try {
-    const idProducts = Number(req.params.id);
-    const productsUpdate = await productsModels.updatedProducts(
-      idProducts,
-      req.body
-    );
+    const idProducts = Number(req.params.id)
+    if (req.file) {
+      req.body.image = req.file.filename
+    }
+    const productsUpdate = await productsModels.updatedProducts(idProducts, req.body);
 
     if (productsUpdate[0]) {
       return res.json({
