@@ -54,6 +54,9 @@ exports.getUsersId = async (req, res) => {
 exports.createUsers = async (req, res) => {
   try {
     if (req.file){
+      if (req.file.size > (500*1024)){
+        throw { code: "THROW", message: "File yang anda masukkan terlalu besar, max: 500KB" }
+      }
       req.body.picture = req.file.filename
     }
     const userNew = await userModels.createdUser(req.body) // akan menerima inputan dari req.body, dimana yg di input hanya name & email.
@@ -99,6 +102,9 @@ exports.updateUsers = async (req, res) => {
       req.body.password = await argon.hash(req.body.password)
     }
     if (req.file) {
+      if (req.file.size > (500*1024)){
+        throw { code: "THROW", message: "File yang anda masukkan terlalu besar, max: 500KB" }
+      }
       req.body.picture = req.file.filename
     }
     const userUpdate = await userModels.updatedUser(idUser, req.body)

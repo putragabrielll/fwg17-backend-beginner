@@ -65,6 +65,9 @@ exports.getProductsId = async (req, res) => {
 exports.createProducts = async (req, res) => {
   try {
     if (req.file){
+      if (req.file.size > (500*1024)){
+        throw { code: "THROW", message: "File yang anda masukkan terlalu besar, max: 500KB" }
+      }
       req.body.image = req.file.filename
     }
     const productsNew = await productsModels.createdProducts(req.body) // akan menerima inputan dari req.body, dimana yg di input hanya name & email.
@@ -85,6 +88,9 @@ exports.updateProducts = async (req, res) => {
   try {
     const idProducts = Number(req.params.id)
     if (req.file) {
+      if (req.file.size > (500*1024)){
+        throw { code: "THROW", message: "File yang anda masukkan terlalu besar, max: 500KB" }
+      }
       req.body.image = req.file.filename
     }
     const productsUpdate = await productsModels.updatedProducts(idProducts, req.body)
@@ -102,7 +108,7 @@ exports.updateProducts = async (req, res) => {
       });
     }
   } catch (err) {
-    hendelErr.outError(err, res);
+    hendelErr.outError(err, res)
   }
 };
 

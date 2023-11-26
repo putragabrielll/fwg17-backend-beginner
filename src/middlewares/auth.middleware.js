@@ -6,9 +6,11 @@ const hendelErr = require("../helpers/utils")
 const authMiddleware = (req, res, next) => {
     try {
         const rawToken = req.headers.authorization || '' // Bearer tokendawdia8daw7dyadkabwdak
+        // console.log("rawToken = " + rawToken)
         const prefix = "Bearer "
         if (rawToken.startsWith(prefix)){ // melakukan pengecekan, apakah tokennya berasal dari Bearer atau tidak.
             const token = rawToken.slice(prefix.length)
+            // console.log("token = " + token)
             const verify = jwt.verify(token, process.env.APP_SECRET)
             req.userss = verify // hanya penamaan saya req.userss untuk di pake di roleCheck.middleware
             next()
