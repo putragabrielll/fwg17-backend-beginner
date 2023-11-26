@@ -7,13 +7,28 @@ const fileEdit = (dest, filename) => multer.diskStorage({
         cb(null, path.join('uploads/', dest))
     },
     filename: (req, file, cb) => {
-        console.log(file)
+        // console.log(file)
         const extension = {
             'image/png' : '.png',
             'image/jpg' : '.jpg',
             'image/jpeg' : '.jpeg'
         }
-        if(!filename){
+        // filename = req.params.id
+        // filename = file.originalname
+        // console.log(req.params.id)
+        // console.log(file.originalname)
+        // req.params.id === 'undefined'
+
+        // if(!filename){
+        //     if (!req.params.id) {
+        //         console.log(file.originalname)
+        //         filename = file.originalname
+        //     }
+        //     console.log(req.params.id)
+        //     filename = req.params.id + file.originalname
+        // }
+
+        if (!filename) {
             filename = req.params.id
         }
         cb(null, `${filename}${extension[file.mimetype]}`)

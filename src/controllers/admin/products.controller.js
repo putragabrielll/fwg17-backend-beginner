@@ -64,8 +64,11 @@ exports.getProductsId = async (req, res) => {
 // CREATE data products
 exports.createProducts = async (req, res) => {
   try {
-    const productsNew = await productsModels.createdProducts(req.body); // akan menerima inputan dari req.body, dimana yg di input hanya name & email.
-    console.log(productsNew); // debug output
+    if (req.file){
+      req.body.image = req.file.filename
+    }
+    const productsNew = await productsModels.createdProducts(req.body) // akan menerima inputan dari req.body, dimana yg di input hanya name & email.
+    
     return res.json({
       success: true,
       message: "Success add new products!",
@@ -84,7 +87,7 @@ exports.updateProducts = async (req, res) => {
     if (req.file) {
       req.body.image = req.file.filename
     }
-    const productsUpdate = await productsModels.updatedProducts(idProducts, req.body);
+    const productsUpdate = await productsModels.updatedProducts(idProducts, req.body)
 
     if (productsUpdate[0]) {
       return res.json({

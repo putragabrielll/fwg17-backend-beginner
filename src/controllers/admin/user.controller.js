@@ -53,6 +53,9 @@ exports.getUsersId = async (req, res) => {
 // CREATE data user
 exports.createUsers = async (req, res) => {
   try {
+    if (req.file){
+      req.body.picture = req.file.filename
+    }
     const userNew = await userModels.createdUser(req.body) // akan menerima inputan dari req.body, dimana yg di input hanya name & email.
     return res.json({
       // akan mengembalikan respons json dengan isi nya ada key success, message, dan result, yg dimana result nya berisi variable userNew dari data yg sudah di input di postman.
@@ -94,6 +97,9 @@ exports.updateUsers = async (req, res) => {
     }
     if (req.body.password){
       req.body.password = await argon.hash(req.body.password)
+    }
+    if (req.file) {
+      req.body.picture = req.file.filename
     }
     const userUpdate = await userModels.updatedUser(idUser, req.body)
 
