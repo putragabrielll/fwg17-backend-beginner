@@ -64,12 +64,14 @@ exports.getProductsId = async (req, res) => {
 // CREATE data products
 exports.createProducts = async (req, res) => {
   try {
+    
     if (req.file){
       if (req.file.size > (500*1024)){
         throw { code: "THROW", message: "File yang anda masukkan terlalu besar, max: 500KB" }
       }
       req.body.image = req.file.filename
     }
+
     const productsNew = await productsModels.createdProducts(req.body) // akan menerima inputan dari req.body, dimana yg di input hanya name & email.
     
     return res.json({

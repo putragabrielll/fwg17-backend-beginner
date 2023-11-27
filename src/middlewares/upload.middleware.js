@@ -22,17 +22,13 @@ const fileEdit = (dest, filename) => multer.diskStorage({
         // } // test saja
 
         if(!filename){
-            if (!req.params.id) {
-                const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-                filename = file.originalname.split(".")[0] + " - " + uniqueSuffix
-            } else {
-                filename = req.params.id
-            }
+            filename = new Date().getTime() + "-" + Math.round(Math.random() * 1e9)
+            // if (!req.params.id) {
+                //     filename = Date.now() + "-" + Math.round(Math.random() * 1e9)
+                // } else {
+                    //     filename = req.params.id
+            // }
         }
-
-        // if (!filename) {
-        //     filename = req.params.id
-        // }
         cb(null, `${filename}${extension[file.mimetype]}`)
     }
 })
