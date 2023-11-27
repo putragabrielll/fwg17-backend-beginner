@@ -18,12 +18,8 @@ const fileEdit = (dest, filename) => multer.diskStorage({
         // console.log(req.params.id)
         // console.log(file)
         // req.params.id === 'undefined'
-
-
-        if (!filename || (req.params.id === undefined && filename)) {
-        }
-
-
+        // if (!filename || (req.params.id === undefined && filename)) {
+        // } // test saja
 
         if(!filename){
             if (!req.params.id) {
@@ -57,6 +53,7 @@ const fileFilter = (req, file, cb) => {
 }
 
 const uploadMiddleware = (type, file) => {
+
     const proccessUpload = multer({
         storage: fileEdit(type, file),
         fileFilter
@@ -64,6 +61,7 @@ const uploadMiddleware = (type, file) => {
     })
     // console.log(proccessUpload)
     return proccessUpload
+    
 }
 
 module.exports = uploadMiddleware
