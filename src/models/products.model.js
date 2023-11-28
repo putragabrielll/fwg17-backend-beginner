@@ -2,11 +2,11 @@ const db = require("../lib/db.lib")
 
 
 
-
+// menampilkan semua products
 exports.allProducts = async (search='', sortBy, order, page=1) => {
     const visibleColumn = ["id", "name", "price", "createdAt"]
     const allowOrder = ['asc', 'desc']
-    const limit = 10
+    const limit = 5
     const offSet = (page - 1) * limit;
     
     sortBy = visibleColumn.includes(sortBy) ? sortBy : "id"
@@ -26,6 +26,20 @@ exports.allProducts = async (search='', sortBy, order, page=1) => {
 }
 
 
+// meta data
+exports.countAll = async(search='') => {
+    const sql = `
+    SELECT COUNT("id") AS "counts"
+    FROM "products"
+    WHERE "name" ILIKE $1
+    `
+    const values = [`%${search}%`]
+    const { rows } = await db.query(sql, values)
+    return rows[0].counts // mereturn berapa banyak total data
+}
+
+
+// menampilkan produk berdasarkan kategori
 exports.allProductsByCategories = async (sortBy, order) => {
     const visibleColumn = ["id", "name"]
     const allowOrder = ['asc', 'desc']
@@ -56,6 +70,7 @@ exports.allProductsByCategories = async (sortBy, order) => {
 }
 
 
+// mencari products berdasarkan id
 exports.findProducts = async (id) => {
     const sql = `
     SELECT "id", "name", "price", "image", "description", "discount", "isRecommended", "qty", "createdAt"
@@ -64,10 +79,11 @@ exports.findProducts = async (id) => {
     `
     const values = [id]
     const {rows} = await db.query(sql, values)
-    return rows
+    return rows[0]
 }
 
 
+// menambahkan products
 exports.createdProducts = async (data) => {
     const sql = `
     INSERT INTO "products"
@@ -92,6 +108,17 @@ exports.createdProducts = async (data) => {
 }
 
 
+
+// mencari data produk jika image ada
+// exports.findOne = async (id) => {
+//     const sql = `SELECT * FROM "products" WHERE "id"=$1`;
+//     const values = [id]
+//     const { rows } = await db.query(sql, values)
+//     return rows
+// }
+
+
+// update data products
 exports.updatedProducts = async (id, data) => {
     const column = []
     const values = []
@@ -108,13 +135,14 @@ exports.updatedProducts = async (id, data) => {
     RETURNING "id", "name", "price", "image", "description", "discount", "isRecommended", "qty", "updatedAt"
     `
     const {rows} = await db.query(sql, values)
-    return rows
+    return rows[0]
 }
 
 
+// delete data products
 exports.deletedProducts = async (id) => {
     const sql = `DELETE FROM "products" WHERE "id"= $1 RETURNING *`;
     const values = [id]
     const {rows} = await db.query(sql, values)
-    return rows
+    return rows[0]
 }

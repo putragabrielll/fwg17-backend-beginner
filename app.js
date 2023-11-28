@@ -2,6 +2,9 @@ require('dotenv').config({
     patch: './.env'
 })
 
+// untuk mengetahui lokasi file nya
+global.path = __dirname
+
 const express = require('express')
 const cors = require('cors')
 const morgan = require('morgan')

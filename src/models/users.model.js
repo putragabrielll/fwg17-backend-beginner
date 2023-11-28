@@ -3,7 +3,7 @@ const db = require('../lib/db.lib')
 
 
 
-
+// menampilkan semua user
 exports.allUsers = async (search='', sortBy, order, page=1) => {
     const visibleColumn = ["id", "fullName", "email"]
     const allowOrder = ["asc", "desc"]
@@ -26,6 +26,7 @@ exports.allUsers = async (search='', sortBy, order, page=1) => {
     return rows
 }
 
+
 // mencari user berdasarkan id
 exports.findUser = async (id) => {
     const sql = `SELECT "id", "fullName", "email", "phoneNumber", "address", "picture", "role", "password" FROM users WHERE "id"= $1`;
@@ -33,6 +34,7 @@ exports.findUser = async (id) => {
     const {rows} = await db.query(sql, values)
     return rows
 }
+
 
 // mencari user berdasarkan email
 exports.findUserByEmail = async (email) => {
@@ -42,6 +44,8 @@ exports.findUserByEmail = async (email) => {
     return rows[0]
 }
 
+
+// cek email apakah sudah ada terdaftar atau belum
 exports.cekEmail = async (email) => {
     const sql = `SELECT COUNT (*) FROM "users" WHERE "email"=$1`
     const values = [email]
@@ -49,6 +53,8 @@ exports.cekEmail = async (email) => {
     return rows
 }
 
+
+// menambahkan user
 exports.createdUser = async (data) => {
     const sql = `
     INSERT INTO "users"
@@ -72,6 +78,7 @@ exports.createdUser = async (data) => {
 }
 
 
+// update data user
 exports.updatedUser = async (id, data) => {
     // misal data = {"fullName":'gabriel', "email":'tra@mail.com', "phoneNumber":'08123713487'}
     const column = [] // ["fullName"=$1, "email"=$2, "phoneNumber"=$3]
@@ -93,6 +100,7 @@ exports.updatedUser = async (id, data) => {
 }
 
 
+// delete data user
 exports.deletedUser = async (id) => {
     const sql = `DELETE FROM "users" WHERE "id"= $1 RETURNING *`
     const values = [id]

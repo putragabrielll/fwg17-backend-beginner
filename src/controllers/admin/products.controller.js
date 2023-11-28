@@ -1,27 +1,52 @@
-const productsModels = require("../../models/products.model");
+const productsModels = require("../../models/products.model")
+const fs = require("fs/promises")
+const path = require("path")
+const uploadMiddlewaree = require("../../middlewares/upload.middleware")
+const upload = uploadMiddlewaree("products").single('image')
+
+
 
 // rencananya akan hendle semua error yg terjadi di catch
-const hendelErr = require("../../helpers/utils");
+const hendelErr = require("../../helpers/utils")
+
+
 
 // SELECT * => memanggil semua products
 exports.getAllProducts = async (req, res) => {
   try {
-    const { filter, sortby, order, page } = req.query;
-    const productsList = await productsModels.allProducts(
-      filter,
-      sortby,
-      order,
-      page
-    );
+    const { filter, sortby, order, page = 1 } = req.query
+    // mengembalikan total data
+    const countData = await productsModels.countAll(filter)
+
+    const productsList = await productsModels.allProducts(filter, sortby, order, page)
+    if(productsList.length < 1){
+      return res.json({
+        success: false,
+        message: "No Data!"
+      })
+    }
+
+    const totalPage = Math.ceil(countData / 5)
+    const nextPage = Number(page) + 1
+    const prevPage = Number(page) - 1
+
     return res.json({
       success: true,
       message: "List all products",
+      pageInfo: {
+        currentPage: Number(page),
+        totalPage,
+        nextPage: nextPage <= totalPage ? nextPage : null,
+        prevPage: prevPage > 1 ? prevPage : null,
+        totalData: Number(countData)
+      },
       results: productsList, // akan memanggil semua data yg dimana sebagai diambil dari variabel users
-    });
+    })
   } catch (err) {
     hendelErr.outError(err, res);
   }
 };
+
 
 // SELECT * BY CATEGORIES => memanggil semua products berdasarkan kategori
 exports.productByCategories = async (req, res) => {
@@ -37,6 +62,7 @@ exports.productByCategories = async (req, res) => {
     hendelErr.outError(err, res);
   }
 };
+
 
 // SELECT... WHERE "id" => products berdasarkan Id
 exports.getProductsId = async (req, res) => {
@@ -61,70 +87,96 @@ exports.getProductsId = async (req, res) => {
   }
 };
 
+
 // CREATE data products
 exports.createProducts = async (req, res) => {
-  try {
-    
-    if (req.file){
-      if (req.file.size > (500*1024)){
-        throw { code: "THROW", message: "File yang anda masukkan terlalu besar, max: 500KB" }
+  upload (req, res, async(err) => {
+    try {
+      if (err) {
+        return res.status(400).json({
+          success: false,
+          message: err.message
+        })
       }
-      req.body.image = req.file.filename
+      
+      if (req.file){
+        req.body.image = req.file.filename
+      }
+
+      const productsNew = await productsModels.createdProducts(req.body) // akan menerima inputan dari req.body, dimana yg di input hanya name & email.
+      
+      return res.json({
+        success: true,
+        message: "Success add new products!",
+        result: productsNew[0],
+      });
+    } catch (err) {
+      hendelErr.outError(err, res);
     }
 
-    const productsNew = await productsModels.createdProducts(req.body) // akan menerima inputan dari req.body, dimana yg di input hanya name & email.
-    
-    return res.json({
-      success: true,
-      message: "Success add new products!",
-      result: productsNew[0],
-    });
-  } catch (err) {
-    console.log(err); // cara mengetahui err nya secara langsung
-    hendelErr.outError(err, res);
-  }
-};
+  })
+}
+
 
 // UPDATE data products
 exports.updateProducts = async (req, res) => {
-  try {
-    const idProducts = Number(req.params.id)
-    if (req.file) {
-      if (req.file.size > (500*1024)){
-        throw { code: "THROW", message: "File yang anda masukkan terlalu besar, max: 500KB" }
+  upload(req, res, async(err) => {
+    try {
+      if (err) {
+        return res.status(400).json({
+          success: false,
+          message: err.message
+        })
       }
-      req.body.image = req.file.filename
-    }
-    const productsUpdate = await productsModels.updatedProducts(idProducts, req.body)
 
-    if (productsUpdate[0]) {
-      return res.json({
-        success: true,
-        message: "Update products complete!",
-        result: productsUpdate[0],
-      });
-    } else {
-      return res.status(404).json({
-        success: false,
-        message: "Data Products not found",
-      });
+      const idProducts = Number(req.params.id)
+
+      const cariData = await productsModels.findProducts(idProducts)
+      if (req.file) {
+        if (cariData.image) {
+          const dataLocation = path.join(global.path, 'uploads', 'products', cariData.image)
+          await fs.rm(dataLocation)
+        }
+        req.body.image = req.file.filename
+      }
+
+      const productsUpdate = await productsModels.updatedProducts(idProducts, req.body)
+
+      if (productsUpdate) {
+        return res.json({
+          success: true,
+          message: "Update products complete!",
+          result: productsUpdate,
+        });
+      } else {
+        return res.status(404).json({
+          success: false,
+          message: "Data Products not found",
+        });
+      }
+    } catch (err) {
+      hendelErr.outError(err, res)
     }
-  } catch (err) {
-    hendelErr.outError(err, res)
-  }
-};
+
+  })
+}
+
 
 // DELETE data products
 exports.deleteProducts = async (req, res) => {
   try {
-    const idproducts = Number(req.params.id);
-    const products = await productsModels.deletedProducts(idproducts);
+    const idproducts = Number(req.params.id)
+    const products = await productsModels.deletedProducts(idproducts)
+    if (products.image){
+      const dataLocation = path.join(global.path, 'uploads', 'products', products.image)
+      await fs.rm(dataLocation)
+    }
 
-    if (products[0]) {
+    if (products) {
       return res.json({
         success: true,
         message: "Success delete data!",
-        result: products[0],
+        result: products,
       });
     } else {
       return res.status(404).json({

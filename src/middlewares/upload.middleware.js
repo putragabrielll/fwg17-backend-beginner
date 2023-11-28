@@ -35,16 +35,16 @@ const fileEdit = (dest, filename) => multer.diskStorage({
 
 const fileFilter = (req, file, cb) => {
     const cekFile = [
-        'image/png',
-        'image/jpeg',
-        'image/jpg'
+        "image/png",
+        "image/jpeg",
+        "image/jpg"
     ]
-    // console.log(file)
+    console.log(file)
     if (cekFile.includes(file.mimetype)) {
         cb(null, true)
     } else {
         // new Error("File tidak di dukung")
-        cb(null, false)
+        cb(new Error("extension_issue"), false)
     }
 }
 
@@ -52,7 +52,10 @@ const uploadMiddleware = (type, file) => {
 
     const proccessUpload = multer({
         storage: fileEdit(type, file),
-        fileFilter
+        fileFilter,
+        limits: {
+            fileSize: 2 * 1024 * 1024
+        }
         
     })
     // console.log(proccessUpload)

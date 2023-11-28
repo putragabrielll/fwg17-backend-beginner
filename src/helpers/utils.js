@@ -29,7 +29,7 @@ exports.outError = (err, response) => {
     } else if (err.code === "42601") {
         return response.status(400).json({
             success: false,
-            message: 'Tidak ada data di update!'
+            message: 'Tidak ada data di update, kesalahan input atau type data!'
         })
     } else if (err.code === "23503") {
         return response.status(400).json({
