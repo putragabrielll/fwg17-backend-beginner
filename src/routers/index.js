@@ -8,5 +8,6 @@ router.use("/auth", require("./auth.router"))
 
 // End Point untuk bisa akses end point yg lainnya / masuk ke end point admin
 router.use("/admin", authMiddlewaree, roleCheckMiddlewaree('admin'), require("./admin/index"))
+router.use("/customer", authMiddlewaree, roleCheckMiddlewaree('customer'),require("./customer/index"))
 
-module.exports = router;
+module.exports = router

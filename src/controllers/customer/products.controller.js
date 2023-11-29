@@ -47,7 +47,7 @@ exports.getAllProducts = async (req, res) => {
   }
 };
 
-
+/*
 // SELECT * BY CATEGORIES => memanggil semua products berdasarkan kategori
 exports.productByCategories = async (req, res) => {
   try {
@@ -188,3 +188,4 @@ exports.deleteProducts = async (req, res) => {
     hendelErr.outError(err, res);
   }
 };
+*/

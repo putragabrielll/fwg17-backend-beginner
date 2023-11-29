@@ -15,6 +15,7 @@ exports.login = async (req, res) => {
         // tahapan mencari user berdasarkan email, apakah ada datanya di Database kita.
         const { email, password } = req.body
         const user = await userModels.findUserByEmail(email)
+        console.log(user)
 
         if (!user) {
             return res.status(401).json({
@@ -26,7 +27,7 @@ exports.login = async (req, res) => {
         // tahapan melakukan verifikasi password atau mencocokkan password jika email yg diberikan sama seperti yg ada didatabase.
         const verify = await argon.verify(user.password, password) // parameter 1 dia mengambil password dari database yg sudah di hash, dan parameter ke 2 mengambil password yg di input dari postmant
         
-        // jadi token ini akan kita gunakan sebagai tiket untuk bisa kita akses end point lainnya
+        // jadi token ini akan kita gunakan sebagai tiket untuk bisa kita akses end-point lainnya
         const payload = {
             id: user.id,
             role: user.role

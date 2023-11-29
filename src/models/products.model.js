@@ -13,13 +13,13 @@ exports.allProducts = async (search='', sortBy, order, page=1) => {
     order = allowOrder.includes(order) ? order : 'asc'
     
     const sql = `
-    SELECT "id", "name", "price", "image", "description", "discount", "isRecommended", "qty", "createdAt"
+    SELECT "id", "name", "price", "image", "description", "discount", "isRecommended", "qty", "isActive", "createdAt"
     FROM "products"
     WHERE "name" ILIKE $1
     ORDER BY "${sortBy}" ${order}
     LIMIT ${limit}
     OFFSET ${offSet}
-    `
+    `;
     const values = [`%${search}%`]
     const {rows} = await db.query(sql, values)
     return rows
@@ -132,8 +132,8 @@ exports.updatedProducts = async (id, data) => {
     UPDATE "products"
     SET ${column.join(", ")}, "updatedAt"=now()
     WHERE "id"= $1
-    RETURNING "id", "name", "price", "image", "description", "discount", "isRecommended", "qty", "updatedAt"
-    `
+    RETURNING "id", "name", "price", "image", "description", "discount", "isRecommended", "qty", "isActive", "updatedAt"
+    `;
     const {rows} = await db.query(sql, values)
     return rows[0]
 }
