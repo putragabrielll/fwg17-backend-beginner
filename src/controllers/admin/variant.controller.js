@@ -33,7 +33,7 @@ exports.getVariantId = async (req, res) => {
       return res.json({
         success: true,
         message: "Detail Products",
-        result: variantData[0],
+        results: variantData[0],
       });
     } else {
       return res.status(404).json({
@@ -53,7 +53,7 @@ exports.createVariant = async (req, res) => {
     return res.json({
       success: true,
       message: "Success add new variant!",
-      result: variantNew[0],
+      results: variantNew[0],
     });
   } catch (err) {
     console.log(err);
@@ -74,7 +74,7 @@ exports.updateVariant = async (req, res) => {
       return res.json({
         success: true,
         message: "Update products complete!",
-        result: variantUpdate[0],
+        results: variantUpdate[0],
       });
     } else {
       return res.status(404).json({
@@ -97,7 +97,7 @@ exports.deleteVariant = async (req, res) => {
       return res.json({
         success: true,
         message: "Success delete data!",
-        result: variant[0],
+        results: variant[0],
       });
     } else {
       return res.status(404).json({

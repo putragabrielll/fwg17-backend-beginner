@@ -28,7 +28,7 @@ exports.getTagsId = async (req, res) => {
       return res.json({
         success: true,
         message: "Detail Tags!",
-        result: tagsData[0],
+        results: tagsData[0],
       });
     } else {
       return res.status(404).json({
@@ -48,7 +48,7 @@ exports.createTags = async (req, res) => {
     return res.json({
       success: true,
       message: "Success add new Tags!",
-      result: tagsNew[0],
+      results: tagsNew[0],
     });
   } catch (err) {
     console.log(err);
@@ -66,7 +66,7 @@ exports.updateTags = async (req, res) => {
       return res.json({
         success: true,
         message: "Update tags complete!",
-        result: tagsUpdate[0],
+        results: tagsUpdate[0],
       });
     } else {
       return res.status(404).json({
@@ -89,7 +89,7 @@ exports.deleteTags = async (req, res) => {
       return res.json({
         success: true,
         message: "Success delete data!",
-        result: tagsData[0],
+        results: tagsData[0],
       });
     } else {
       return res.status(404).json({

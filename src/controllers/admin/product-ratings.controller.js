@@ -36,7 +36,7 @@ exports.getProductRatingsId = async (req, res) => {
       return res.json({
         success: true,
         message: "Detail Product Ratings!",
-        result: productRatingsData[0],
+        results: productRatingsData[0],
       });
     } else {
       return res.status(404).json({
@@ -58,7 +58,7 @@ exports.createProductRatings = async (req, res) => {
     return res.json({
       success: true,
       message: "Success add new Product Ratings!",
-      result: productratingsNew[0],
+      results: productratingsNew[0],
     });
   } catch (err) {
     console.log(err);
@@ -80,7 +80,7 @@ exports.updateProductRatings = async (req, res) => {
       return res.json({
         success: true,
         message: "Update product tags complete!",
-        result: productratingsUpdate[0],
+        results: productratingsUpdate[0],
       });
     } else {
       return res.status(404).json({
@@ -105,7 +105,7 @@ exports.deleteProductRatings = async (req, res) => {
       return res.json({
         success: true,
         message: "Success delete data!",
-        result: productratingsData[0],
+        results: productratingsData[0],
       });
     } else {
       return res.status(404).json({

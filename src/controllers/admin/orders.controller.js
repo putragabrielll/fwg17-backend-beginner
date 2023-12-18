@@ -34,7 +34,7 @@ exports.getOrdersId = async (req, res) => {
       return res.json({
         success: true,
         message: "Detail Orders!",
-        result: ordersData[0],
+        results: ordersData[0],
       });
     } else {
       return res.status(404).json({
@@ -54,7 +54,7 @@ exports.createOrders = async (req, res) => {
     return res.json({
       success: true,
       message: "Success add new Orders!",
-      result: ordersNew[0],
+      results: ordersNew[0],
     });
   } catch (err) {
     console.log(err);
@@ -72,7 +72,7 @@ exports.updateOrders = async (req, res) => {
       return res.json({
         success: true,
         message: "Update data Orders complete!",
-        result: produtOrders[0],
+        results: produtOrders[0],
       });
     } else {
       return res.status(404).json({
@@ -95,7 +95,7 @@ exports.deleteOrders = async (req, res) => {
       return res.json({
         success: true,
         message: "Success delete data!",
-        result: ordersData[0],
+        results: ordersData[0],
       });
     } else {
       return res.status(404).json({

@@ -36,7 +36,7 @@ exports.getOrderDetailsId = async (req, res) => {
       return res.json({
         success: true,
         message: "Detail order details!",
-        result: orderdetailsData[0],
+        results: orderdetailsData[0],
       });
     } else {
       return res.status(404).json({
@@ -58,7 +58,7 @@ exports.createOrderDetails = async (req, res) => {
     return res.json({
       success: true,
       message: "Success add new Order Details!",
-      result: orderdetailsNew[0],
+      results: orderdetailsNew[0],
     });
   } catch (err) {
     hendelErr.outError(err, res);
@@ -78,7 +78,7 @@ exports.updateOrderDetails = async (req, res) => {
       return res.json({
         success: true,
         message: "Update data Order Details complete!",
-        result: orderdetailsData[0],
+        results: orderdetailsData[0],
       });
     } else {
       return res.status(404).json({
@@ -103,7 +103,7 @@ exports.deleteOrderDetails = async (req, res) => {
       return res.json({
         success: true,
         message: "Success delete data!",
-        result: orderdetailsData[0],
+        results: orderdetailsData[0],
       });
     } else {
       return res.status(404).json({

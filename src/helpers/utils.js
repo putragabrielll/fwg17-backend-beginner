@@ -3,13 +3,13 @@ exports.outError = (err, response) => {
         return response.status(500).json({
             success: false,
             message: "Database tidak terkoneksi", 
-            result: err.message
+            results: err.message
         })
     } else if (err.code === "57P01") {
         return response.status(500).json({
             success: false,
             message: "Database terputus", 
-            result: err.message
+            results: err.message
         })
     } else if (err.code === "23502") {
         return response.status(400).json({
@@ -35,7 +35,7 @@ exports.outError = (err, response) => {
         return response.status(400).json({
             success: false,
             message: 'Tidak ditemukan relasi data!',
-            result: err.detail
+            results: err.detail
         })
     } else if (err.code === "THROW") {
         return response.status(400).json({
@@ -48,7 +48,7 @@ exports.outError = (err, response) => {
             success: false,
             message: 'Internal Server Error!', 
             message2: err.message,
-            result: err
+            results: err
         })
     }
 }

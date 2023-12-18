@@ -33,7 +33,7 @@ exports.getCategoriesId = async (req, res) => {
       return res.json({
         success: true,
         message: "Detail Products",
-        result: categoriesData[0],
+        results: categoriesData[0],
       });
     } else {
       return res.status(404).json({
@@ -53,7 +53,7 @@ exports.createCategories = async (req, res) => {
     return res.json({
       success: true,
       message: "Success add new categories!",
-      result: categoriesNew[0],
+      results: categoriesNew[0],
     });
   } catch (err) {
     console.log(err);
@@ -74,7 +74,7 @@ exports.updateCategories = async (req, res) => {
       return res.json({
         success: true,
         message: "Update categories complete!",
-        result: categoriesUpdate[0],
+        results: categoriesUpdate[0],
       });
     } else {
       return res.status(404).json({
@@ -97,7 +97,7 @@ exports.deleteCategories = async (req, res) => {
       return res.json({
         success: true,
         message: "Success delete data!",
-        result: categories[0],
+        results: categories[0],
       });
     } else {
       return res.status(404).json({

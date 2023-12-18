@@ -39,7 +39,7 @@ exports.login = async (req, res) => {
             return res.json({
                 success: true,
                 message: "Login succes!",
-                result: {
+                results: {
                     token: token
                 }
             })
@@ -79,7 +79,7 @@ exports.register = async (req, res) => {
               // akan mengembalikan respons json dengan isi nya ada key success, message, dan result, yg dimana result nya berisi variable userNew dari data yg sudah di input di postman.
                 success: true,
                 message: "Register Successfully!",
-                result: "Berhasil mendaftar"
+                results: "Berhasil mendaftar"
             })
         }
     } catch (err) {

@@ -38,7 +38,7 @@ exports.getUsersId = async (req, res) => {
         // akan mereturn object dengan key success, message, dan result, dengan isi userId
         success: true,
         message: "Detail users",
-        result: users[0], // karena yg di dapat data berupa array of object dari userId maka kita bisa tambahkan index ke [0], tujuannya agar yg dihasilkan jadi object saja.
+        results: users[0], // karena yg di dapat data berupa array of object dari userId maka kita bisa tambahkan index ke [0], tujuannya agar yg dihasilkan jadi object saja.
       });
     } else {
       return res.status(404).json({
@@ -75,7 +75,7 @@ exports.createUsers = async (req, res) => {
         // akan mengembalikan respons json dengan isi nya ada key success, message, dan result, yg dimana result nya berisi variable userNew dari data yg sudah di input di postman.
         success: true,
         message: "Success add new user!",
-        result: userNew[0],
+        results: userNew[0],
       });
     } catch (err) {
       // console.log(JSON.stringify(err)) // cara mengetahui err nya secara langsung tapi di ubah ke json dan string
@@ -136,7 +136,7 @@ exports.updateUsers = async (req, res) => {
         return res.json({
           success: true,
           message: "Update users complete!",
-          result: userUpdate[0],
+          results: userUpdate[0],
         });
       } else {
         return res.status(404).json({
@@ -182,7 +182,7 @@ exports.deleteUsers = async (req, res) => {
       return res.json({
         success: true,
         message: "Success delete data!",
-        result: users[0],
+        results: users[0],
       });
     } else {
       return res.status(404).json({

@@ -36,7 +36,7 @@ exports.getProdutTagsId = async (req, res) => {
       return res.json({
         success: true,
         message: "Detail Tags!",
-        result: productTagsData[0],
+        results: productTagsData[0],
       });
     } else {
       return res.status(404).json({
@@ -56,7 +56,7 @@ exports.createProdutTags = async (req, res) => {
     return res.json({
       success: true,
       message: "Success add new Product Tags!",
-      result: producttagsNew[0],
+      results: producttagsNew[0],
     });
   } catch (err) {
     console.log(err);
@@ -77,7 +77,7 @@ exports.updateProductTags = async (req, res) => {
       return res.json({
         success: true,
         message: "Update product tags complete!",
-        result: produttagsUpdate[0],
+        results: produttagsUpdate[0],
       });
     } else {
       return res.status(404).json({
@@ -102,7 +102,7 @@ exports.deleteProductTags = async (req, res) => {
       return res.json({
         success: true,
         message: "Success delete data!",
-        result: producttagsData[0],
+        results: producttagsData[0],
       });
     } else {
       return res.status(404).json({

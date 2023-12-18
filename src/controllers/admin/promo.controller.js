@@ -28,7 +28,7 @@ exports.getPromoId = async (req, res) => {
       return res.json({
         success: true,
         message: "Detail Products",
-        result: promoData[0],
+        results: promoData[0],
       });
     } else {
       return res.status(404).json({
@@ -48,7 +48,7 @@ exports.createPromo = async (req, res) => {
     return res.json({
       success: true,
       message: "Success add new promo!",
-      result: promoNew[0],
+      results: promoNew[0],
     });
   } catch (err) {
     console.log(err); // cara mengetahui err nya secara langsung
@@ -66,7 +66,7 @@ exports.updatePromo = async (req, res) => {
       return res.json({
         success: true,
         message: "Update products complete!",
-        result: promoUpdate[0],
+        results: promoUpdate[0],
       });
     } else {
       return res.status(404).json({
@@ -89,7 +89,7 @@ exports.deletePromo = async (req, res) => {
       return res.json({
         success: true,
         message: "Success delete data!",
-        result: promo[0],
+        results: promo[0],
       });
     } else {
       return res.status(404).json({
