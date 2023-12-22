@@ -44,7 +44,7 @@ exports.login = async (req, res) => {
                 }
             })
         } else {
-            return res.json({
+            return res.status(401).json({
                 success: false,
                 message: "Wrong password!"
             })
@@ -62,7 +62,7 @@ exports.register = async (req, res) => {
         
         const cekEmail = await userModels.cekEmail(email)
         if (cekEmail[0].count > 0) { //[{count: 0}]
-            return res.json({
+            return res.status(403).json({
                 success: false,
                 message: "Email sudah ada!"
             })
