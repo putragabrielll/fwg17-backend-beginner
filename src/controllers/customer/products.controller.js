@@ -26,7 +26,7 @@ exports.getAllProducts = async (req, res) => {
       })
     }
 
-    const totalPage = Math.ceil(countData / 5)
+    const totalPage = Math.ceil(countData / 6)
     const nextPage = Number(page) + 1
     const prevPage = Number(page) - 1
 

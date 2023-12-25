@@ -6,7 +6,7 @@ const db = require("../lib/db.lib")
 exports.allProducts = async (search='', sortBy, order, page=1) => {
     const visibleColumn = ["id", "name", "price", "createdAt"]
     const allowOrder = ['asc', 'desc']
-    const limit = 5
+    const limit = 6
     const offSet = (page - 1) * limit;
     
     sortBy = visibleColumn.includes(sortBy) ? sortBy : "id"
