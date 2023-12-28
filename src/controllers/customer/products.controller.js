@@ -47,22 +47,6 @@ exports.getAllProducts = async (req, res) => {
   }
 };
 
-/*
-// SELECT * BY CATEGORIES => memanggil semua products berdasarkan kategori
-exports.productByCategories = async (req, res) => {
-  try {
-    const { sortby, order } = req.query;
-    const users = await productsModels.allProductsByCategories(sortby, order);
-    return res.json({
-      success: true,
-      message: "List all products by categories",
-      results: users, // akan memanggil semua data yg dimana sebagai diambil dari variabel users
-    });
-  } catch (err) {
-    hendelErr.outError(err, res);
-  }
-};
-
 
 // SELECT... WHERE "id" => products berdasarkan Id
 exports.getProductsId = async (req, res) => {
@@ -82,6 +66,24 @@ exports.getProductsId = async (req, res) => {
         message: "Products not found",
       });
     }
+  } catch (err) {
+    hendelErr.outError(err, res);
+  }
+};
+
+
+
+/*
+// SELECT * BY CATEGORIES => memanggil semua products berdasarkan kategori
+exports.productByCategories = async (req, res) => {
+  try {
+    const { sortby, order } = req.query;
+    const users = await productsModels.allProductsByCategories(sortby, order);
+    return res.json({
+      success: true,
+      message: "List all products by categories",
+      results: users, // akan memanggil semua data yg dimana sebagai diambil dari variabel users
+    });
   } catch (err) {
     hendelErr.outError(err, res);
   }
