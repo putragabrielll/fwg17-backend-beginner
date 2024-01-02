@@ -3,24 +3,46 @@ const db = require("../lib/db.lib")
 
 
 // menampilkan semua products
-exports.allProducts = async (search='', sortBy, order, page=1) => {
+exports.allProducts = async (filter='', sortBy, order, page=1, best_seller) => {
     const visibleColumn = ["id", "name", "price", "createdAt"]
     const allowOrder = ['asc', 'desc']
+    
     const limit = 6
-    const offSet = (page - 1) * limit;
+    const offSet = (page - 1) * limit
     
     sortBy = visibleColumn.includes(sortBy) ? sortBy : "id"
     order = allowOrder.includes(order) ? order : 'asc'
     
     const sql = `
-    SELECT "id", "name", "price", "image", "description", "discount", "isRecommended", "qty", "isActive", "createdAt"
-    FROM "products"
-    WHERE "name" ILIKE $1
+    SELECT 
+    "p"."id", 
+    "p"."name", 
+    "c"."name" AS "kategori", 
+    "p"."price", 
+    "p"."image", 
+    "p"."description", 
+    "p"."discount", 
+    "p"."isRecommended", 
+    "p"."qty", 
+    "p"."isActive", 
+    "p"."createdAt"
+    FROM "products" "p"
+    LEFT JOIN "productCategories" "pc" ON "pc"."productId" = "p"."id"
+    LEFT JOIN "categories" "c" ON "pc"."categoriesId" = "c"."id"
+    WHERE "p"."name" ILIKE $1 ${best_seller == 'true' ? `AND "isRecommended" = 'true'` : ''}
     ORDER BY "${sortBy}" ${order}
     LIMIT ${limit}
     OFFSET ${offSet}
     `;
-    const values = [`%${search}%`]
+    // `SELECT "id", "name", "price", "image", "description", "discount", "isRecommended", "qty", "isActive", "createdAt"
+    // FROM "products"
+    // WHERE "name" ILIKE $1 ${best_seller == 'true' ? `AND "isRecommended" = ${best_seller}` : ''}
+    // ORDER BY "${sortBy}" ${order}
+    // LIMIT ${limit}
+    // OFFSET ${offSet}
+    // `;
+
+    const values = [`%${filter}%`]
     const {rows} = await db.query(sql, values)
     return rows
 }
