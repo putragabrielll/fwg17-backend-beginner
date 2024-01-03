@@ -11,8 +11,8 @@ upload = uploadMiddlewaree("users").single("picture")
 // SELECT * => memanggil semua users
 exports.getAllUsers = async (req, res) => {
   try {
-    const { filter, sortby, order, page } = req.query;
-    const usersList = await userModels.allUsers(filter, sortby, order, page);
+    const { filter, sortby, order, page } = req.query
+    const usersList = await userModels.allUsers(filter, sortby, order, page)
     return res.json({
       success: true,
       message: "List all users",
@@ -22,23 +22,23 @@ exports.getAllUsers = async (req, res) => {
     return res.status(404).json({
       success: false,
       message: "Data not found",
-    });
+    })
   }
-};
+}
 
 // SELECT... WHERE "id" => user berdasarkan Id
 exports.getUsersId = async (req, res) => {
   try {
-    const idUser = Number(req.params.id);
-    const users = await userModels.findUser(idUser); // mencari atau mencocokkan data ke database outputnya akan mengembalikan data dalam bentuk [{}]
+    const idUser = Number(req.params.id)
+    const users = await userModels.findUser(idUser) // mencari atau mencocokkan data ke database outputnya akan mengembalikan data dalam bentuk [{}]
 
-    if (users[0]) {
+    if (users) {
       // akan melakukan pengecekan apabila userId[0] ada datanya maka akan menjalankan isi dari if.
       return res.json({
         // akan mereturn object dengan key success, message, dan result, dengan isi userId
         success: true,
         message: "Detail users",
-        results: users[0], // karena yg di dapat data berupa array of object dari userId maka kita bisa tambahkan index ke [0], tujuannya agar yg dihasilkan jadi object saja.
+        results: users, // karena yg di dapat data berupa array of object dari userId maka kita bisa tambahkan index ke [0], tujuannya agar yg dihasilkan jadi object saja.
       });
     } else {
       return res.status(404).json({
@@ -52,9 +52,9 @@ exports.getUsersId = async (req, res) => {
       // akan memberikan status 400 dengan json.
       success: false,
       message: "Please input data",
-    });
+    })
   }
-};
+}
 
 // CREATE data user
 exports.createUsers = async (req, res) => {
@@ -104,7 +104,7 @@ exports.createUsers = async (req, res) => {
 exports.updateUsers = async (req, res) => {
   upload(req, res, async(err) => {
     try {
-      if (err) {
+      if(err) {
         return res.status(400).json({
           success: true,
           message: err.message
@@ -118,32 +118,32 @@ exports.updateUsers = async (req, res) => {
           message: "Password is required!",
         });
       }
-      if (req.body.password) {
-        req.body.password = await argon.hash(req.body.password);
+      if(req.body.password) {
+        req.body.password = await argon.hash(req.body.password)
       }
 
       const cariData = await userModels.findUser(idUser)
-      if (req.file) {
-        if (cariData.picture) {
+      if(req.file) {
+        if(cariData.picture) {
           const dataLocation = path.join(global.path, 'uploads', 'users', cariData.picture)
           await fs.rm(dataLocation)
         }
-        req.body.picture = req.file.filename;
+        req.body.picture = req.file.filename
       }
-      const userUpdate = await userModels.updatedUser(idUser, req.body);
+      const userUpdate = await userModels.updatedUser(idUser, req.body)
 
-      if (userUpdate[0]) {
+      if(userUpdate) {
         return res.json({
           success: true,
           message: "Update users complete!",
-          results: userUpdate[0],
-        });
+          results: userUpdate,
+        })
       } else {
         return res.status(404).json({
           // akan memberikan status 404 dengan json.
           success: false,
           message: "Data User not found",
-        });
+        })
       }
     } catch (err) {
       console.log(err);
@@ -166,11 +166,11 @@ exports.updateUsers = async (req, res) => {
         return res.status(500).json({
           success: false,
           message: "Internal Server Error!",
-        });
+        })
       }
     }
   })
-};
+}
 
 // DELETE data user
 exports.deleteUsers = async (req, res) => {

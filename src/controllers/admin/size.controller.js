@@ -21,25 +21,25 @@ exports.getAllSize = async (req, res) => {
 // SELECT... WHERE "id" => size berdasarkan Id
 exports.getSizeId = async (req, res) => {
   try {
-    const idSize = Number(req.params.id);
-    const sizeData = await sizeModels.findSize(idSize);
+    const idSize = Number(req.params.id)
+    const sizeData = await sizeModels.findSize(idSize)
 
     if (sizeData[0]) {
       return res.json({
         success: true,
         message: "Detail Size",
-        results: sizeData[0],
-      });
+        results: sizeData[0]
+      })
     } else {
       return res.status(404).json({
         success: false,
-        message: "Size not found",
-      });
+        message: "Size not found"
+      })
     }
   } catch (err) {
-    hendelErr.outError(err, res);
+    hendelErr.outError(err, res)
   }
-};
+}
 
 // UPDATE data size
 exports.updateSize = async (req, res) => {

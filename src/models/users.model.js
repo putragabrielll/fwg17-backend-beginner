@@ -32,7 +32,7 @@ exports.findUser = async (id) => {
     const sql = `SELECT "id", "fullName", "email", "phoneNumber", "address", "picture", "role", "password" FROM users WHERE "id"= $1`;
     const values = [id]
     const {rows} = await db.query(sql, values)
-    return rows
+    return rows[0]
 }
 
 
@@ -85,8 +85,10 @@ exports.updatedUser = async (id, data) => {
     const values = [] // ["gabriel", "tra@mail.com", "08123713487"]
     values.push(id)
     for(let item in data){
-        values.push(data[item])
-        column.push(`"${item}"=$${values.length}`)
+        if(data[item]) {
+            values.push(data[item])
+            column.push(`"${item}"=$${values.length}`)
+        }
     }
 
     const sql = `
@@ -96,7 +98,7 @@ exports.updatedUser = async (id, data) => {
     RETURNING "id", "fullName", "email", "phoneNumber", "address", "picture", "role", "password", "updatedAt"
     `
     const {rows} = await db.query(sql, values)
-    return rows
+    return rows[0]
 }
 
 

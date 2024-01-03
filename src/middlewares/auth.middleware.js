@@ -12,7 +12,7 @@ const authMiddleware = (req, res, next) => {
             const token = rawToken.slice(prefix.length)
             // console.log("token = " + token)
             const verify = jwt.verify(token, process.env.APP_SECRET)
-            req.userss = verify // hanya penamaan saya req.userss untuk di pake di roleCheck.middleware
+            req.userss = verify // hanya penamaan saya req.userss untuk di pake di roleCheck.middleware & kita bisa mengambil user yg login dengan menggunakan req.userss itu sendiri
             next()
         } else {
             throw ({code: "THROW", message: "Invalid Token"})

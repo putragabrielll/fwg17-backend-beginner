@@ -11,8 +11,8 @@ router.use("/admin", authMiddlewaree, roleCheckMiddlewaree('admin'), require("./
 router.use("/customer", authMiddlewaree, roleCheckMiddlewaree('customer'),require("./customer/index"))
 
 // End Point GLOBAL
-router.use("/products", require("./customer/products.router"))
-router.use("/product-size", require("./customer/size.router"))
-router.use("/product-variant", require("./customer/variant.router"))
+router.use("/products", require("./global/products.router"))
+router.use("/product-size", require("./global/size.router"))
+router.use("/product-variant", require("./global/variant.router"))
 
 module.exports = router

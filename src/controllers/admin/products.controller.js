@@ -68,7 +68,7 @@ exports.productByCategories = async (req, res) => {
 exports.getProductsId = async (req, res) => {
   try {
     const idProducts = Number(req.params.id);
-    const data = await productsModels.findProducts(idProducts);
+    const data = await productsModels.findProducts(idProducts)
 
     if (data) {
       return res.json({
@@ -83,9 +83,9 @@ exports.getProductsId = async (req, res) => {
       });
     }
   } catch (err) {
-    hendelErr.outError(err, res);
+    hendelErr.outError(err, res)
   }
-};
+}
 
 
 // CREATE data products

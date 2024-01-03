@@ -6,7 +6,7 @@ const hendelErr = require("../../helpers/utils");
 // SELECT * => memanggil semua variant
 exports.getAllVariant = async (req, res) => {
   try {
-    const { filter, sortby, order, page } = req.query;
+    const { filter, sortby, order, page } = req.query
     const variantList = await variantModels.allVariant(
       filter,
       sortby,
