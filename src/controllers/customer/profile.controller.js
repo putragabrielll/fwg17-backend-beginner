@@ -1,5 +1,7 @@
 const userModels = require("../../models/users.model")
 const argon = require("argon2")
+const fs = require("fs/promises")
+const path = require("path")
 const uploadMiddlewaree = require("../../middlewares/upload.middleware")
 upload = uploadMiddlewaree("users").single("picture")
 
@@ -20,7 +22,7 @@ exports.getProfile = async(req, res) => {
     })
 }
 
-exports.updateProfile = async(req, res) => {
+exports.updateProfile = (req, res) => {
     upload (req, res, async(err) => {
         try {
             if(err){
@@ -37,6 +39,15 @@ exports.updateProfile = async(req, res) => {
 
             const {id} = req.userss
             if(req.file){
+                const cariData = await userModels.findUser(id)
+                if(cariData.picture){
+                    const savedPicture = path.join(global.path, 'uploads', 'users', cariData.picture)
+                    // fs.access(savedPicture, fs.constants.R_OK).then(() => { // cara ke 1
+                    //     fs.rm(savedPicture)
+                    // }).catch(() => {})
+                    fs.access(savedPicture, fs.constants.R_OK) // cara ke 2
+                    await fs.rm(savedPicture)
+                }
                 req.body.picture = req.file.filename
             }
             const updateProfile = await userModels.updatedUser(id, req.body)

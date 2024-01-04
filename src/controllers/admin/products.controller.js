@@ -135,6 +135,7 @@ exports.updateProducts = async (req, res) => {
       if (req.file) {
         if (cariData.image) {
           const dataLocation = path.join(global.path, 'uploads', 'products', cariData.image)
+          fs.access(dataLocation, fs.constants.R_OK) // baru ditambahin
           await fs.rm(dataLocation)
         }
         req.body.image = req.file.filename
