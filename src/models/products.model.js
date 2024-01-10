@@ -3,12 +3,12 @@ const db = require("../lib/db.lib")
 
 
 // menampilkan semua products
-exports.allProducts = async (filter='', sortBy, order, page=1, best_seller) => {
+exports.allProducts = async (filter='', sortBy, order, page=1, best_seller, limits) => {
     const visibleColumn = ["id", "name", "price", "createdAt"]
     const allowOrder = ['asc', 'desc']
     
-    const limit = 6
-    const offSet = (page - 1) * limit
+    // const limit = 6
+    const offSet = (page - 1) * limits
     
     sortBy = visibleColumn.includes(sortBy) ? sortBy : "id"
     order = allowOrder.includes(order) ? order : 'asc'
@@ -31,7 +31,7 @@ exports.allProducts = async (filter='', sortBy, order, page=1, best_seller) => {
     LEFT JOIN "categories" "c" ON "pc"."categoriesId" = "c"."id"
     WHERE "p"."name" ILIKE $1 ${best_seller == 'true' ? `AND "isRecommended" = 'true'` : ''}
     ORDER BY "${sortBy}" ${order}
-    LIMIT ${limit}
+    LIMIT ${limits}
     OFFSET ${offSet}
     `;
     // `SELECT "id", "name", "price", "image", "description", "discount", "isRecommended", "qty", "isActive", "createdAt"

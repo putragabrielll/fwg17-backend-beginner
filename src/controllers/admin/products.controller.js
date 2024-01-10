@@ -14,11 +14,11 @@ const hendelErr = require("../../helpers/utils")
 // SELECT * => memanggil semua products
 exports.getAllProducts = async (req, res) => {
   try {
-    const { filter, sortby, order, page = 1, best_seller } = req.query;
+    const { filter, sortby, order, page = 1, best_seller, limits = 6 } = req.query;
     // mengembalikan total data
     const countData = await productsModels.countAll(filter)
 
-    const productsList = await productsModels.allProducts(filter, sortby, order, page, best_seller)
+    const productsList = await productsModels.allProducts(filter, sortby, order, page, best_seller, limits)
     if(productsList.length < 1){
       return res.status(404).json({
         success: false,
@@ -26,7 +26,7 @@ exports.getAllProducts = async (req, res) => {
       })
     }
 
-    const totalPage = Math.ceil(countData / 6)
+    const totalPage = Math.ceil(countData / limits)
     const nextPage = Number(page) + 1
     const prevPage = Number(page) - 1
 
