@@ -71,7 +71,8 @@ exports.register = async (req, res) => {
         const userRegister = await userModels.createdUser({
             fullName,
             email,
-            password: hashPassword
+            password: hashPassword,
+            role: 'customer'
         })
         console.log(userRegister)
         if (userRegister.length > 0) {
