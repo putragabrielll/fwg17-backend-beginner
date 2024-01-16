@@ -1,8 +1,4 @@
 const productsModels = require("../../models/products.model")
-const fs = require("fs/promises")
-const path = require("path")
-const uploadMiddlewaree = require("../../middlewares/upload.middleware")
-const upload = uploadMiddlewaree("products").single('image')
 
 
 
