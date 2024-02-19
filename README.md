@@ -1,7 +1,5 @@
 # Coffee Shop Backend
 
-![App Screenshot](https://github.com/putragabrielll/fwg17-beginner-frontend/blob/main/public/banner.png?raw=true)
-
 Welcome to the Coffee Shop Backend Web Project! This repository contains the back-end source code for the Online Coffee Shop web application. With Express.js and NodeJs structure.
 
 Find a wide range of selected coffee, from coffee beans, ground coffee, to quality coffee equipment here. Order your favorite coffee easily and enjoy the best coffee experience at home.
@@ -54,6 +52,66 @@ To run the project locally, follow these simple steps:
   npm run start
 ```
 
+
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env file
+
+`PORT`
+
+`DATABASE_URL`
+
+`APP_SECRET`
+
+
+## API Reference
+
+#### Login
+
+```http
+  POST auth/login
+```
+#### Register
+
+```http
+  POST auth/register
+```
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `users` | `GET` | Get a list of users data |
+| `users/:id` | `GET` | Get a detailed users data |
+| `users` | `POST` | Insert a users data |
+| `users/:id` | `PATCH` | Update a users data |
+| `users/:id` | `DELETE` | Delete a users data |
+| `products` | `GET` | Get a list of products data |
+| `products/:id` | `GET` | Get a detailed products data |
+| `products` | `POST` | Insert a products data |
+| `products/:id` | `PATCH` | Update a products data |
+| `products/:id` | `DELETE` | Delete a products data |
+| `users` | `GET` | **Required**. Your API key |
+| `users` | `GET` | **Required**. Your API key |
+| `users` | `GET` | **Required**. Your API key |
+| `users` | `GET` | **Required**. Your API key |
+| `users` | `GET` | **Required**. Your API key |
+| `users` | `GET` | **Required**. Your API key |
+| `users` | `GET` | **Required**. Your API key |
+| `users` | `GET` | **Required**. Your API key |
+| `users` | `GET` | **Required**. Your API key |
+| `users` | `GET` | **Required**. Your API key |
+| `users` | `GET` | **Required**. Your API key |
+| `users` | `GET` | **Required**. Your API key |
+| `users` | `GET` | **Required**. Your API key |
+| `users` | `GET` | **Required**. Your API key |
+| `users` | `GET` | **Required**. Your API key |
+| `users` | `GET` | **Required**. Your API key |
+| `users` | `GET` | **Required**. Your API key |
+| `users` | `GET` | **Required**. Your API key |
+| `users` | `GET` | **Required**. Your API key |
+| `users` | `GET` | **Required**. Your API key |
+| `users` | `GET` | **Required**. Your API key |
+| `users` | `GET` | **Required**. Your API key |
+
 ## Technologies Used
 
 **ExpressJs:** a swift and minimalist web framework for Node.js, this endeavor is dedicated to crafting resilient and scalable server-side applications.
@@ -76,7 +134,10 @@ The project structure is organized as follows:
 
 Contributions are always welcome!
 
+## Authors
 
-## Support
+- [@putragabrielll](https://github.com/putragabrielll)
 
-For support, email puragmahk@gmail.com or join our Discord Channel.
+## Feedback
+
+If you have any feedback, please reach out to us at puragmahk@gmail.com
