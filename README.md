@@ -89,28 +89,54 @@ To run this project, you will need to add the following environment variables to
 | `products` | `POST` | Insert a products data |
 | `products/:id` | `PATCH` | Update a products data |
 | `products/:id` | `DELETE` | Delete a products data |
-| `users` | `GET` | **Required**. Your API key |
-| `users` | `GET` | **Required**. Your API key |
-| `users` | `GET` | **Required**. Your API key |
-| `users` | `GET` | **Required**. Your API key |
-| `users` | `GET` | **Required**. Your API key |
-| `users` | `GET` | **Required**. Your API key |
-| `users` | `GET` | **Required**. Your API key |
-| `users` | `GET` | **Required**. Your API key |
-| `users` | `GET` | **Required**. Your API key |
-| `users` | `GET` | **Required**. Your API key |
-| `users` | `GET` | **Required**. Your API key |
-| `users` | `GET` | **Required**. Your API key |
-| `users` | `GET` | **Required**. Your API key |
-| `users` | `GET` | **Required**. Your API key |
-| `users` | `GET` | **Required**. Your API key |
-| `users` | `GET` | **Required**. Your API key |
-| `users` | `GET` | **Required**. Your API key |
-| `users` | `GET` | **Required**. Your API key |
-| `users` | `GET` | **Required**. Your API key |
-| `users` | `GET` | **Required**. Your API key |
-| `users` | `GET` | **Required**. Your API key |
-| `users` | `GET` | **Required**. Your API key |
+| `promo` | `GET` | Get a list of promo data |
+| `promo/:id` | `GET` | Get a detailed promo data |
+| `promo` | `POST` | Insert a promo data |
+| `promo/:id` | `PATCH` | Update a promo data |
+| `promo/:id` | `DELETE` | Delete a promo data |
+| `product-size` | `GET` | Get a list of product size data |
+| `product-size/:id` | `GET` | Get a detailed product size data |
+| `product-size/:id` | `PATCH` | Update a product size data |
+| `product-variant` | `GET` | Get a list of product variant data |
+| `product-variant/:id` | `GET` | Get a detailed product variant data |
+| `product-variant` | `POST` | Insert a product variant data |
+| `product-variant/:id` | `PATCH` | Update a product variant data |
+| `product-variant/:id` | `DELETE` | Delete a product variant data |
+| `categories` | `GET` | Get a list of categories data |
+| `categories/:id` | `GET` | Get a detailed categories data |
+| `categories` | `POST` | Insert a categories data |
+| `categories/:id` | `PATCH` | Update a categories data |
+| `categories/:id` | `DELETE` | Delete a categories data |
+| `tags` | `GET` | Get a list of tags data |
+| `tags/:id` | `GET` | Get a detailed tags data |
+| `tags` | `POST` | Insert a tags data |
+| `tags/:id` | `PATCH` | Update a tags data |
+| `tags/:id` | `DELETE` | Delete a tags data |
+| `product-tags` | `GET` | Get a list of product tags data |
+| `product-tags/:id` | `GET` | Get a detailed product tags data |
+| `product-tags` | `POST` | Insert a product tags data |
+| `product-tags/:id` | `PATCH` | Update a product tags data |
+| `product-tags/:id` | `DELETE` | Delete a product tags data |
+| `product-categories` | `GET` | Get a list of product categories data |
+| `product-categories/:id` | `GET` | Get a detailed product categories data |
+| `product-categories` | `POST` | Insert a product categories data |
+| `product-categories/:id` | `PATCH` | Update a product categories data |
+| `product-categories/:id` | `DELETE` | Delete a product categories data |
+| `product-ratings` | `GET` | Get a list of product ratings data |
+| `product-ratings/:id` | `GET` | Get a detailed product ratings data |
+| `product-ratings` | `POST` | Insert a product ratings data |
+| `product-ratings/:id` | `PATCH` | Update a product ratings data |
+| `product-ratings/:id` | `DELETE` | Delete a product ratings data |
+| `orders` | `GET` | Get a list of orders data |
+| `orders/:id` | `GET` | Get a detailed orders data |
+| `orders` | `POST` | Insert a orders data |
+| `orders/:id` | `PATCH` | Update a orders data |
+| `orders/:id` | `DELETE` | Delete a orders data |
+| `order-details` | `GET` | Get a list of order details data |
+| `order-details/:id` | `GET` | Get a detailed order details data |
+| `order-details` | `POST` | Insert a order details data |
+| `order-details/:id` | `PATCH` | Update a order details data |
+| `order-details/:id` | `DELETE` | Delete a order details data |
 
 ## Technologies Used
 
