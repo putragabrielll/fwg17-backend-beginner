@@ -1,6 +1,4 @@
 # Coffee Shop Backend
-![WhatsApp Image 2023-10-04 at 12 43 55](https://github.com/putragabrielll/fwg17-backend-beginner/assets/88605617/0e773ac3-693d-4ca2-a5e9-55acdbd146b3)
-
 
 Welcome to the Coffee Shop Backend Web Project! This repository contains the back-end source code for the Online Coffee Shop web application. With Express.js and NodeJs structure.
 
