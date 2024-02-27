@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon app.js",
     "dev": "hasil nya adalah",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha ./test/*.spec.js --exit",
+    "testnyc": "nyc mocha ./test/*.spec.js --exit"
   },
   "author": "Gabriel Putra Sihombing",
   "license": "ISC",
@@ -19,7 +20,12 @@
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
-    "nodemon": "^3.0.1",
     "pg": "^8.11.3"
+  },
+  "devDependencies": {
+    "chai": "^4.4.1",
+    "mocha": "^10.3.0",
+    "nodemon": "^3.1.0",
+    "nyc": "^15.1.0"
   }
 }

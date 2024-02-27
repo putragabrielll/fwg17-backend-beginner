@@ -1,10 +1,8 @@
 const db = require('../lib/db.lib')
 
 
-
-
 // menampilkan semua user
-exports.allUsers = async (search='', sortBy, order, page=1) => {
+exports.allUsers = async (search='', sortBy, order, page) => {
     const visibleColumn = ["id", "fullName", "email"]
     const allowOrder = ["asc", "desc"]
     const limit = 5
@@ -24,6 +22,18 @@ exports.allUsers = async (search='', sortBy, order, page=1) => {
     const values = [`%${search}%`]
     const {rows} = await db.query(sql, values)
     return rows
+}
+
+// count data users
+exports.countAll = async(search='') => {
+    const sql = `
+    SELECT COUNT("id") AS "counts"
+    FROM "users"
+    WHERE "fullName" ILIKE $1
+    `
+    const values = [`%${search}%`]
+    const { rows } = await db.query(sql, values)
+    return rows[0].counts // mereturn berapa banyak total data
 }
 
 

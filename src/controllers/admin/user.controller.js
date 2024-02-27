@@ -11,11 +11,25 @@ upload = uploadMiddlewaree("users").single("picture")
 // SELECT * => memanggil semua users
 exports.getAllUsers = async (req, res) => {
   try {
-    const { filter, sortby, order, page } = req.query
+    const { filter, sortby, order, page = 1, limits = 6 } = req.query
+    
+    const countData = await userModels.countAll(filter)
     const usersList = await userModels.allUsers(filter, sortby, order, page)
+
+    const totalPage = Math.ceil(countData / limits)
+    const nextPage = Number(page) + 1
+    const prevPage = Number(page) - 1
+
     return res.json({
       success: true,
       message: "List all users",
+      pageInfo: {
+        currentPage: Number(page),
+        totalPage,
+        nextPage: nextPage <= totalPage ? nextPage : null,
+        prevPage: prevPage >= 1 ? prevPage : null,
+        totalData: Number(countData)
+      },
       results: usersList, // akan memanggil semua data yg dimana sebagai diambil dari variabel users
     });
   } catch (err) {
