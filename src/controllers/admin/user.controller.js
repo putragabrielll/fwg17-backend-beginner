@@ -208,8 +208,8 @@ exports.updateUsers = async (req, res) => {
 // DELETE data user
 exports.deleteUsers = async (req, res) => {
   try {
-    const idUser = Number(req.params.id);
-    const users = await userModels.deletedUser(idUser);
+    const idUser = Number(req.params.id)
+    const users = await userModels.deletedUser(idUser)
 
     if (users[0]) {
       return res.json({
@@ -218,15 +218,19 @@ exports.deleteUsers = async (req, res) => {
         results: users[0],
       });
     } else {
+      throw ({code: "user not found"})
+    }
+  } catch (err) {
+    if (err.code === "user not found") {
       return res.status(404).json({
         success: false,
         message: "User not found",
       });
+    } else {
+      return res.status(400).json({
+        success: false,
+        message: "Please input data",
+      });
     }
-  } catch (err) {
-    return res.status(400).json({
-      success: false,
-      message: "Please input data",
-    });
   }
 };

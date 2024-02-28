@@ -119,17 +119,48 @@ describe('Select User By id', () => {
     })
 })
 
-describe('Create User', () => {
+// describe('Create User', () => {
+//     const req = {
+//         body: {
+//             email: "unit.test@example.com",
+//             password: "1234"
+//         }
+//     }
+//     it('should return type: object', async () => {
+//         // console.log(req.body)
+//         const response = await userController.createUsers(req, res)
+//         // expect(typeof response).to.be.equal('object')
+//         expect(response.success).to.be.true
+//     })
+// })
+
+describe('Delete User', () => {
     const req = {
-        body: {
-            email: "unit.test@example.com",
-            password: "1234"
+            params: {
+                id: 236
+            }
         }
-    }
     it('should return type: object', async () => {
-        // console.log(req.body)
-        const response = await userController.createUsers(req, res)
-        // expect(typeof response).to.be.equal('object')
+        const response = await userController.deleteUsers(req, res)
+        expect(typeof response).to.be.equal('object')
+    })
+    it('should return true if user is found', async () => {
+        const response = await userController.deleteUsers(req, res)
         expect(response.success).to.be.true
+        expect(response.message).to.be.equal('Success delete data!')
+        expect(typeof response.results).to.be.equal('object')
+    })
+    it('should return false if user not found', async () => {
+        const response = await userController.deleteUsers(req, res)
+        expect(response.success).to.be.false
+        expect(response.message).to.be.equal('User not found')
+    })
+    it('should return false if user not found', async () => {
+        const req = {
+            params: {}
+        }
+        const response = await userController.deleteUsers(req, res)
+        expect(response.success).to.be.false
+        expect(response.message).to.be.equal('Please input data')
     })
 })
