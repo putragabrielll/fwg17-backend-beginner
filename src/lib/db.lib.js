@@ -5,7 +5,7 @@ const db = new Pool ({
 })
 
 db.connect((err) => {
-    if(!err){
+    if (!err) {
         console.log('Connection Success')
     }
 })

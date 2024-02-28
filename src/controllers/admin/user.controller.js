@@ -14,6 +14,9 @@ exports.getAllUsers = async (req, res) => {
     const { filter, sortby, order, page = 1, limits = 6 } = req.query
     
     const countData = await userModels.countAll(filter)
+    if (countData === '0') {
+      throw Error()
+    }
     const usersList = await userModels.allUsers(filter, sortby, order, page)
 
     const totalPage = Math.ceil(countData / limits)
