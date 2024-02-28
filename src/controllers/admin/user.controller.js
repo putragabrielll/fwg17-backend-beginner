@@ -3,6 +3,7 @@ const argon = require("argon2")
 const fs = require("fs/promises")
 const path = require("path")
 const uploadMiddlewaree = require("../../middlewares/upload.middleware")
+const { error } = require("console")
 upload = uploadMiddlewaree("users").single("picture")
 
 
@@ -52,24 +53,28 @@ exports.getUsersId = async (req, res) => {
     if (users) {
       // akan melakukan pengecekan apabila userId[0] ada datanya maka akan menjalankan isi dari if.
       return res.json({
-        // akan mereturn object dengan key success, message, dan result, dengan isi userId
+        // akan me-return object dengan key success, message, dan result, dengan isi userId
         success: true,
         message: "Detail users",
         results: users, // karena yg di dapat data berupa array of object dari userId maka kita bisa tambahkan index ke [0], tujuannya agar yg dihasilkan jadi object saja.
       });
     } else {
+      throw ({code: "user not found"})
+    }
+  } catch (err) {
+    if (err.code === "user not found") {
       return res.status(404).json({
         // akan memberikan status 404 dengan json.
         success: false,
         message: "User not found",
       });
+    } else {
+      return res.status(400).json({
+        // akan memberikan status 400 dengan json.
+        success: false,
+        message: "Please input data",
+      })
     }
-  } catch (err) {
-    return res.status(400).json({
-      // akan memberikan status 400 dengan json.
-      success: false,
-      message: "Please input data",
-    })
   }
 }
 
@@ -87,16 +92,26 @@ exports.createUsers = async (req, res) => {
       if (req.file) {
         req.body.picture = req.file.filename;
       }
+      if (req.body.password === "") {
+        return res.status(400).json({
+          success: false,
+          message: "Password is required!",
+        });
+      }
+      if(req.body.password) {
+        req.body.password = await argon.hash(req.body.password)
+        req.body.role = "customer"
+      }
       const userNew = await userModels.createdUser(req.body); // akan menerima inputan dari req.body, dimana yg di input hanya name & email.
+      console.log(typeof userNew[0])
       return res.json({
         // akan mengembalikan respons json dengan isi nya ada key success, message, dan result, yg dimana result nya berisi variable userNew dari data yg sudah di input di postman.
         success: true,
         message: "Success add new user!",
-        results: userNew[0],
+        results: userNew[0]
       });
     } catch (err) {
       // console.log(JSON.stringify(err)) // cara mengetahui err nya secara langsung tapi di ubah ke json dan string
-      console.log(err); // cara mengetahui err nya secara langsung
       if (err.code === "23502") {
         return res.status(400).json({
           success: false,

@@ -4,10 +4,11 @@ const db = new Pool ({
     connectionString: process.env.DATABASE_URL
 })
 
-db.connect((err) => {
-    if (!err) {
-        console.log('Connection Success')
-    }
-})
+// hanya cek apakah koneksi berhasil
+// db.connect((err) => {
+//     if (!err) {
+//         console.log('Connection Success')
+//     }
+// })
 
 module.exports = db
