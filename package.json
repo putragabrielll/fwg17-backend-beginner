@@ -6,8 +6,8 @@
   "scripts": {
     "start": "nodemon app.js",
     "dev": "hasil nya adalah",
-    "test": "mocha ./test/*.spec.js --exit",
-    "testnyc": "nyc mocha ./test/*.spec.js --exit"
+    "test": "mocha ./test/*.spec.js -r dotenv/config --exit",
+    "testnyc": "nyc mocha ./test/*.spec.js -r dotenv/config --exit"
   },
   "author": "Gabriel Putra Sihombing",
   "license": "ISC",
