@@ -3,7 +3,6 @@ const argon = require("argon2")
 const fs = require("fs/promises")
 const path = require("path")
 const uploadMiddlewaree = require("../../middlewares/upload.middleware")
-const { error } = require("console")
 upload = uploadMiddlewaree("users").single("picture")
 
 
@@ -80,8 +79,11 @@ exports.getUsersId = async (req, res) => {
 
 // CREATE data user
 exports.createUsers = async (req, res) => {
+  console.log(req.body)
   upload (req, res, async(err) => {
     try {
+      console.log(req)
+      console.log(req.body)
       if (err) {
         return res.status(400).json({
           success: true,

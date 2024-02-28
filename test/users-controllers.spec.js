@@ -127,7 +127,6 @@ describe('Select User By id', () => {
 //         }
 //     }
 //     it('should return type: object', async () => {
-//         // console.log(req.body)
 //         const response = await userController.createUsers(req, res)
 //         // expect(typeof response).to.be.equal('object')
 //         expect(response.success).to.be.true
@@ -137,7 +136,7 @@ describe('Select User By id', () => {
 describe('Delete User', () => {
     const req = {
             params: {
-                id: 236
+                id: 237
             }
         }
     it('should return type: object', async () => {
