@@ -16,7 +16,7 @@ const storage = (dest) => new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
         folder: `caffee-be-js/${dest}`,
-        format: async (req, file) => 'jpg', // supports promises as well
+        format: async (req, file) => 'jpg',
         public_id: () => uuidv4(),
     },
 });
@@ -59,7 +59,7 @@ const fileFilter = (req, file, cb) => {
         "image/jpeg",
         "image/jpg"
     ]
-    console.log("masuk")
+    // console.log("masuk")
     // if (cekFile.includes(file)) {
     //     cb(null, true)
     // } else {
