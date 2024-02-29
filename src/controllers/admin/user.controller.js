@@ -79,56 +79,104 @@ exports.getUsersId = async (req, res) => {
 
 // CREATE data user
 exports.createUsers = async (req, res) => {
-  upload(req, res, async (err) => {
-    try {
-      if (err) {
-        return res.status(400).json({
-          success: true,
-          message: err.message
-        })
-      }
-      
-      if (req.file) {
-        req.body.picture = req.file.filename;
-      }
-      if (req.body.password === "") {
-        return res.status(400).json({
-          success: false,
-          message: "Password is required!",
-        });
-      }
-      if(req.body.password) {
-        req.body.password = await argon.hash(req.body.password)
-        req.body.role = "customer"
-      }
-      const userNew = await userModels.createdUser(req.body); // akan menerima inputan dari req.body, dimana yg di input hanya name & email.
-      return res.json({
-        // akan mengembalikan respons json dengan isi nya ada key success, message, dan result, yg dimana result nya berisi variable userNew dari data yg sudah di input di postman.
-        success: true,
-        message: "Success add new user!",
-        results: userNew[0]
-      });
-    } catch (err) {
-      // console.log(JSON.stringify(err)) // cara mengetahui err nya secara langsung tapi di ubah ke json dan string
-      if (err.code === "23502") {
-        return res.status(400).json({
-          success: false,
-          message: `${err.column} Connot be empty`,
-        });
-      } else if (err.code === "23505") {
-        return res.status(400).json({
-          success: false,
-          message: `Email ${req.body.email} already exists.`,
-        });
-      } else {
-        return res.status(500).json({
-          success: false,
-          message: "Internal Server Error!",
-        });
-      }
+  try {
+    if (req.file) {
+      req.body.picture = req.file.path
     }
-  })
+
+    if (req.body.password === "") {
+      return res.status(400).json({
+        success: false,
+        message: "Password is required!",
+      });
+    }
+    if(req.body.password) {
+      req.body.password = await argon.hash(req.body.password)
+      req.body.role = "customer"
+    }
+    
+    const userNew = await userModels.createdUser(req.body); // akan menerima inputan dari req.body, dimana yg di input hanya name & email.
+    return res.json({
+      // akan mengembalikan respons json dengan isi nya ada key success, message, dan result, yg dimana result nya berisi variable userNew dari data yg sudah di input di postman.
+      success: true,
+      message: "Success add new user!",
+      results: userNew[0]
+    });
+  } catch (err) {
+    // console.log(JSON.stringify(err)) // cara mengetahui err nya secara langsung tapi di ubah ke json dan string
+    if (err.code === "23502") {
+      return res.status(400).json({
+        success: false,
+        message: `${err.column} Connot be empty`,
+      });
+    } else if (err.code === "23505") {
+      return res.status(400).json({
+        success: false,
+        message: `Email ${req.body.email} already exists.`,
+      });
+    } else {
+      return res.status(500).json({
+        success: false,
+        message: "Internal Server Error!",
+      });
+    }
+  }
 }
+
+// tanpa cloudinary :
+// exports.createUsers = async (req, res) => {
+//   upload(req, res, async (err) => {
+//     try {
+//       if (err) {
+//         return res.status(400).json({
+//           success: true,
+//           message: err.message
+//         })
+//       }
+      
+//       if (req.file) {
+//         // req.body.picture = req.file.filename;
+//         req.body.picture = req.file.path
+//       }
+//       if (req.body.password === "") {
+//         return res.status(400).json({
+//           success: false,
+//           message: "Password is required!",
+//         });
+//       }
+//       if(req.body.password) {
+//         req.body.password = await argon.hash(req.body.password)
+//         req.body.role = "customer"
+//       }
+//       const userNew = await userModels.createdUser(req.body); // akan menerima inputan dari req.body, dimana yg di input hanya name & email.
+//       return res.json({
+//         // akan mengembalikan respons json dengan isi nya ada key success, message, dan result, yg dimana result nya berisi variable userNew dari data yg sudah di input di postman.
+//         success: true,
+//         message: "Success add new user!",
+//         results: userNew[0]
+//       });
+//     } catch (err) {
+//       // console.log(JSON.stringify(err)) // cara mengetahui err nya secara langsung tapi di ubah ke json dan string
+//       if (err.code === "23502") {
+//         return res.status(400).json({
+//           success: false,
+//           message: `${err.column} Connot be empty`,
+//         });
+//       } else if (err.code === "23505") {
+//         return res.status(400).json({
+//           success: false,
+//           message: `Email ${req.body.email} already exists.`,
+//         });
+//       } else {
+//         return res.status(500).json({
+//           success: false,
+//           message: "Internal Server Error!",
+//         });
+//       }
+//     }
+//   })
+// }
+
 
 // UPDATE data user
 exports.updateUsers = async (req, res) => {
@@ -154,12 +202,13 @@ exports.updateUsers = async (req, res) => {
 
       const cariData = await userModels.findUser(idUser)
       if(req.file) {
-        if(cariData.picture) {
-          const dataLocation = path.join(global.path, 'uploads', 'users', cariData.picture)
-          fs.access(dataLocation, fs.constants.R_OK) // baru ditambahin
-          await fs.rm(dataLocation)
-        }
-        req.body.picture = req.file.filename
+        // if(cariData.picture) { // menghapus image dari path local
+        //   const dataLocation = path.join(global.path, 'uploads', 'users', cariData.picture)
+        //   fs.access(dataLocation, fs.constants.R_OK) // baru ditambahin
+        //   await fs.rm(dataLocation)
+        // }
+        // req.body.picture = req.file.filename
+        req.body.picture = req.file.path
       }
       const userUpdate = await userModels.updatedUser(idUser, req.body)
 

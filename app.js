@@ -11,7 +11,7 @@ const morgan = require('morgan')
 
 const app = express()
 
-app.use(express.urlencoded({extended: false}))
+app.use(express.urlencoded({extended: true}))
 app.use(morgan("dev")) // untuk login akses
 app.use(cors()) // untuk memperbolehkan frontend mengakses BackEnd kita, jika tidak di berikan cors nanti tidak bisa aplikasi frontend kita mengakses back end nya.
 
