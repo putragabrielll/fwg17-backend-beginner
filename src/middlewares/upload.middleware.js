@@ -39,7 +39,7 @@ const fileFilter = (req, file, cb) => {
         "image/jpeg",
         "image/jpg"
     ]
-    console.log(file)
+    console.log("masuk")
     if (cekFile.includes(file.mimetype)) {
         cb(null, true)
     } else {

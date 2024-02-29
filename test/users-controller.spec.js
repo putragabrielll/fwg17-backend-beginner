@@ -119,19 +119,21 @@ describe('Select User By id', () => {
     })
 })
 
-// describe('Create User', () => {
-//     const req = {
-//         body: {
-//             email: "unit.test@example.com",
-//             password: "1234"
-//         }
-//     }
-//     it('should return type: object', async () => {
-//         const response = await userController.createUsers(req, res)
-//         // expect(typeof response).to.be.equal('object')
-//         expect(response.success).to.be.true
-//     })
-// })
+describe('Create User', () => {
+    it('should return type: object', async () => {
+        const req = {
+            body: {
+                email: "unit.test@mail.com",
+                password: "1234"
+            }
+        }
+        const response = await userController.createUsers(req, res) // error
+        console.log(response)
+        expect(typeof response).to.be.equal('object')
+        expect(response.success).to.be.true
+        expect(response.message).to.be.equal('Success add new user!')
+    })
+})
 
 describe('Delete User', () => {
     const req = {
