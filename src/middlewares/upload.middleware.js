@@ -59,13 +59,13 @@ const fileFilter = (req, file, cb) => {
         "image/jpeg",
         "image/jpg"
     ]
-    // console.log("masuk")
-    // if (cekFile.includes(file)) {
-    //     cb(null, true)
-    // } else {
-    //     // new Error("File tidak di dukung")
-    //     cb(new Error("extension_issue"), false)
-    // }
+    console.log(file, "masuk")
+    if (cekFile.includes(file.mimetype)) {
+        cb(null, true)
+    } else {
+        // new Error("File tidak di dukung")
+        cb(new Error("extension_issue"), false)
+    }
 }
 
 const limits = {
@@ -73,12 +73,9 @@ const limits = {
 }
 
 const uploadMiddleware = (type, file) => {
-    // console.log(type)
-    // console.log(file)
-
     const proccessUpload = multer({
         storage: storage(type, file), // untuk mengatur kemana menyimpan file
-        fileFilter: fileFilter(), // untuk mengatur file seperti apa yg bisa di upload
+        fileFilter: fileFilter, // untuk mengatur file seperti apa yg bisa di upload
         limits: limits // untuk mengatur batasan terhadap file yg di upload
         
     })
