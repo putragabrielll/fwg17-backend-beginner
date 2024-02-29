@@ -49,6 +49,9 @@ const fileFilter = (req, file, cb) => {
 }
 
 const uploadMiddleware = (type, file) => {
+    // console.log(type)
+    // console.log(file) // tidak terpakai, hanya definisi saja.
+
     const proccessUpload = multer({
         storage: fileEdit(type, file),
         fileFilter,
