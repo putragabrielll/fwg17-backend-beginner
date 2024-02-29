@@ -39,7 +39,7 @@ const fileFilter = (req, file, cb) => {
         "image/jpeg",
         "image/jpg"
     ]
-    console.log(file)
+    console.log(file, "masuk data file")
     if (cekFile.includes(file.mimetype)) {
         cb(null, true)
     } else {
@@ -49,7 +49,6 @@ const fileFilter = (req, file, cb) => {
 }
 
 const uploadMiddleware = (type, file) => {
-
     const proccessUpload = multer({
         storage: fileEdit(type, file),
         fileFilter,

@@ -79,11 +79,8 @@ exports.getUsersId = async (req, res) => {
 
 // CREATE data user
 exports.createUsers = async (req, res) => {
-  console.log(req.body)
   upload (req, res, async(err) => {
     try {
-      console.log(req)
-      console.log(req.body)
       if (err) {
         return res.status(400).json({
           success: true,
@@ -105,7 +102,6 @@ exports.createUsers = async (req, res) => {
         req.body.role = "customer"
       }
       const userNew = await userModels.createdUser(req.body); // akan menerima inputan dari req.body, dimana yg di input hanya name & email.
-      console.log(typeof userNew[0])
       return res.json({
         // akan mengembalikan respons json dengan isi nya ada key success, message, dan result, yg dimana result nya berisi variable userNew dari data yg sudah di input di postman.
         success: true,
