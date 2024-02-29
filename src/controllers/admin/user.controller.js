@@ -79,13 +79,8 @@ exports.getUsersId = async (req, res) => {
 
 // CREATE data user
 exports.createUsers = async (req, res) => {
-  // console.log(req.body)
-  // console.log("Masuk #1")
   upload(req, res, async (err) => {
     try {
-      // console.log("----------------")
-      // console.log(req.body)
-      // console.log("Masuk #2")
       if (err) {
         return res.status(400).json({
           success: true,
