@@ -121,14 +121,15 @@ describe('Select User By id', () => {
 
 describe('Create User', () => {
     it('should return type: object', async () => {
+        const name = Date().getTime()
         const req = {
             body: {
-                email: "unit.test@mail.com",
+                email: `${name}+@mail.com`,
                 password: "1234"
             }
         }
         const response = await userController.createUsers(req, res) // error
-        console.log(response)
+        // console.log(response)
         expect(typeof response).to.be.equal('object')
         expect(response.success).to.be.true
         expect(response.message).to.be.equal('Success add new user!')
@@ -138,18 +139,18 @@ describe('Create User', () => {
 describe('Delete User', () => {
     const req = {
             params: {
-                id: 237
+                id: 331
             }
         }
-    it('should return type: object', async () => {
-        const response = await userController.deleteUsers(req, res)
-        expect(typeof response).to.be.equal('object')
-    })
     it('should return true if user is found', async () => {
         const response = await userController.deleteUsers(req, res)
         expect(response.success).to.be.true
         expect(response.message).to.be.equal('Success delete data!')
         expect(typeof response.results).to.be.equal('object')
+    })
+    it('should return type: object', async () => {
+        const response = await userController.deleteUsers(req, res)
+        expect(typeof response).to.be.equal('object')
     })
     it('should return false if user not found', async () => {
         const response = await userController.deleteUsers(req, res)

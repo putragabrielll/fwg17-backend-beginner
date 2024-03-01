@@ -73,3 +73,66 @@
 //         expect(response.pageInfo.prevPage).to.be.eq(req.query.page - 1)
 //     })
 // })
+
+// describe('Select products By id', () => {
+//     const req = {
+//             params: {
+//                 id: 1
+//             }
+//         }
+//     it('should return type: object', async () => {
+//         const response = await productController.getProductsId(req, res)
+//         expect(typeof response).to.be.equal('object')
+//     })
+//     it('should return true if user is found', async () => {
+//         const response = await productController.getProductsId(req, res)
+//         expect(response.success).to.be.true
+//         expect(response.message).to.be.equal('Detail Products')
+//         expect(typeof response.results).to.be.equal('object')
+//     })
+//     it('should return false if user not found', async () => {
+//         const req = {
+//             params: {
+//                 id: 2000
+//             }
+//         }
+//         const response = await productController.getProductsId(req, res)
+//         expect(response.success).to.be.false
+//         expect(response.message).to.be.equal('Products not found')
+//     })
+// })
+
+// // 
+
+// //
+
+// describe('Delete products', () => {
+//     const req = {
+//             params: {
+//                 id: 209
+//             }
+//         }
+//     it('should return true if user is found', async () => {
+//         const response = await productController.deleteProducts(req, res)
+//         expect(response.success).to.be.true
+//         expect(response.message).to.be.equal('Success delete data!')
+//         expect(typeof response.results).to.be.equal('object')
+//     })
+//     it('should return type: object', async () => {
+//         const response = await productController.deleteProducts(req, res)
+//         expect(typeof response).to.be.equal('object')
+//     })
+//     it('should return false if user not found', async () => {
+//         const response = await productController.deleteProducts(req, res)
+//         expect(response.success).to.be.false
+//         expect(response.message).to.be.equal('User not found')
+//     })
+//     it('should return false if user not found', async () => {
+//         const req = {
+//             params: {}
+//         }
+//         const response = await productController.deleteProducts(req, res)
+//         expect(response.success).to.be.false
+//         expect(response.message).to.be.equal('Please input data')
+//     })
+// })
