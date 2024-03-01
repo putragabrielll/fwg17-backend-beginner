@@ -79,7 +79,7 @@ exports.getUsersId = async (req, res) => {
 
 // CREATE data user
 exports.createUsers = async (req, res) => {
-  upload (req, res, async(err) => {
+  return upload (req, res, async(err) => {
     try {
       if (err) {
         return res.status(400).json({
@@ -87,7 +87,7 @@ exports.createUsers = async (req, res) => {
           message: err.message
         })
       }
-      console.log(req.file)
+
       if (req.file) {
         req.body.picture = req.file.path
       }
@@ -98,14 +98,14 @@ exports.createUsers = async (req, res) => {
           message: "Password is required!",
         });
       }
+
       if(req.body.password) {
         req.body.password = await argon.hash(req.body.password)
         req.body.role = "customer"
       }
-      
+
       const userNew = await userModels.createdUser(req.body); // akan menerima inputan dari req.body, dimana yg di input hanya name & email.
-      return res.json({
-        // akan mengembalikan respons json dengan isi nya ada key success, message, dan result, yg dimana result nya berisi variable userNew dari data yg sudah di input di postman.
+      return res.json({ // akan mengembalikan respons json dengan isi nya ada key success, message, dan result, yg dimana result nya berisi variable userNew dari data yg sudah di input di postman.
         success: true,
         message: "Success add new user!",
         results: userNew[0]
@@ -189,7 +189,7 @@ exports.createUsers = async (req, res) => {
 
 // UPDATE data user
 exports.updateUsers = async (req, res) => {
-  upload(req, res, async (err) => {
+  return upload(req, res, async (err) => {
     try {
       if(err) {
         return res.status(400).json({
@@ -229,13 +229,11 @@ exports.updateUsers = async (req, res) => {
         })
       } else {
         return res.status(404).json({
-          // akan memberikan status 404 dengan json.
           success: false,
           message: "Data User not found",
         })
       }
     } catch (err) {
-      console.log(err);
       if (err.code === "23502") {
         return res.status(400).json({
           success: false,

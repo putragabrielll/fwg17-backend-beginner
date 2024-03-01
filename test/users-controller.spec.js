@@ -121,25 +121,51 @@ describe('Select User By id', () => {
 
 describe('Create User', () => {
     it('should return type: object', async () => {
-        const name = Date().getTime()
+        const name = Date.now()
         const req = {
+            headers: {
+                ['content-type'] : "multipart",
+                ['transfer-encoding'] : ""
+            },
             body: {
-                email: `${name}+@mail.com`,
+                email: `${name}@mail.com`,
                 password: "1234"
             }
         }
         const response = await userController.createUsers(req, res) // error
-        // console.log(response)
         expect(typeof response).to.be.equal('object')
         expect(response.success).to.be.true
         expect(response.message).to.be.equal('Success add new user!')
     })
 })
 
+describe('Update User', () => {
+    it('should return type: object', async () => {
+        const name = Date.now()
+        const req = {
+            headers: {
+                ['content-type'] : "multipart",
+                ['transfer-encoding'] : ""
+            },
+            params: {
+                id: 354
+            },
+            body: {
+                email: `${name}@mail.com`,
+                password: "1234"
+            }
+        }
+        const response = await userController.updateUsers(req, res) // error
+        expect(typeof response).to.be.equal('object')
+        expect(response.success).to.be.true
+        expect(response.message).to.be.equal('Update users complete!')
+    })
+})
+
 describe('Delete User', () => {
     const req = {
             params: {
-                id: 331
+                id: 356
             }
         }
     it('should return true if user is found', async () => {
