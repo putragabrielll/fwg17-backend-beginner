@@ -120,52 +120,145 @@ describe('Select User By id', () => {
 })
 
 describe('Create User', () => {
-    it('should return type: object', async () => {
-        const name = Date.now()
-        const req = {
-            headers: {
-                ['content-type'] : "multipart",
-                ['transfer-encoding'] : ""
-            },
-            body: {
-                email: `${name}@mail.com`,
-                password: "1234"
-            }
+    const name = Date.now() + Math.ceil(Math.random() * 10)
+    const req = {
+        headers: {
+            ['content-type'] : "multipart",
+            ['transfer-encoding'] : ""
+        },
+        body: {
+            email: name+`@mail.com`,
+            password: "1234"
         }
-        const response = await userController.createUsers(req, res) // error
+    }
+    it('should return type: object | return success | return message: Success add new user! | return results type: object', async () => {
+        const response = await userController.createUsers(req, res)
         expect(typeof response).to.be.equal('object')
         expect(response.success).to.be.true
         expect(response.message).to.be.equal('Success add new user!')
+        expect(typeof response.results).to.be.equal('object')
     })
+    it('should return if email already', async () => {
+        req.body.email = `joko@mail.com`
+        const response = await userController.createUsers(req, res)
+        expect(typeof response).to.be.equal('object')
+        expect(response.success).to.be.false
+        expect(response.message).to.be.eq(`Email ${req.body.email} already exists.`)
+    })
+    it('should return if password = ""', async () => {
+        req.body.password = ""
+        const response = await userController.createUsers(req, res)
+        expect(typeof response).to.be.equal('object')
+        expect(response.success).to.be.false
+        expect(response.message).to.be.eq('Password is required!')
+    })
+    it('should return if form password null', async () => {
+        req.body.password = null
+        const response = await userController.createUsers(req, res)
+        expect(typeof response).to.be.equal('object')
+        expect(response.success).to.be.false
+        expect(response.message).to.be.eq('password Connot be empty')
+    })
+    it('should return if form input email null', async () => {
+        req.body = {}
+        const response = await userController.createUsers(req, res)
+        expect(typeof response).to.be.equal('object')
+        expect(response.success).to.be.false
+        expect(response.message).to.be.eq('email Connot be empty')
+    })
+    it('should return if unknow error', async () => {
+        req.body = null
+        const response = await userController.createUsers(req, res)
+        expect(typeof response).to.be.equal('object')
+        expect(response.success).to.be.false
+        expect(response.message).to.be.eq('Internal Server Error!')
+    })
+
+
+    // it('should return type: object', async () => {
+    //     const response = await userController.createUsers(req, res)
+    //     expect(typeof response).to.be.equal('object')
+    // })
+    // it('return success', async () => {
+    //     const response = await userController.createUsers(req, res)
+    //     expect(response.success).to.be.true
+    // })
+    // it('return message: Success add new user!', async () => {
+    //     const response = await userController.createUsers(req, res)
+    //     expect(response.message).to.be.equal('Success add new user!')
+    // })
+    // it('return results type: object', async () => {
+    //     const response = await userController.createUsers(req, res)
+    //     expect(typeof response.results).to.be.equal('object')
+    // })
 })
 
 describe('Update User', () => {
-    it('should return type: object', async () => {
-        const name = Date.now()
-        const req = {
-            headers: {
-                ['content-type'] : "multipart",
-                ['transfer-encoding'] : ""
-            },
-            params: {
-                id: 354
-            },
-            body: {
-                email: `${name}@mail.com`,
-                password: "1234"
-            }
+    const name = Date.now() + Math.ceil(Math.random() * 10)
+    const req = {
+        headers: {
+            ['content-type'] : "multipart",
+            ['transfer-encoding'] : ""
+        },
+        params: {
+            id: 354
+        },
+        body: {
+            email: name+`@mail.com`,
+            password: "1234"
         }
-        const response = await userController.updateUsers(req, res) // error
+    }
+    it('should return type: object', async () => {
+        const response = await userController.updateUsers(req, res)
         expect(typeof response).to.be.equal('object')
+    })
+    it('should return success', async () => {
+        const response = await userController.updateUsers(req, res)
         expect(response.success).to.be.true
+    })
+    it('should return message: Update users complete!', async () => {
+        const response = await userController.updateUsers(req, res)
         expect(response.message).to.be.equal('Update users complete!')
+    })
+    it('should return results type: object', async () => {
+        const response = await userController.updateUsers(req, res)
+        expect(typeof response.results).to.be.equal('object')
+    })
+    it('should return if email already', async () => {
+        req.body.email = `joko@mail.com`
+        const response = await userController.updateUsers(req, res)
+        expect(typeof response).to.be.equal('object')
+        expect(response.success).to.be.false
+        expect(response.message).to.be.eq(`Email ${req.body.email} already exists.`)
+    })
+    it('should return if password = ""', async () => {
+        req.body.password = ""
+        const response = await userController.updateUsers(req, res)
+        expect(typeof response).to.be.equal('object')
+        expect(response.success).to.be.false
+        expect(response.message).to.be.eq('Password is required!')
+    })
+    it('should return if user not found', async () => {
+        req.params.id = 350
+        req.body.password = "123"
+        const response = await userController.updateUsers(req, res)
+        expect(typeof response).to.be.equal('object')
+        expect(response.success).to.be.false
+        expect(response.message).to.be.eq('Data User not found')
+    })
+    it('should return if unknow error', async () => {
+        req.body = {}
+        const response = await userController.updateUsers(req, res)
+        expect(typeof response).to.be.equal('object')
+        expect(response.success).to.be.false
+        expect(response.message).to.be.eq('Internal Server Error!')
     })
 })
 
 describe('Delete User', () => {
     const req = {
             params: {
-                id: 356
+                id: 505 // + 1 terus, untuk tes nya
             }
         }
     it('should return true if user is found', async () => {

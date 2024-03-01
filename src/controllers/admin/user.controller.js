@@ -205,6 +205,7 @@ exports.updateUsers = async (req, res) => {
           message: "Password is required!",
         });
       }
+      
       if (req.body.password) {
         req.body.password = await argon.hash(req.body.password)
       }
