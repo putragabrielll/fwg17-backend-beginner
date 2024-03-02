@@ -90,7 +90,7 @@ exports.getProductsId = async (req, res) => {
 
 // CREATE data products
 exports.createProducts = async (req, res) => {
-  upload (req, res, async(err) => {
+  return upload (req, res, async(err) => {
     try {
       if (err) {
         return res.status(400).json({
@@ -100,7 +100,7 @@ exports.createProducts = async (req, res) => {
       }
       
       if (req.file){
-        req.body.image = req.file.filename
+        req.body.image = req.file.path
       }
 
       const productsNew = await productsModels.createdProducts(req.body) // akan menerima inputan dari req.body, dimana yg di input hanya name & email.
@@ -120,7 +120,7 @@ exports.createProducts = async (req, res) => {
 
 // UPDATE data products
 exports.updateProducts = async (req, res) => {
-  upload(req, res, async(err) => {
+  return upload(req, res, async(err) => {
     try {
       if (err) {
         return res.status(400).json({
@@ -131,14 +131,14 @@ exports.updateProducts = async (req, res) => {
 
       const idProducts = Number(req.params.id)
 
-      const cariData = await productsModels.findProducts(idProducts)
+      // const cariData = await productsModels.findProducts(idProducts)
       if (req.file) {
-        if (cariData.image) {
-          const dataLocation = path.join(global.path, 'uploads', 'products', cariData.image)
-          fs.access(dataLocation, fs.constants.R_OK) // baru ditambahin
-          await fs.rm(dataLocation)
-        }
-        req.body.image = req.file.filename
+        // if (cariData.image) {
+        //   const dataLocation = path.join(global.path, 'uploads', 'products', cariData.image)
+        //   fs.access(dataLocation, fs.constants.R_OK) // baru ditambahin
+        //   await fs.rm(dataLocation)
+        // }
+        req.body.image = req.file.path
       }
 
       const productsUpdate = await productsModels.updatedProducts(idProducts, req.body)
@@ -168,10 +168,10 @@ exports.deleteProducts = async (req, res) => {
   try {
     const idproducts = Number(req.params.id)
     const products = await productsModels.deletedProducts(idproducts)
-    if (products.image){
-      const dataLocation = path.join(global.path, 'uploads', 'products', products.image)
-      await fs.rm(dataLocation)
-    }
+    // if (products.image){
+    //   const dataLocation = path.join(global.path, 'uploads', 'products', products.image)
+    //   await fs.rm(dataLocation)
+    // }
 
     if (products) {
       return res.json({

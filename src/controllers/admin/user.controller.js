@@ -210,7 +210,7 @@ exports.updateUsers = async (req, res) => {
         req.body.password = await argon.hash(req.body.password)
       }
 
-      const cariData = await userModels.findUser(idUser)
+      // const cariData = await userModels.findUser(idUser)
       if (req.file) {
         // if(cariData.picture) { // menghapus image dari path local
         //   const dataLocation = path.join(global.path, 'uploads', 'users', cariData.picture)
