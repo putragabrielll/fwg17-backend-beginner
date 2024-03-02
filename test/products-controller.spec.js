@@ -94,13 +94,13 @@
 //         const response = await productController.getProductsId(req, res)
 //         expect(typeof response).to.be.equal('object')
 //     })
-//     it('should return true if user is found', async () => {
+//     it('should return true if products is found', async () => {
 //         const response = await productController.getProductsId(req, res)
 //         expect(response.success).to.be.true
 //         expect(response.message).to.be.equal('Detail Products')
 //         expect(typeof response.results).to.be.equal('object')
 //     })
-//     it('should return false if user not found', async () => {
+//     it('should return false if products not found', async () => {
 //         const req = {
 //             params: {
 //                 id: 2000

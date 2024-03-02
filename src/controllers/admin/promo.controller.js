@@ -27,13 +27,13 @@ exports.getPromoId = async (req, res) => {
     if (promoData[0]) {
       return res.json({
         success: true,
-        message: "Detail Products",
+        message: "Detail Promo",
         results: promoData[0],
       });
     } else {
       return res.status(404).json({
         success: false,
-        message: "Products not found",
+        message: "Promo not found",
       });
     }
   } catch (err) {
