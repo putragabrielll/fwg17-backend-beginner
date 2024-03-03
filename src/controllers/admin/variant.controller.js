@@ -32,7 +32,7 @@ exports.getVariantId = async (req, res) => {
     if (variantData[0]) {
       return res.json({
         success: true,
-        message: "Detail Products",
+        message: "Detail product variant",
         results: variantData[0],
       });
     } else {
@@ -73,7 +73,7 @@ exports.updateVariant = async (req, res) => {
     if (variantUpdate[0]) {
       return res.json({
         success: true,
-        message: "Update products complete!",
+        message: "Update products variant complete!",
         results: variantUpdate[0],
       });
     } else {

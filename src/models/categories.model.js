@@ -3,7 +3,7 @@ const db = require("../lib/db.lib")
 
 
 
-exports.allCategories = async(search='', sortBy, order, page=1) => {
+exports.allCategories = async(search='', sortBy, order, page) => {
     const visibleColumn = ["id", "name", "createdAt"]
     const allowOrder = ["asc", "desc"]
     const limit = 5

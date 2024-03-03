@@ -6,7 +6,7 @@ const hendelErr = require("../../helpers/utils");
 // SELECT * => memanggil semua categories
 exports.getAllCategories = async (req, res) => {
   try {
-    const { filter, sortby, order, page } = req.query;
+    const { filter, sortby, order, page=1 } = req.query;
     const categoriesList = await categoriesModels.allCategories(
       filter,
       sortby,
@@ -32,7 +32,7 @@ exports.getCategoriesId = async (req, res) => {
     if (categoriesData[0]) {
       return res.json({
         success: true,
-        message: "Detail Products",
+        message: "Detail Categories",
         results: categoriesData[0],
       });
     } else {
@@ -56,7 +56,6 @@ exports.createCategories = async (req, res) => {
       results: categoriesNew[0],
     });
   } catch (err) {
-    console.log(err);
     hendelErr.outError(err, res);
   }
 };
@@ -79,7 +78,7 @@ exports.updateCategories = async (req, res) => {
     } else {
       return res.status(404).json({
         success: false,
-        message: "Promo not found",
+        message: "Categories not found",
       });
     }
   } catch (err) {

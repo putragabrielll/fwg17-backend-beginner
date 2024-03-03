@@ -7,7 +7,8 @@
     "start": "nodemon app.js",
     "dev": "hasil nya adalah",
     "test": "mocha ./test/*.spec.js -r dotenv/config --exit",
-    "testnyc": "nyc mocha ./test/*.spec.js -r dotenv/config --exit"
+    "testnyc": "nyc mocha ./test/*.spec.js -r dotenv/config --exit",
+    "testapi": "mocha ./test/api/*.spec.js -r dotenv/config --exit"
   },
   "author": "Gabriel Putra Sihombing",
   "license": "ISC",
@@ -29,6 +30,7 @@
     "chai": "^4.4.1",
     "mocha": "^10.3.0",
     "nodemon": "^3.1.0",
-    "nyc": "^15.1.0"
+    "nyc": "^15.1.0",
+    "supertest": "^6.3.4"
   }
 }
