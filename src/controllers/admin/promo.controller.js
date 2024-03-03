@@ -43,7 +43,7 @@ exports.getPromoId = async (req, res) => {
 
 // CREATE data products
 exports.createPromo = async (req, res) => {
-  console.log(res.body)
+  console.log(req.body.name)
   try {
     const promoNew = await promoModels.createdPromo(req.body); // akan menerima inputan dari req.body, dimana yg di input hanya name & email.
     return res.json({
@@ -59,6 +59,7 @@ exports.createPromo = async (req, res) => {
 
 // UPDATE data user
 exports.updatePromo = async (req, res) => {
+  console.log(req.body.name)
   try {
     const idPromo = Number(req.params.id);
     const promoUpdate = await promoModels.updatedPromo(idPromo, req.body);

@@ -94,7 +94,7 @@ describe('/promo endpoint testing', () => {
     //         const data = await request
     //             .patch(`/admin/promo/${id}`)
     //             .set(authHeaders)
-    //             .set('Content-type', 'application/x-www-form-urlencoded')
+    //             .set('Content-Type', 'application/x-www-form-urlencoded')
     //             .field('name', name)
     //         console.log(data.body)
 
