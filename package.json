@@ -4,8 +4,8 @@
   "description": "Belajar menggunakan ExpressJS",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js",
-    "dev": "hasil nya adalah",
+    "start": "node app.js",
+    "dev": "nodemon app.js",
     "test": "mocha ./test/*.spec.js -r dotenv/config --exit",
     "testnyc": "nyc mocha ./test/*.spec.js -r dotenv/config --exit",
     "testapi": "mocha ./test/api/*.spec.js -r dotenv/config --exit"
