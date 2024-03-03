@@ -15,7 +15,6 @@ exports.login = async (req, res) => {
         // tahapan mencari user berdasarkan email, apakah ada datanya di Database kita.
         const { email, password } = req.body
         const user = await userModels.findUserByEmail(email)
-        console.log(user)
 
         if (!user) {
             return res.status(401).json({
