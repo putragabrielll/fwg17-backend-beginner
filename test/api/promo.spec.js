@@ -15,8 +15,6 @@ describe('/promo endpoint testing', () => {
     //         should return success: true |
     //         should return message: List all promo |
     //         should return pageInfo type: object |
-    //         should return currentPage 1 |
-    //         should return nextPage 2 |
     //         should return results type: object |
     //         should limit results to 5 data |`, async () => {
     //         const data = await request.get('/admin/promo').set(authHeaders)
@@ -68,7 +66,6 @@ describe('/promo endpoint testing', () => {
     //             .send(requestForm)
 
     //         expect(typeof data).to.be.equal('object')
-    //         console.log(data.body)
     //         expect(data.body.success).to.be.true
     //         expect(data.body.message).to.be.equal('Success add new promo!')
     //         expect(data.body.results.name).to.be.equal(`${requestForm.name}`)
@@ -77,7 +74,7 @@ describe('/promo endpoint testing', () => {
     // })
 
     // describe('PATCH /promo/:id', () => {
-    //     const id = 108
+    //     const id = 126
     //     const name = {"name": "gabriel"}
     //     it(`
     //         should return type: object |
@@ -99,7 +96,7 @@ describe('/promo endpoint testing', () => {
     // })
 
     // describe('DELETE /promo/:id', () => {
-    //     const id = 85
+    //     const id = 108
     //     it(`
     //         should return type: object |
     //         should return success: true |

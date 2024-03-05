@@ -235,12 +235,14 @@ exports.updateUsers = async (req, res) => {
         })
       }
     } catch (err) {
-      if (err.code === "23502") {
-        return res.status(400).json({
-          success: false,
-          message: `${err.column} Connot be empty`,
-        });
-      } else if (err.code === "23505") {
+      // console.log(err)
+      // if (err.code === "23502") {
+      //   return res.status(400).json({
+      //     success: false,
+      //     message: `${err.column} Connot be empty`,
+      //   });
+      // } else
+      if (err.code === "23505") {
         return res.status(400).json({
           success: false,
           message: `Email ${req.body.email} already exists.`,

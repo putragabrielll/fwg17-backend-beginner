@@ -201,10 +201,10 @@
 //             ['transfer-encoding'] : ""
 //         },
 //         params: {
-//             id: 354
+//             id: 537
 //         },
 //         body: {
-//             email: name+`@mail.com`,
+//             email: 'name1dawda'+`@mail.com`,
 //             password: "1234"
 //         }
 //     }
@@ -258,7 +258,7 @@
 // describe('Delete User', () => {
 //     const req = {
 //             params: {
-//                 id: 509 // + 1 terus, untuk tes nya
+//                 id: 529 // + 1 terus, untuk tes nya
 //             }
 //         }
 //     it('should return true if user is found', async () => {

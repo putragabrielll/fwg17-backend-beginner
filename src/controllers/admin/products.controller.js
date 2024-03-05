@@ -182,7 +182,7 @@ exports.deleteProducts = async (req, res) => {
     } else {
       return res.status(404).json({
         success: false,
-        message: "User not found",
+        message: "Products not found",
       });
     }
   } catch (err) {
