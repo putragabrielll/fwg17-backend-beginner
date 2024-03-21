@@ -145,7 +145,7 @@ To run this project, you will need to add the following environment variables to
 **NodeJs:** Node.js serves as the foundation for this project, capitalizing on its non-blocking, event-driven architecture to ensure the development of server-side applications that are both scalable and high-performing.
 
 ## ✍️ Coffee Shop - Frontend Repository
-https://github.com/putragabrielll/fwg17-beginner-frontend
+[Front End Coffee Shop](https://github.com/putragabrielll/fwg17-beginner-frontend)
 
 ## Technologies Used
 
