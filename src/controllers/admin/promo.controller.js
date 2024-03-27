@@ -21,14 +21,14 @@ exports.getAllPromo = async (req, res) => {
 // SELECT... WHERE "id" => promo berdasarkan Id
 exports.getPromoId = async (req, res) => {
   try {
-    const idPromo = Number(req.params.id);
-    const promoData = await promoModels.findPromo(idPromo);
+    const codePromo = Number(req.params.code);
+    const promoData = await promoModels.findPromo(codePromo);
 
-    if (promoData[0]) {
+    if (promoData != undefined) {
       return res.json({
         success: true,
         message: "Detail Promo",
-        results: promoData[0],
+        results: promoData,
       });
     } else {
       return res.status(404).json({

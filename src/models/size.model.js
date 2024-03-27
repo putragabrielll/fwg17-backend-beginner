@@ -25,7 +25,7 @@ exports.findSize = async (id) => {
     const sql = `SELECT * FROM "productSize" WHERE "id"= $1`;
     const values = [id]
     const {rows} = await db.query(sql, values)
-    return rows
+    return rows[0]
 }
 
 

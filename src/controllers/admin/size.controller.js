@@ -28,7 +28,7 @@ exports.getSizeId = async (req, res) => {
       return res.json({
         success: true,
         message: "Detail Size",
-        results: sizeData[0]
+        results: sizeData
       })
     } else {
       return res.status(404).json({

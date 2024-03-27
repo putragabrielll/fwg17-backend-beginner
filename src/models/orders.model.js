@@ -65,32 +65,7 @@ exports.findOrders = async(id) => {
 }
 
 
-exports.findOrdersByUser = async(id) => {
-    const sql = `
-    SELECT 
-    "o"."id", 
-    "user"."fullName" AS "namaUser",
-    "o"."orderNumber",
-    "prom"."name" AS "namaPromo",
-    "o"."total",
-    "o"."taxAmount",
-    "o"."status",
-    "o"."deliveryAddress",
-    "o"."fullName",
-    "o"."email",
-    "o"."createdAt"
-    FROM "orders" "o"
-    INNER JOIN "users" "user" ON "user"."id" = "o"."usersId"
-    INNER JOIN "promo" "prom" ON "prom"."id" = "o"."promoId"
-    WHERE "user"."id"=$1
-    `
-    const values = [id]
-    const {rows} = await db.query(sql, values)
-    return rows
-}
-
-
-exports.createdOrders = async (data) => {
+exports.createdOrders = async (id, ornum, promo, total, tax, status, address, name, email) => {
     const sql = `
     INSERT INTO "orders"
     ("usersId", "orderNumber", "promoId", "total", "taxAmount", "status", "deliveryAddress", "fullName", "email")
@@ -99,18 +74,19 @@ exports.createdOrders = async (data) => {
     RETURNING *
     `
     const values = [
-        data.usersId, 
-        data.orderNumber,
-        data.promoId,
-        data.total,
-        data.taxAmount,
-        data.status,
-        data.deliveryAddress,
-        data.fullName,
-        data.email
+        id, 
+        ornum,
+        promo,
+        total,
+        tax,
+        status,
+        address,
+        name,
+        email
     ];
+    
     const {rows} = await db.query(sql, values)
-    return rows
+    return rows[0]
 }
 
 
@@ -136,6 +112,34 @@ exports.updatedOrders = async (id, data) => {
 
 exports.deletedOrders = async (id) => {
     const sql = `DELETE FROM "orders" WHERE "id"= $1 RETURNING *`
+    const values = [id]
+    const {rows} = await db.query(sql, values)
+    return rows
+}
+
+
+
+// =====================================================================
+// CUSTOMER
+exports.findOrdersByUser = async(id) => {
+    const sql = `
+    SELECT 
+    "o"."id", 
+    "user"."fullName" AS "namaUser",
+    "o"."orderNumber",
+    "prom"."name" AS "namaPromo",
+    "o"."total",
+    "o"."taxAmount",
+    "o"."status",
+    "o"."deliveryAddress",
+    "o"."fullName",
+    "o"."email",
+    "o"."createdAt"
+    FROM "orders" "o"
+    LEFT JOIN "users" "user" ON "user"."id" = "o"."usersId"
+    LEFT JOIN "promo" "prom" ON "prom"."id" = "o"."promoId"
+    WHERE "user"."id"=$1
+    `
     const values = [id]
     const {rows} = await db.query(sql, values)
     return rows

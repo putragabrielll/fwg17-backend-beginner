@@ -31,7 +31,7 @@ exports.findVariant = async(id) => {
     SELECT * FROM "productVariant" WHERE "id"=$1`
     const values = [id]
     const {rows} = await db.query(sql, values)
-    return(rows)
+    return(rows)[0]
 }
 
 

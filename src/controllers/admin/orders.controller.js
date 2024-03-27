@@ -48,19 +48,19 @@ exports.getOrdersId = async (req, res) => {
 };
 
 // CREATE data variant
-exports.createOrders = async (req, res) => {
-  try {
-    const ordersNew = await ordersModels.createdOrders(req.body);
-    return res.json({
-      success: true,
-      message: "Success add new Orders!",
-      results: ordersNew[0],
-    });
-  } catch (err) {
-    console.log(err);
-    hendelErr.outError(err, res);
-  }
-};
+// exports.createOrders = async (req, res) => {
+//   try {
+//     const ordersNew = await ordersModels.createdOrders(req.body);
+//     return res.json({
+//       success: true,
+//       message: "Success add new Orders!",
+//       results: ordersNew,
+//     });
+//   } catch (err) {
+//     console.log(err);
+//     hendelErr.outError(err, res);
+//   }
+// };
 
 // UPDATE data variant
 exports.updateOrders = async (req, res) => {

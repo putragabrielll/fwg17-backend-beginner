@@ -34,7 +34,7 @@ exports.getVariantId = async (req, res) => {
       return res.json({
         success: true,
         message: "Detail Products",
-        results: variantData[0],
+        results: variantData,
       });
     } else {
       return res.status(404).json({

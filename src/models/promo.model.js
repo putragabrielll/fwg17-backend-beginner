@@ -26,11 +26,11 @@ exports.allPromo = async (search='', sortBy, order, page=1) => {
 }
 
 
-exports.findPromo = async (id) => {
-    const sql = `SELECT * FROM "promo" WHERE "id"= $1`;
-    const values = [id]
+exports.findPromo = async (promo='') => {
+    const sql = `SELECT * FROM "promo" WHERE "code" ILIKE $1`;
+    const values = [`%${promo}%`];
     const {rows} = await db.query(sql, values)
-    return rows
+    return rows[0]
 }
 
 

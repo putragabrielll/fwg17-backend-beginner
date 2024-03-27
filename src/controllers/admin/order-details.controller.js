@@ -58,7 +58,7 @@ exports.createOrderDetails = async (req, res) => {
     return res.json({
       success: true,
       message: "Success add new Order Details!",
-      results: orderdetailsNew[0],
+      results: orderdetailsNew,
     });
   } catch (err) {
     hendelErr.outError(err, res);

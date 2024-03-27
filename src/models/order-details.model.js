@@ -63,7 +63,7 @@ exports.findOrderDetails = async(id) => {
 }
 
 
-exports.createdOrderDetails = async (data) => {
+exports.createdOrderDetails = async (orderId, product, size, variant, qty, subtotal) => {
     const sql = `
     INSERT INTO "orderDetails"
     ("ordersId", "productId", "productSizeId", "productVariantId", "qty", "subTotal")
@@ -72,15 +72,15 @@ exports.createdOrderDetails = async (data) => {
     RETURNING *
     `;
     const values = [
-        data.ordersId, 
-        data.productId,
-        data.productSizeId,
-        data.productVariantId,
-        data.qty,
-        data.subTotal
+        orderId, 
+        product,
+        size,
+        variant,
+        qty,
+        subtotal
     ];
     const {rows} = await db.query(sql, values)
-    return rows
+    return rows[0]
 }
 
 

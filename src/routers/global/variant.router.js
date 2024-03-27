@@ -1,6 +1,6 @@
 const allVariant = require("express").Router()
 
-const variantController = require("../../controllers/customer/variant.controller")
+const variantController = require("../../controllers/global/variant.controller")
 
 allVariant.get("/", variantController.getAllVariant)
 // allVariant.get("/:id", variantController.getVariantId)

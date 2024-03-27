@@ -1,7 +1,7 @@
 const allProducts = require("express").Router()
 
 
-const productsController = require("../../controllers/customer/products.controller")
+const productsController = require("../../controllers/global/products.controller")
 
 allProducts.get("/", productsController.getAllProducts)
 allProducts.get("/:id", productsController.getProductsId)
