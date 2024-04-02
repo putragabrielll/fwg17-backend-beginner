@@ -40,46 +40,61 @@ exports.getOrdersByUserId = async (req, res) => {
 exports.createOrders = async (req, res) => {
   try {
     const { id } = req.userss
+    const dataPesanan = JSON.parse(req.body.data)
     const orderNumber = `#${moment().format('DDMMYYYY')}-${(Math.random() * 10).toString().slice(2, 8)}`
-    
-    const product = await productsModels.findProducts(req.body.productsId)
-    const size = await sizeModels.findSize(req.body.sizeId)
-    const variant = await variantModels.findVariant(req.body.variantId)
-    const promo = await promoModels.findPromo(req.body.promo)
-    const total = req.body.promo != '' ? ((product.price + size.additionalPrice + variant.additionalPrice) * req.body.qty) * promo.percentage : (product.price + size.additionalPrice + variant.additionalPrice) * req.body.qty
-    const tax = total * 0.1
-    const status = 'on-progress'
     const profile = await userModels.findUser(id)
 
+    const promo = ""
+    let total = 0 // 50 + 20 = 70k - (70k * 0.1) = 7k
+    const status = 'on-progress'
+    for (i = 0; i < dataPesanan.length; i++){
+      const product = await productsModels.findProducts(dataPesanan[i].product.id)
+      const size = await sizeModels.findSize(dataPesanan[i].size.id)
+      const variant = await variantModels.findVariant(dataPesanan[i].variant.id)
+
+      total += (product.price + size.additionalPrice + variant.additionalPrice) * dataPesanan[i].qty 
+    }
+    if (promo != "") {
+      total = total - (total * promo.percentage)
+    }
+    tax = total * 0.1 // 70k * 0.1 = 7k
+    total = total + tax // 70k + 7k = 77k
+
+    // ORDER
     const orderNew = await ordersModels.createdOrders(
-      id, 
-      orderNumber, 
-      promo.id, 
-      total, 
-      tax, 
-      status, 
-      profile.address, 
-      profile.fullName, 
-      profile.email
+        id, 
+        orderNumber, 
+        promo.id, 
+        total,
+        tax,
+        status, 
+        profile.address, 
+        profile.fullName, 
+        profile.email
     );
+    
+    for (i = 0; i < dataPesanan.length; i++){
+      const product = await productsModels.findProducts(dataPesanan[i].product.id)
+      const size = await sizeModels.findSize(dataPesanan[i].size.id)
+      const variant = await variantModels.findVariant(dataPesanan[i].variant.id)
+      
+      // ORDER DETAIL
+      const subTotal = (product.price + size.additionalPrice + variant.additionalPrice) * dataPesanan[i].qty
+      await orderdetailsModels.createdOrderDetails(
+        orderNew.id, 
+        dataPesanan[i].product.id, 
+        dataPesanan[i].size.id, 
+        dataPesanan[i].variant.id, 
+        dataPesanan[i].qty, 
+        subTotal
+      );
+    }
 
-    const subTotal = (product.price + size.additionalPrice + variant.additionalPrice) * req.body.qty
-    const orderdetailsNew = await orderdetailsModels.createdOrderDetails(
-      orderNew.id, 
-      req.body.productsId, 
-      req.body.sizeId, 
-      req.body.variantId, 
-      req.body.qty, 
-      subTotal
-    );
 
-    return res.status(404).json({
-      success: false,
+    return res.json({
+      success: true,
       message: "Orders success",
-      results: {
-        orderNew,
-        orderdetailsNew
-      }
+      results: orderNew
     })
   } catch (err) {
     hendelErr.outError(err, res);

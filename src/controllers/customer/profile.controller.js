@@ -39,16 +39,16 @@ exports.updateProfile = (req, res) => {
 
             const {id} = req.userss
             if(req.file){
-                const cariData = await userModels.findUser(id)
-                if(cariData.picture){
-                    const savedPicture = path.join(global.path, 'uploads', 'users', cariData.picture)
-                    // fs.access(savedPicture, fs.constants.R_OK).then(() => { // cara ke 1
-                    //     fs.rm(savedPicture)
-                    // }).catch(() => {})
-                    fs.access(savedPicture, fs.constants.R_OK) // cara ke 2
-                    await fs.rm(savedPicture)
-                }
-                req.body.picture = req.file.filename
+                // const cariData = await userModels.findUser(id)
+                // if(cariData.picture){
+                //     const savedPicture = path.join(global.path, 'uploads', 'users', cariData.picture)
+                //     // fs.access(savedPicture, fs.constants.R_OK).then(() => { // cara ke 1
+                //     //     fs.rm(savedPicture)
+                //     // }).catch(() => {})
+                //     fs.access(savedPicture, fs.constants.R_OK) // cara ke 2
+                //     await fs.rm(savedPicture)
+                // }
+                req.body.picture = req.file.path
             }
             const updateProfile = await userModels.updatedUser(id, req.body)
         
