@@ -3,7 +3,7 @@ const db = require("../lib/db.lib")
 
 
 // menampilkan semua products
-exports.allProducts = async (filter='', sortBy, order, page=1, best_seller, limits) => {
+exports.allProducts = async (filter='', sortBy, order, page=1, best_seller, limits, kategori='') => {
     const visibleColumn = ["id", "name", "price", "createdAt"]
     const allowOrder = ['asc', 'desc']
     
@@ -29,7 +29,7 @@ exports.allProducts = async (filter='', sortBy, order, page=1, best_seller, limi
     FROM "products" "p"
     LEFT JOIN "productCategories" "pc" ON "pc"."productId" = "p"."id"
     LEFT JOIN "categories" "c" ON "pc"."categoriesId" = "c"."id"
-    WHERE "p"."name" ILIKE $1 ${best_seller == 'true' ? `AND "isRecommended" = 'true'` : ''}
+    WHERE "p"."name" ILIKE $1 AND "c"."name" ILIKE $2 AND "isActive" = TRUE ${best_seller == 'true' ? `AND "p"."isRecommended" = 'true'` : ''}
     ORDER BY "${sortBy}" ${order}
     LIMIT ${limits}
     OFFSET ${offSet}
@@ -41,19 +41,18 @@ exports.allProducts = async (filter='', sortBy, order, page=1, best_seller, limi
     // LIMIT ${limit}
     // OFFSET ${offSet}
     // `;
-
-    const values = [`%${filter}%`]
+    const values = [`%${filter}%`, `${kategori}%`]
     const {rows} = await db.query(sql, values)
     return rows
 }
 
 
 // meta data
-exports.countAll = async(search='') => {
+exports.countAll = async(search='', best_seller) => {
     const sql = `
     SELECT COUNT("id") AS "counts"
     FROM "products"
-    WHERE "name" ILIKE $1
+    WHERE "name" ILIKE $1 AND "isActive" = 'true' ${best_seller == 'true' ? `AND "isRecommended" = 'true'` : ''}
     `
     const values = [`%${search}%`]
     const { rows } = await db.query(sql, values)
