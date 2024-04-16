@@ -100,3 +100,21 @@ exports.createOrders = async (req, res) => {
     hendelErr.outError(err, res);
   }
 }
+
+exports.getOrdersDetail = async (req, res) => {
+  try {
+    const idOrder = Number(req.params.id)
+    const detailOrde = await orderdetailsModels.findOrderDetails(idOrder)
+    if (detailOrde.length == 0) {
+      throw ({code: "THROW", message: "Data order details not found"})
+    }
+
+    return res.json({
+      success: true,
+      message: "Order details",
+      results: detailOrde
+    })
+  } catch (err) {
+    hendelErr.outError(err, res);
+  }
+}

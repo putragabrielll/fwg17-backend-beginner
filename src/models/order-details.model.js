@@ -42,7 +42,8 @@ exports.allOrderDetails = async(byColumn, search='', sortBy, order, page=1) => {
 exports.findOrderDetails = async(id) => {
     const sql = `
     SELECT 
-    "od"."id", 
+    "od"."id",
+    "od"."ordersId",
     "order"."orderNumber",
     "produk"."name" AS "namaProduct",
     "size"."size",
@@ -55,10 +56,10 @@ exports.findOrderDetails = async(id) => {
     INNER JOIN "products" "produk" ON "produk"."id" = "od"."productId"
     INNER JOIN "productSize" "size" ON "size"."id" = "od"."productSizeId"
     INNER JOIN "productVariant" "variant" ON "variant"."id" = "od"."productVariantId"
-    WHERE "od"."id"=$1
+    WHERE "od"."ordersId"=$1
     `
     const values = [id]
-    const {rows} = await db.query(sql, values)
+    const { rows } = await db.query(sql, values)
     return(rows)
 }
 

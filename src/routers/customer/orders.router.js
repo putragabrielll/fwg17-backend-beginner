@@ -2,8 +2,9 @@ const allOrders = require("express").Router()
 
 const ordersController = require("../../controllers/customer/orders.controller")
 
-allOrders.get("/details", ordersController.getOrdersByUserId)
-allOrders.post("/", ordersController.createOrders)
+allOrders.post("/", ordersController.createOrders) // create order
+allOrders.get("/details", ordersController.getOrdersByUserId) // history order
+allOrders.get("/details-history/:id", ordersController.getOrdersDetail) // order detail
 
 module.exports = allOrders
 

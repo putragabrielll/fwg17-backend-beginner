@@ -35,7 +35,7 @@ exports.getOrderDetailsId = async (req, res) => {
     if (orderdetailsData[0]) {
       return res.json({
         success: true,
-        message: "Detail order details!",
+        message: "Order details!",
         results: orderdetailsData[0],
       });
     } else {
