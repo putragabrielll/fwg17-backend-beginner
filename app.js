@@ -3,7 +3,7 @@ require('dotenv').config({
 })
 
 // untuk mengetahui lokasi file nya
-global.path = __dirname
+global.path = __dirname // dirname itu mengarah langsung ke file projek kita yg ini, kalo yg sekarang nama file projeknya FWG17-Backend-Beginner
 
 const express = require('express')
 const cors = require('cors')
