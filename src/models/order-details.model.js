@@ -1,19 +1,16 @@
-const db = require("../lib/db.lib")
+const db = require('../lib/db.lib')
 
+exports.allOrderDetails = async (byColumn, search = '', sortBy, order, page = 1) => {
+  const metaData = ['order', 'produk', 'size', 'variant'] // problem
+  const allowOrder = ['asc', 'desc'] // problem
+  const limit = 5
+  const offSet = (page - 1) * limit
 
+  const columnBy = metaData.includes(byColumn) ? byColumn : 'produk' // problem
+  sortBy = metaData.includes(sortBy) ? sortBy : 'produk' // problem & line 31, 32 bagian WHERE & ORDER BY
+  order = allowOrder.includes(order) ? order : 'asc'
 
-
-exports.allOrderDetails = async(byColumn, search='', sortBy, order, page=1) => {
-    const metaData = ["order", "produk", "size", "variant"] // problem
-    const allowOrder = ["asc", "desc"] // problem
-    const limit = 5
-    const offSet = (page - 1) * limit
-
-    columnBy = metaData.includes(byColumn) ? byColumn : "produk" // problem
-    sortBy = metaData.includes(sortBy) ? sortBy : "produk" // problem & line 31, 32 bagian WHERE & ORDER BY
-    order = allowOrder.includes(order) ? order : "asc"
-
-    const sql = `
+  const sql = `
     SELECT 
     "od"."id", 
     "order"."orderNumber",
@@ -33,14 +30,13 @@ exports.allOrderDetails = async(byColumn, search='', sortBy, order, page=1) => {
     LIMIT ${limit}
     OFFSET ${offSet}
     `
-    const values = [`%${search}%`]
-    const {rows} = await db.query(sql, values)
-    return(rows)
+  const values = [`%${search}%`]
+  const { rows } = await db.query(sql, values)
+  return (rows)
 }
 
-
-exports.findOrderDetails = async(id) => {
-    const sql = `
+exports.findOrderDetails = async (id) => {
+  const sql = `
     SELECT 
     "od"."id",
     "od"."ordersId",
@@ -58,56 +54,53 @@ exports.findOrderDetails = async(id) => {
     INNER JOIN "productVariant" "variant" ON "variant"."id" = "od"."productVariantId"
     WHERE "od"."ordersId"=$1
     `
-    const values = [id]
-    const { rows } = await db.query(sql, values)
-    return(rows)
+  const values = [id]
+  const { rows } = await db.query(sql, values)
+  return (rows)
 }
 
-
 exports.createdOrderDetails = async (orderId, product, size, variant, qty, subtotal) => {
-    const sql = `
+  const sql = `
     INSERT INTO "orderDetails"
     ("ordersId", "productId", "productSizeId", "productVariantId", "qty", "subTotal")
     VALUES
     ($1, $2, $3, $4, $5, $6)
     RETURNING *
-    `;
-    const values = [
-        orderId, 
-        product,
-        size,
-        variant,
-        qty,
-        subtotal
-    ];
-    const {rows} = await db.query(sql, values)
-    return rows[0]
+    `
+  const values = [
+    orderId,
+    product,
+    size,
+    variant,
+    qty,
+    subtotal
+  ]
+  const { rows } = await db.query(sql, values)
+  return rows[0]
 }
 
-
 exports.updatedOrderDetails = async (id, data) => {
-    const column = []
-    const values = []
-    values.push(id)
-    for(let item in data){
-        values.push(data[item])
-        column.push(`"${item}"=$${values.length}`)
-    }
+  const column = []
+  const values = []
+  values.push(id)
+  for (const item in data) {
+    values.push(data[item])
+    column.push(`"${item}"=$${values.length}`)
+  }
 
-    const sql = `
+  const sql = `
     UPDATE "orderDetails"
-    SET ${column.join(", ")}, "updatedAt"=now()
+    SET ${column.join(', ')}, "updatedAt"=now()
     WHERE "id"= $1
     RETURNING "id", "ordersId", "productId", "productSizeId", "productVariantId", "qty", "subTotal", "updatedAt"
     `
-    const {rows} = await db.query(sql, values)
-    return rows
+  const { rows } = await db.query(sql, values)
+  return rows
 }
 
-
 exports.deletedOrderDetails = async (id) => {
-    const sql = `DELETE FROM "orderDetails" WHERE "id"= $1 RETURNING *`
-    const values = [id]
-    const {rows} = await db.query(sql, values)
-    return rows
+  const sql = 'DELETE FROM "orderDetails" WHERE "id"= $1 RETURNING *'
+  const values = [id]
+  const { rows } = await db.query(sql, values)
+  return rows
 }

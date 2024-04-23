@@ -1,9 +1,8 @@
-const allProducts = require("express").Router()
+const allProducts = require('express').Router()
 
+const productsController = require('../../controllers/global/products.controller')
 
-const productsController = require("../../controllers/global/products.controller")
+allProducts.get('/', productsController.getAllProducts)
+allProducts.get('/:id', productsController.getProductsId)
 
-allProducts.get("/", productsController.getAllProducts)
-allProducts.get("/:id", productsController.getProductsId)
-
-module.exports = allProducts 
+module.exports = allProducts

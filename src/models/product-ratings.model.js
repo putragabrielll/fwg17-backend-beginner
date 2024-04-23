@@ -1,19 +1,16 @@
-const db = require("../lib/db.lib")
+const db = require('../lib/db.lib')
 
+exports.allProductRatings = async (byColumn, search = '', sortBy, order, page = 1) => {
+  const metaData = ['produk', 'user'] // problem
+  const allowOrder = ['asc', 'desc'] // problem
+  const limit = 5
+  const offSet = (page - 1) * limit
 
+  const columnBy = metaData.includes(byColumn) ? byColumn : 'produk' // problem
+  sortBy = metaData.includes(sortBy) ? sortBy : 'produk' // problem & line 27, 28 bagian WHERE & ORDER BY
+  order = allowOrder.includes(order) ? order : 'asc'
 
-
-exports.allProductRatings = async(byColumn, search='', sortBy, order, page=1) => {
-    const metaData = ["produk", "user"] // problem
-    const allowOrder = ["asc", "desc"] // problem
-    const limit = 5
-    const offSet = (page - 1) * limit
-
-    columnBy = metaData.includes(byColumn) ? byColumn : "produk" // problem
-    sortBy = metaData.includes(sortBy) ? sortBy : "produk" // problem & line 27, 28 bagian WHERE & ORDER BY
-    order = allowOrder.includes(order) ? order : "asc"
-
-    const sql = `
+  const sql = `
     SELECT 
     "pr"."id", 
     "pr"."rate", 
@@ -29,14 +26,13 @@ exports.allProductRatings = async(byColumn, search='', sortBy, order, page=1) =>
     LIMIT ${limit}
     OFFSET ${offSet}
     `
-    const values = [`%${search}%`]
-    const {rows} = await db.query(sql, values)
-    return(rows)
+  const values = [`%${search}%`]
+  const { rows } = await db.query(sql, values)
+  return (rows)
 }
 
-
-exports.findProductRatings = async(id) => {
-    const sql = `
+exports.findProductRatings = async (id) => {
+  const sql = `
     SELECT 
     "pr"."id",
     "pr"."rate", 
@@ -48,50 +44,47 @@ exports.findProductRatings = async(id) => {
     INNER JOIN "products" "produk" ON "produk"."id" = "pr"."productId"
     INNER JOIN "users" "user" ON "user"."id" = "pr"."usersId"
     WHERE "pr"."id"=$1
-    `;
-    const values = [id]
-    const {rows} = await db.query(sql, values)
-    return(rows)
+    `
+  const values = [id]
+  const { rows } = await db.query(sql, values)
+  return (rows)
 }
 
-
 exports.createdProductRatings = async (data) => {
-    const sql = `
+  const sql = `
     INSERT INTO "productRatings"
     ("productId", "rate", "reviewMessege", "usersId")
     VALUES
     ($1, $2, $3, $4)
     RETURNING *
-    `   
-    const values = [data.productId, data.rate, data.reviewMessege, data.usersId]
-    const {rows} = await db.query(sql, values)
-    return rows
+    `
+  const values = [data.productId, data.rate, data.reviewMessege, data.usersId]
+  const { rows } = await db.query(sql, values)
+  return rows
 }
-
 
 exports.updatedProductRatings = async (id, data) => {
-    const column = []
-    const values = []
-    values.push(id)
-    for(let item in data){
-        values.push(data[item])
-        column.push(`"${item}"=$${values.length}`)
-    }
+  const column = []
+  const values = []
+  values.push(id)
+  for (const item in data) {
+    values.push(data[item])
+    column.push(`"${item}"=$${values.length}`)
+  }
 
-    const sql = `
+  const sql = `
     UPDATE "productRatings"
-    SET ${column.join(", ")}, "updatedAt"=now()
+    SET ${column.join(', ')}, "updatedAt"=now()
     WHERE "id"= $1
     RETURNING "id", "productId", "rate", "reviewMessege", "usersId", "updatedAt"
-    `;
-    const {rows} = await db.query(sql, values)
-    return rows
+    `
+  const { rows } = await db.query(sql, values)
+  return rows
 }
 
-
 exports.deletedProductRatings = async (id) => {
-    const sql = `DELETE FROM "productRatings" WHERE "id"= $1 RETURNING *`;
-    const values = [id]
-    const {rows} = await db.query(sql, values)
-    return rows
+  const sql = 'DELETE FROM "productRatings" WHERE "id"= $1 RETURNING *'
+  const values = [id]
+  const { rows } = await db.query(sql, values)
+  return rows
 }

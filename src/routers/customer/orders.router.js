@@ -1,14 +1,12 @@
-const allOrders = require("express").Router()
+const allOrders = require('express').Router()
 
-const ordersController = require("../../controllers/customer/orders.controller")
+const ordersController = require('../../controllers/customer/orders.controller')
 
-allOrders.post("/", ordersController.createOrders) // create order
-allOrders.get("/details", ordersController.getOrdersByUserId) // history order
-allOrders.get("/details-history/:id", ordersController.getOrdersDetail) // order detail
+allOrders.post('/', ordersController.createOrders) // create order
+allOrders.get('/details', ordersController.getOrdersByUserId) // history order
+allOrders.get('/details-history/:id', ordersController.getOrdersDetail) // order detail
 
 module.exports = allOrders
-
-
 
 // const product = await productsModels.findProducts(req.body.productsId)
 // const size = await sizeModels.findSize(req.body.sizeId)
@@ -22,12 +20,12 @@ module.exports = allOrders
 // const profile = await userModels.findUser(id)
 
 // const orderNew = await ordersModels.createdOrders(
-//   id, 
-//   orderNumber, 
-//   promo.id, 
-//   total, 
-//   tax, 
-//   status, 
-//   profile.address, 
-//   profile.fullName, 
+//   id,
+//   orderNumber,
+//   promo.id,
+//   total,
+//   tax,
+//   status,
+//   profile.address,
+//   profile.fullName,
 //   profile.email

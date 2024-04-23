@@ -1,25 +1,24 @@
-const multer = require("multer")
-const path = require("path")
+const multer = require('multer')
+// const path = require('path')
 const { v4: uuidv4 } = require('uuid')
 const cloudinary = require('cloudinary').v2
 const { CloudinaryStorage } = require('multer-storage-cloudinary')
 
-
-cloudinary.config({ 
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
-    api_key: process.env.CLOUDINARY_API_KEY, 
-    api_secret: process.env.CLOUDINARY_API_SECRET
-});
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+})
 
 // dengan cloudinary :
 const storage = (dest) => new CloudinaryStorage({
-    cloudinary: cloudinary,
-    params: {
-        folder: `caffee-be-js/${dest}`,
-        format: async (req, file) => 'jpg',
-        public_id: () => uuidv4(),
-    },
-});
+  cloudinary,
+  params: {
+    folder: `caffee-be-js/${dest}`,
+    format: async (req, file) => 'jpg',
+    public_id: () => uuidv4()
+  }
+})
 
 // tanpa cloudinary :
 // const storage = (dest, filename) => multer.diskStorage({
@@ -54,32 +53,32 @@ const storage = (dest) => new CloudinaryStorage({
 // })
 
 const fileFilter = (req, file, cb) => {
-    const cekFile = [
-        "image/png",
-        "image/jpeg",
-        "image/jpg"
-    ]
-    // console.log(file, "masuk")
-    if (cekFile.includes(file.mimetype)) {
-        cb(null, true)
-    } else {
-        // new Error("File tidak di dukung")
-        cb(new Error("extension_issue"), false)
-    }
+  const cekFile = [
+    'image/png',
+    'image/jpeg',
+    'image/jpg'
+  ]
+  // console.log(file, "masuk")
+  if (cekFile.includes(file.mimetype)) {
+    cb(null, true)
+  } else {
+    // new Error("File tidak di dukung")
+    cb(new Error('extension_issue'), false)
+  }
 }
 
 const limits = {
-    fileSize: 2 * 1024 * 1024
+  fileSize: 2 * 1024 * 1024
 }
 
 const uploadMiddleware = (type, file) => {
-    const proccessUpload = multer({
-        storage: storage(type, file), // untuk mengatur kemana menyimpan file
-        fileFilter: fileFilter, // untuk mengatur file seperti apa yg bisa di upload
-        limits: limits // untuk mengatur batasan terhadap file yg di upload
-        
-    })
-    return proccessUpload
+  const proccessUpload = multer({
+    storage: storage(type, file), // untuk mengatur kemana menyimpan file
+    fileFilter, // untuk mengatur file seperti apa yg bisa di upload
+    limits // untuk mengatur batasan terhadap file yg di upload
+
+  })
+  return proccessUpload
 }
 
 module.exports = uploadMiddleware

@@ -1,27 +1,27 @@
-const variantModels = require("../../models/variant.model");
+const variantModels = require('../../models/variant.model')
 
 // rencananya akan hendle semua error yg terjadi di catch
-const hendelErr = require("../../helpers/utils");
+const hendelErr = require('../../helpers/utils')
 
 // SELECT * => memanggil semua variant
 exports.getAllVariant = async (req, res) => {
   try {
-    const { filter, sortby, order, page } = req.query;
+    const { filter, sortby, order, page } = req.query
     const variantList = await variantModels.allVariant(
       filter,
       sortby,
       order,
       page
-    );
+    )
     return res.json({
       success: true,
-      message: "List all variant!",
-      results: variantList,
-    });
+      message: 'List all variant!',
+      results: variantList
+    })
   } catch (err) {
-    hendelErr.outError(err, res);
+    hendelErr.outError(err, res)
   }
-};
+}
 
 /*
 // SELECT... WHERE "id" => variant berdasarkan Id

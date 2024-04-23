@@ -1,26 +1,26 @@
-const allProductCategories = require("express").Router();
+const allProductCategories = require('express').Router()
 
-const productcategoriesController = require("../../controllers/admin/product-categories.controller");
+const productcategoriesController = require('../../controllers/admin/product-categories.controller')
 
 allProductCategories.get(
-  "/",
+  '/',
   productcategoriesController.getAllProductCategories
-);
+)
 allProductCategories.get(
-  "/:id",
+  '/:id',
   productcategoriesController.getProductCategoriesId
-);
+)
 allProductCategories.post(
-  "/",
+  '/',
   productcategoriesController.createProductCategories
-);
+)
 allProductCategories.patch(
-  "/:id",
+  '/:id',
   productcategoriesController.updateProductCategories
-);
+)
 allProductCategories.delete(
-  "/:id",
+  '/:id',
   productcategoriesController.deleteProductCategories
-);
+)
 
-module.exports = allProductCategories;
+module.exports = allProductCategories

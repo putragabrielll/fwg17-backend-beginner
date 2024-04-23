@@ -1,22 +1,22 @@
-const sizeModels = require("../../models/size.model")
+const sizeModels = require('../../models/size.model')
 
 // rencananya akan hendle semua error yg terjadi di catch
-const hendelErr = require("../../helpers/utils")
+const hendelErr = require('../../helpers/utils')
 
 // SELECT * => memanggil semua size
 exports.getAllSize = async (req, res) => {
   try {
-    const { sortby, order } = req.query;
-    const sizeList = await sizeModels.allSize(sortby, order);
+    const { sortby, order } = req.query
+    const sizeList = await sizeModels.allSize(sortby, order)
     return res.json({
       success: true,
-      message: "List all size",
-      results: sizeList, // akan memanggil semua data yg dimana sebagai diambil dari variabel users
-    });
+      message: 'List all size',
+      results: sizeList // akan memanggil semua data yg dimana sebagai diambil dari variabel users
+    })
   } catch (err) {
-    hendelErr.outError(err, res);
+    hendelErr.outError(err, res)
   }
-};
+}
 
 /*
 // SELECT... WHERE "id" => size berdasarkan Id

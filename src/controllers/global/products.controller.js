@@ -1,24 +1,20 @@
-const productsModels = require("../../models/products.model")
-
-
+const productsModels = require('../../models/products.model')
 
 // rencananya akan hendle semua error yg terjadi di catch
-const hendelErr = require("../../helpers/utils")
-
-
+const hendelErr = require('../../helpers/utils')
 
 // SELECT * => memanggil semua products
 exports.getAllProducts = async (req, res) => {
   try {
-    const { filter, sortby, order, page = 1, best_seller, limits = 6, kategori} = req.query
+    const { filter, sortby, order, page = 1, bestSeller, limits = 6, kategori } = req.query
     // mengembalikan total data
-    const countData = await productsModels.countAll(filter, best_seller)
+    const countData = await productsModels.countAll(filter, bestSeller)
 
-    const productsList = await productsModels.allProducts(filter, sortby, order, page, best_seller, limits, kategori)
-    if(productsList.length < 1){
+    const productsList = await productsModels.allProducts(filter, sortby, order, page, bestSeller, limits, kategori)
+    if (productsList.length < 1) {
       return res.status(404).json({
         success: false,
-        message: "No Data!"
+        message: 'No Data!'
       })
     }
 
@@ -28,7 +24,7 @@ exports.getAllProducts = async (req, res) => {
 
     return res.json({
       success: true,
-      message: "List all products",
+      message: 'List all products',
       pageInfo: {
         currentPage: Number(page),
         totalPage,
@@ -36,33 +32,32 @@ exports.getAllProducts = async (req, res) => {
         prevPage: prevPage >= 1 ? prevPage : null,
         totalData: Number(countData)
       },
-      results: productsList, // akan memanggil semua data yg dimana sebagai diambil dari variabel users
+      results: productsList // akan memanggil semua data yg dimana sebagai diambil dari variabel users
     })
   } catch (err) {
-    hendelErr.outError(err, res);
+    hendelErr.outError(err, res)
   }
-};
-
+}
 
 // SELECT... WHERE "id" => products berdasarkan Id
 exports.getProductsId = async (req, res) => {
   try {
-    const idProducts = Number(req.params.id);
-    const data = await productsModels.findProducts(idProducts);
+    const idProducts = Number(req.params.id)
+    const data = await productsModels.findProducts(idProducts)
 
     if (data) {
       return res.json({
         success: true,
-        message: "Detail Products",
-        results: data,
-      });
+        message: 'Detail Products',
+        results: data
+      })
     } else {
       return res.status(404).json({
         success: false,
-        message: "Products not found",
-      });
+        message: 'Products not found'
+      })
     }
   } catch (err) {
-    hendelErr.outError(err, res);
+    hendelErr.outError(err, res)
   }
 }

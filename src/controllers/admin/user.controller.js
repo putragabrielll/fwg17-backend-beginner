@@ -1,18 +1,16 @@
-const userModels = require("../../models/users.model")
-const argon = require("argon2")
-const fs = require("fs/promises")
-const path = require("path")
-const uploadMiddlewaree = require("../../middlewares/upload.middleware")
-upload = uploadMiddlewaree("users").single("picture")
-
-
-
+const userModels = require('../../models/users.model')
+const argon = require('argon2')
+// const fs = require('fs/promises')
+// const path = require('path')
+const uploadMiddlewaree = require('../../middlewares/upload.middleware')
+const upload = uploadMiddlewaree('users').single('picture')
+const CustomError = require('../../lib/custom-err.lib')
 
 // SELECT * => memanggil semua users
 exports.getAllUsers = async (req, res) => {
   try {
     const { filter, sortby, order, page = 1, limits = 6 } = req.query
-    
+
     const countData = await userModels.countAll(filter)
     if (countData === '0') {
       throw Error()
@@ -25,7 +23,7 @@ exports.getAllUsers = async (req, res) => {
 
     return res.json({
       success: true,
-      message: "List all users",
+      message: 'List all users',
       pageInfo: {
         currentPage: Number(page),
         totalPage,
@@ -33,12 +31,12 @@ exports.getAllUsers = async (req, res) => {
         prevPage: prevPage >= 1 ? prevPage : null,
         totalData: Number(countData)
       },
-      results: usersList, // akan memanggil semua data yg dimana sebagai diambil dari variabel users
-    });
+      results: usersList // akan memanggil semua data yg dimana sebagai diambil dari variabel users
+    })
   } catch (err) {
     return res.status(404).json({
       success: false,
-      message: "Data not found",
+      message: 'Data not found'
     })
   }
 }
@@ -54,24 +52,25 @@ exports.getUsersId = async (req, res) => {
       return res.json({
         // akan me-return object dengan key success, message, dan result, dengan isi userId
         success: true,
-        message: "Detail users",
-        results: users, // karena yg di dapat data berupa array of object dari userId maka kita bisa tambahkan index ke [0], tujuannya agar yg dihasilkan jadi object saja.
-      });
+        message: 'Detail users',
+        results: users // karena yg di dapat data berupa array of object dari userId maka kita bisa tambahkan index ke [0], tujuannya agar yg dihasilkan jadi object saja.
+      })
     } else {
-      throw ({code: "user not found"})
+      // throw ({ code: 'user not found' })
+      throw new CustomError('user not found')
     }
   } catch (err) {
-    if (err.code === "user not found") {
+    if (err.code === 'user not found') {
       return res.status(404).json({
         // akan memberikan status 404 dengan json.
         success: false,
-        message: "User not found",
-      });
+        message: 'User not found'
+      })
     } else {
       return res.status(400).json({
         // akan memberikan status 400 dengan json.
         success: false,
-        message: "Please input data",
+        message: 'Please input data'
       })
     }
   }
@@ -79,7 +78,7 @@ exports.getUsersId = async (req, res) => {
 
 // CREATE data user
 exports.createUsers = async (req, res) => {
-  return upload (req, res, async(err) => {
+  return upload(req, res, async (err) => {
     try {
       if (err) {
         return res.status(400).json({
@@ -92,41 +91,41 @@ exports.createUsers = async (req, res) => {
         req.body.picture = req.file.path
       }
 
-      if (req.body.password === "") {
+      if (req.body.password === '') {
         return res.status(400).json({
           success: false,
-          message: "Password is required!",
-        });
+          message: 'Password is required!'
+        })
       }
 
-      if(req.body.password) {
+      if (req.body.password) {
         req.body.password = await argon.hash(req.body.password)
-        req.body.role = "customer"
+        req.body.role = 'customer'
       }
 
-      const userNew = await userModels.createdUser(req.body); // akan menerima inputan dari req.body, dimana yg di input hanya name & email.
+      const userNew = await userModels.createdUser(req.body) // akan menerima inputan dari req.body, dimana yg di input hanya name & email.
       return res.json({ // akan mengembalikan respons json dengan isi nya ada key success, message, dan result, yg dimana result nya berisi variable userNew dari data yg sudah di input di postman.
         success: true,
-        message: "Success add new user!",
+        message: 'Success add new user!',
         results: userNew[0]
-      });
+      })
     } catch (err) {
       // console.log(JSON.stringify(err)) // cara mengetahui err nya secara langsung tapi di ubah ke json dan string
-      if (err.code === "23502") {
+      if (err.code === '23502') {
         return res.status(400).json({
           success: false,
-          message: `${err.column} Connot be empty`,
-        });
-      } else if (err.code === "23505") {
+          message: `${err.column} Connot be empty`
+        })
+      } else if (err.code === '23505') {
         return res.status(400).json({
           success: false,
-          message: `Email ${req.body.email} already exists.`,
-        });
+          message: `Email ${req.body.email} already exists.`
+        })
       } else {
         return res.status(500).json({
           success: false,
-          message: "Internal Server Error!",
-        });
+          message: 'Internal Server Error!'
+        })
       }
     }
   })
@@ -142,7 +141,7 @@ exports.createUsers = async (req, res) => {
 //           message: err.message
 //         })
 //       }
-      
+
 //       if (req.file) {
 //         // req.body.picture = req.file.filename;
 //         req.body.picture = req.file.path
@@ -186,12 +185,11 @@ exports.createUsers = async (req, res) => {
 //   })
 // }
 
-
 // UPDATE data user
 exports.updateUsers = async (req, res) => {
   return upload(req, res, async (err) => {
     try {
-      if(err) {
+      if (err) {
         return res.status(400).json({
           success: true,
           message: err.message
@@ -199,13 +197,13 @@ exports.updateUsers = async (req, res) => {
       }
 
       const idUser = Number(req.params.id)
-      if (req.body.password === "") {
+      if (req.body.password === '') {
         return res.status(400).json({
           success: false,
-          message: "Password is required!",
-        });
+          message: 'Password is required!'
+        })
       }
-      
+
       if (req.body.password) {
         req.body.password = await argon.hash(req.body.password)
       }
@@ -225,13 +223,13 @@ exports.updateUsers = async (req, res) => {
       if (userUpdate) {
         return res.json({
           success: true,
-          message: "Update users complete!",
-          results: userUpdate,
+          message: 'Update users complete!',
+          results: userUpdate
         })
       } else {
         return res.status(404).json({
           success: false,
-          message: "Data User not found",
+          message: 'Data User not found'
         })
       }
     } catch (err) {
@@ -242,20 +240,20 @@ exports.updateUsers = async (req, res) => {
       //     message: `${err.column} Connot be empty`,
       //   });
       // } else
-      if (err.code === "23505") {
+      if (err.code === '23505') {
         return res.status(400).json({
           success: false,
-          message: `Email ${req.body.email} already exists.`,
-        });
-      } else if (err.code === "22P02") {
+          message: `Email ${req.body.email} already exists.`
+        })
+      } else if (err.code === '22P02') {
         return res.status(400).json({
           success: false,
-          message: "Please input data",
-        });
+          message: 'Please input data'
+        })
       } else {
         return res.status(500).json({
           success: false,
-          message: "Internal Server Error!",
+          message: 'Internal Server Error!'
         })
       }
     }
@@ -271,23 +269,24 @@ exports.deleteUsers = async (req, res) => {
     if (users[0]) {
       return res.json({
         success: true,
-        message: "Success delete data!",
-        results: users[0],
-      });
+        message: 'Success delete data!',
+        results: users[0]
+      })
     } else {
-      throw ({code: "user not found"})
+      // throw ({ code: 'user not found' })
+      throw new CustomError('user not found')
     }
   } catch (err) {
-    if (err.code === "user not found") {
+    if (err.code === 'user not found') {
       return res.status(404).json({
         success: false,
-        message: "User not found",
-      });
+        message: 'User not found'
+      })
     } else {
       return res.status(400).json({
         success: false,
-        message: "Please input data",
-      });
+        message: 'Please input data'
+      })
     }
   }
-};
+}
