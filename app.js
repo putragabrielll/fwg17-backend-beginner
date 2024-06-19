@@ -13,7 +13,7 @@ const app = express()
 app.use(express.json()) // untuk terima requst body dalam bentuk raw JSON
 app.use(express.urlencoded({ extended: true })) // untuk terima requst body dalam bentuk multipart-form data
 
-app.use(morgan('dev')) // untuk login akses
+app.use(morgan('dev')) // untuk logging akses
 app.use(cors()) // untuk memperbolehkan frontend mengakses BackEnd kita, jika tidak di berikan cors nanti tidak bisa aplikasi frontend kita mengakses back end nya.
 
 app.use('/uploads/products', express.static('uploads/products'))
